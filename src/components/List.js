@@ -3,13 +3,13 @@ import NoteCard from './NoteCard';
 
 class List extends Component {
   componentWillMount() {
-    this.props.getNotes();
+    this.props.getNotess();
   }
 
   render() {
-    const { notes, getNote, deleteNote } = this.props;
+    const { notes2, getNote, deleteNote } = this.props;
 
-    const cards = notes.map((note, index) => {
+    const cards = notes2.map((note, index) => {
       return (
         <NoteCard
           key={index}

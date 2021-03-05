@@ -3,6 +3,7 @@ import './App.css';
 import Nav from './components/Nav';
 import List from './components/List';
 import Note from './components/Note';
+import Current from './components/Current';
 import axios from 'axios';
 import urlFor from './helpers/urlFor';
 import Flash from './components/Flash';
@@ -12,7 +13,7 @@ class App extends Component {
     super();
     this.state = {
       showNote: false,
-      notes: [],
+      notesX: [],
       note: {},
       newTag: false,
       error: ''
@@ -26,9 +27,13 @@ class App extends Component {
     })
   }
 
+  drukara = () => {
+    console.log('printing paper...');
+  }
+
   getNotes = () => {
     axios.get(urlFor('notes'))
-    .then((res) => this.setState({notes: res.data}) )
+    .then((res) => this.setState({notesX: res.data}) )
     .catch((err) => console.log(err.response.data) );
   }
 
@@ -98,7 +103,7 @@ class App extends Component {
   }
 
   render() {
-    const { showNote, notes, note, newTag, error } = this.state;
+    const { showNote, notesX, note, newTag, error } = this.state;
 
     return (
       <div className="App">
@@ -117,11 +122,16 @@ class App extends Component {
             />
             :
             <List 
-              getNotes={this.getNotes}
-              notes={notes}
+              getNotess={this.getNotes}
+              notes2={notesX}
               getNote={this.getNote}
               deleteNote={this.deleteNote}
-            /> }
+            />
+            
+
+            }
+
+          <Current prop1={this.drukara} name="Jurek" />  
       </div>
     );
   }
