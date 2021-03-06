@@ -110,26 +110,6 @@ class App extends Component {
         <Nav toggleNote={this.toggleNote} showNote={showNote} />
         {error && <Flash error={error} resetError={this.resetError} />}
         <br />
-        { showNote ?
-            <Note
-              note={note}
-              newTag={newTag}
-              submitNote={this.submitNote}
-              showTagForm={this.showTagForm}
-              closeTagForm={this.closeTagForm}
-              submitTag={this.submitTag}
-              deleteTag={this.deleteTag}
-            />
-            :
-            <List 
-              getNotess={this.getNotes}
-              notes2={notesX}
-              getNote={this.getNote}
-              deleteNote={this.deleteNote}
-            />
-            
-
-            }
 
           <Current prop1={this.drukara} name="Jurek" />  
       </div>
