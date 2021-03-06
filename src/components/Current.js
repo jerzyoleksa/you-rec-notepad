@@ -47,6 +47,9 @@ class Current extends Component {
     this.getNotes(); //this sets notesX in state
   }
 
+  componentDidMount(){
+    this.nameInput.focus();
+  }
   render() {
     
    
@@ -59,7 +62,7 @@ class Current extends Component {
       <div class="note-textarea-container">
         {this.state.displayNote.title} {this.state.displayNote.content}<br></br>
         
-        <textarea value={this.state.value} onChange={this.handleChange} />
+        <textarea value={this.state.value} onChange={this.handleChange} ref={(input) => { this.nameInput = input; }} />
    
       
       </div>
