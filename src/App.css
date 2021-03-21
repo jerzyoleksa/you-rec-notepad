@@ -93,6 +93,16 @@ body {
   font-weight: bold;
 }
 
+.nav-list {
+  color: black;
+  font-size: 1em;
+  float: left;
+  cursor: pointer;
+  font-weight: normal;
+  border: 0px solid black;
+  margin-left: 20px;
+}
+
 .nav-button {
   font-family: 'Assistant', sans-serif;
   height: 40px;

@@ -21,20 +21,24 @@ class Current extends Component {
 
   }
 
+ 
 
   getNotes = () => {
-    axios.get(urlFor('notes'))
+
+
+    //use https not http! to avoid problems with redirect/cors
+    axios.get('https://frengly.com/ai/notes')
     .then((res) => {
     
-      
+     
       
       let list = res.data;
       let lastNote = list[list.length-1];
       console.log("lastNote::"+lastNote);
-      this.setState({notesX: list, displayNote: lastNote, value: lastNote.content});
+      this.setState({notesX: list, displayNote: lastNote, value: lastNote[2]});
     
     })
-    .catch((err) => console.log(err.response.data) );
+    .catch((err) => console.log("Error!!!",err) );
   }
 
   handleChange(event) {
@@ -60,7 +64,7 @@ class Current extends Component {
     return (
 
       <div class="note-textarea-container">
-        {this.state.displayNote.title} {this.state.displayNote.content}<br></br>
+        {/* {this.state.displayNote.title} {this.state.displayNote.content}<br></br> */}
         
         <textarea value={this.state.value} onChange={this.handleChange} ref={(input) => { this.nameInput = input; }} />
    

@@ -16,7 +16,8 @@ class App extends Component {
       notesX: [],
       note: {},
       newTag: false,
-      error: ''
+      error: '',
+      selectedNote : {"content" : "Hello from Mars"}
     };
   }
 
@@ -26,6 +27,7 @@ class App extends Component {
       note: {}
     })
   }
+  updateNote = (note) => {console.log('updating note in parent!..');this.setState({ selectedNote: note });}
 
   drukara = () => {
     console.log('printing paper...');
@@ -107,11 +109,12 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Nav toggleNote={this.toggleNote} showNote={showNote} />
+        <div>AppJs note: {this.state.selectedNote.content}</div>
+        <Nav toggleNote={this.toggleNote} showNote={showNote} choseNote={this.updateNote} />
         {error && <Flash error={error} resetError={this.resetError} />}
         <br />
 
-          <Current prop1={this.drukara} name="Jurek" />  
+          <Current prop1={this.drukara} name="Jurek" theChosenNote={this.selectedNote}/>  
       </div>
     );
   }
