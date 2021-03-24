@@ -41,13 +41,15 @@ class Current extends Component {
     .catch((err) => console.log("Error!!!",err) );
   }
 
+  //TODO: call parent method to update prent state of selectedNote
   handleChange(event) {
     this.setState({value: event.target.value});
-    console.log(this.state.value);
+    console.log("textarea changed to:"+this.state.value);
+
   }
 
   componentWillMount() {
-    //this.props.prop1();
+    this.state.value = this.props.prop1.content;
     this.getNotes(); //this sets notesX in state
   }
 
@@ -63,10 +65,12 @@ class Current extends Component {
 
     return (
 
+    
       <div class="note-textarea-container">
+        <div>parent selectedNote:{this.props.prop1.content}</div>
         {/* {this.state.displayNote.title} {this.state.displayNote.content}<br></br> */}
         
-        <textarea value={this.props.prop1.content} onChange={this.handleChange} ref={(input) => { this.nameInput = input; }} />
+        <textarea value={this.state.value} onChange={this.handleChange} ref={(input) => { this.nameInput = input; }} />
    
       
       </div>

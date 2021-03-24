@@ -30,6 +30,11 @@ class App extends Component {
 
   //method that lets you update state from child to parent, its passed to Nav as parameter
   updateNote = (note) => {console.log('updating note in parent!..');this.setState({ selectedNote: note });}
+  updateNoteTxt = (event) => {let text = event.target.value; 
+    console.log('updating note content!..'+text); 
+    console.log('from..'+this.state.selectedNote.content); 
+    this.state.selectedNote.content = text;
+  }
 
   drukara = () => {
     console.log('printing paper...');
@@ -111,12 +116,12 @@ class App extends Component {
 
     return (
       <div className="App">
-        <div>AppJs note: {this.state.selectedNote.content}</div>
+        
         <Nav toggleNote={this.toggleNote} showNote={showNote} choseNote={this.updateNote} />
         {error && <Flash error={error} resetError={this.resetError} />}
         <br />
 
-          <Current prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote}/>  
+          <Current updateNoteContent={this.updateNoteTxt} prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote}/>  
       </div>
     );
   }
