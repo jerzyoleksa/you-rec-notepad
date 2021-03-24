@@ -27,6 +27,8 @@ class App extends Component {
       note: {}
     })
   }
+
+  //method that lets you update state from child to parent, its passed to Nav as parameter
   updateNote = (note) => {console.log('updating note in parent!..');this.setState({ selectedNote: note });}
 
   drukara = () => {
@@ -114,7 +116,7 @@ class App extends Component {
         {error && <Flash error={error} resetError={this.resetError} />}
         <br />
 
-          <Current prop1={this.drukara} name="Jurek" theChosenNote={this.selectedNote}/>  
+          <Current prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote}/>  
       </div>
     );
   }
