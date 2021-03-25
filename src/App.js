@@ -8,6 +8,8 @@ import axios from 'axios';
 import urlFor from './helpers/urlFor';
 import Flash from './components/Flash';
 
+
+
 class App extends Component {
   constructor() {
     super();
@@ -30,11 +32,7 @@ class App extends Component {
 
   //method that lets you update state from child to parent, its passed to Nav as parameter
   updateNote = (note) => {console.log('updating note in parent!..');this.setState({ selectedNote: note });}
-  updateNoteTxt = (event) => {let text = event.target.value; 
-    console.log('updating note content!..'+text); 
-    console.log('from..'+this.state.selectedNote.content); 
-    this.state.selectedNote.content = text;
-  }
+  updateNoteTxt = (text) => {console.log('updating note content!..'+text); this.state.selectedNote.content = text;}
 
   drukara = () => {
     console.log('printing paper...');

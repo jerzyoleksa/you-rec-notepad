@@ -3,21 +3,24 @@ import axios from 'axios';
 import urlFor from '../helpers/urlFor';
 import NoteCard from './NoteCard';
 
+// function updateDisplayNote(text){
+//   this.setState({value: text})
+// }
 
 class Current extends Component {
   
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       notesX: [],
       displayNote: {},
-      value: 'Please write an essay about your favorite DOM element.'
+      value: ''
     };
 
  
 
     this.handleChange = this.handleChange.bind(this);
-
+    //updateDisplayNote = updateDisplayNote.bind(this);
 
   }
 
@@ -30,8 +33,6 @@ class Current extends Component {
     axios.get('https://frengly.com/ai/notes')
     .then((res) => {
     
-     
-      
       let list = res.data;
       let lastNote = list[list.length-1];
       console.log("lastNote::"+lastNote);
@@ -45,24 +46,29 @@ class Current extends Component {
   handleChange(event) {
     this.setState({value: event.target.value});
     console.log("textarea changed to:"+this.state.value);
-
+    this.props.updateNoteContent(event.target.value);
   }
 
   componentWillMount() {
     this.state.value = this.props.prop1.content;
-    this.getNotes(); //this sets notesX in state
+    //this.getNotes(); //this sets notesX in state
+  }
+
+
+
+  componentWillReceiveProps(nextProps) {
+    // This will erase any local state updates!
+    // Do not do this.
+    this.setState({ value: nextProps.prop1.content });
   }
 
   componentDidMount(){
     this.nameInput.focus();
   }
+
+
   render() {
-    
-   
-
-   
-
-
+  
     return (
 
     
