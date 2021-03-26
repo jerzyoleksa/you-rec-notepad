@@ -25,9 +25,6 @@ class Nav extends Component {
     //use https not http! to avoid problems with redirect/cors
     axios.get('https://frengly.com/ai/notes')
     .then((res) => {
-    
-     
-      
       let list = res.data;
       let lastNote = list[list.length-1];
       console.log("lastNote::"+lastNote);
@@ -40,7 +37,7 @@ class Nav extends Component {
 
   render() {
     const { toggleNote, showNote } = this.props;
-    const listItems = this.state.notesX.map((note) => <div onClick={() => this.selectNote(note)} className="nav-button">{note.id}</div>);
+    const listItems = this.state.notesX.map((note) => <div key={note.id} onClick={() => this.selectNote(note)} className="nav-button">{note.id}</div>);
     
     return (
       <div className="nav-container">

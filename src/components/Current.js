@@ -63,7 +63,7 @@ class Current extends Component {
   
     return (
   
-      <div class="note-textarea-container">
+      <div className="note-textarea-container">
         <div>parent selectedNote:{this.props.prop1.content}</div>
         {/* {this.state.displayNote.title} {this.state.displayNote.content}<br></br> */}
         
