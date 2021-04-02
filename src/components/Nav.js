@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { useState, useEffect } from 'react';
+import Web3 from 'web3';
+
 
 class Nav extends Component {
   constructor() {
@@ -9,6 +12,7 @@ class Nav extends Component {
     };
 
   }
+  
   componentWillMount() {
     //let noteFromProps = this.props.chosenNote;
     //this.selectNote(noteFromProps);
@@ -17,6 +21,51 @@ class Nav extends Component {
 
   selectNote = (note) => {
     this.props.choseNote(note);
+  }
+
+  connectMetamask = async() => {
+    console.log('connecting metamask1');
+    // async () => {
+    //   console.log('connecting metamask2');
+    //   if (window.ethereum) {
+    //     try {
+    //       await window.ethereum.request({ method: 'eth_requestAccounts' });
+          
+    //       let web3 = new Web3(window.ethereum)
+          
+    //       const accounts =  await web3.eth.getAccounts()
+        
+
+    //     } catch (err) {
+    //       console.log('user did not add account...', err)
+    //     }
+    //   }
+    // }
+
+    // Check if Web3 has been injected by the browser (Mist/MetaMask)
+    if (window.ethereum) {
+      
+            try {
+              const accounts1 = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+              console.log(accounts1);
+
+              let web3 = new Web3(window.ethereum);    
+
+            } catch (err) {
+                    console.log('user did not add account...', err)
+            }
+
+    } else {
+        alert("No Ethereum interface injected into browser. Read-only access");
+    }
+
+
+
+
+
+
+
   }
 
   getNotes = () => {
@@ -43,6 +92,9 @@ class Nav extends Component {
       <div className="nav-container">
         <div className="nav-logo">Notes</div>
         <div className="nav-list">{listItems}</div>
+        <div className="nav-button" onClick={() => this.connectMetamask()} >
+          Metamask
+        </div> 
         <div className="nav-button" onClick={() => toggleNote()} >
           { showNote ? 'Cancel' :  '+ Note' }
         </div> 
