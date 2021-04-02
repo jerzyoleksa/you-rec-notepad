@@ -51,6 +51,15 @@ class Nav extends Component {
               console.log(accounts1);
 
               let web3 = new Web3(window.ethereum);    
+              
+              var message = "Some string"
+              var hash = web3.sha3(message)
+              var account = web3.eth.accounts[0]
+
+              web3.personal.sign(hash, account, function(error, signature) {
+                  console.log(signature, error)
+              });
+
 
             } catch (err) {
                     console.log('user did not add account...', err)
