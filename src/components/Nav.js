@@ -8,7 +8,8 @@ class Nav extends Component {
   constructor() {
     super();
     this.state = {
-      notesX: []
+      notesX: [],
+      key: ''
     };
 
   }
@@ -23,8 +24,25 @@ class Nav extends Component {
     this.props.choseNote(note);
   }
 
+  handleSignMessage = ( publicAddress, nonce, web3 ) => {
+    return new Promise((resolve, reject) =>
+      web3.personal.sign(
+        web3.fromUtf8(`I am signing my one-time nonce: ${nonce}`),
+        publicAddress,
+        (err, signature) => {
+          if (err) return reject(err);
+          return resolve({ publicAddress, signature });
+        }
+      )
+    );
+  };
+
+  useSignature = (obj, obj2) => {
+    console.log(obj);
+  }
+
   connectMetamask = async() => {
-    console.log('connecting metamask1');
+    console.log('connecting metamask1:'+this.props);
     // async () => {
     //   console.log('connecting metamask2');
     //   if (window.ethereum) {
@@ -52,14 +70,27 @@ class Nav extends Component {
 
               let web3 = new Web3(window.ethereum);    
               
-              var message = "Some string"
+              var message = "Some string 2"
               var hash = web3.sha3(message)
               var account = web3.eth.accounts[0]
-
+              
               web3.personal.sign(hash, account, function(error, signature) {
-                  console.log(signature, error)
+                  console.log('signature:'+signature);
+                  //this.props.authKee = signature;
+             
               });
+              
+              let promise = this.handleSignMessage(account, '123123', web3);
+              
+              promise.then(function(result) {
+                console.log(result.signature); // "Promise resolved successfully"
+                this.setState({key: result.signature});
+                this.props.updateKee(result.signature);
+              }.bind(this), err => {
+                console.log(err); // Error: "Promise rejected"
+             });
 
+              //this.props.authKee = signature;
 
             } catch (err) {
                     console.log('user did not add account...', err)

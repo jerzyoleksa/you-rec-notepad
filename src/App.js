@@ -19,7 +19,8 @@ class App extends Component {
       note: {},
       newTag: false,
       error: '',
-      selectedNote : {"content" : "Hello from Mars"}
+      selectedNote : {"content" : "Hello from Mars", "id" : -1},
+      authKey: ''
     };
   }
 
@@ -31,6 +32,7 @@ class App extends Component {
   }
 
   //method that lets you update state from child to parent, its passed to Nav as parameter
+  updateKey = (key) => {console.log('updating key in parent!..');this.setState({ authKey: key });}
   updateNote = (note) => {console.log('updating note in parent!..');this.setState({ selectedNote: note });}
   updateNoteTxt = (text) => {console.log('updating note content!..'+text); this.state.selectedNote.content = text;}
 
@@ -115,11 +117,11 @@ class App extends Component {
     return (
       <div className="App">
         
-        <Nav toggleNote={this.toggleNote} showNote={showNote} choseNote={this.updateNote} />
+        <Nav toggleNote={this.toggleNote} showNote={showNote} choseNote={this.updateNote} updateKee={this.updateKey}/>
         {error && <Flash error={error} resetError={this.resetError} />}
         <br />
 
-          <Current updateNoteContent={this.updateNoteTxt} prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote}/>  
+          <Current updateNoteContent={this.updateNoteTxt} prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote} authKee={this.state.authKey}/>  
       </div>
     );
   }
