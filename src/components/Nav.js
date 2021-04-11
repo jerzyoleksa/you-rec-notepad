@@ -70,10 +70,8 @@ class Nav extends Component {
 
               let web3 = new Web3(window.ethereum);    
               
-              var message = "5"
+              var message = "Some string 2"
               //var hash = web3.utils.sha3(message)
-              var account = web3.eth.accounts[0]
-              console.log('account-'+account);
               // web3.personal.sign(hash, account, function(error, signature) {
               //     console.log('signature:'+signature);
               // });
