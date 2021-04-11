@@ -26,8 +26,8 @@ class Nav extends Component {
 
   handleSignMessage = ( publicAddress, nonce, web3 ) => {
     return new Promise((resolve, reject) =>
-      web3.personal.sign(
-        web3.fromUtf8(`I am signing my one-time nonce: ${nonce}`),
+      web3.eth.personal.sign(
+        web3.utils.fromUtf8(`I am signing my one-time nonce: ${nonce}`),
         publicAddress,
         (err, signature) => {
           if (err) return reject(err);
@@ -66,19 +66,19 @@ class Nav extends Component {
             try {
               const accounts1 = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-              console.log('accounts::'+accounts1);
+              console.log('accounts::'+accounts1[0]);
 
               let web3 = new Web3(window.ethereum);    
               
-              var message = "Some string 2"
-              var hash = web3.sha3(message)
+              var message = "5"
+              //var hash = web3.utils.sha3(message)
               var account = web3.eth.accounts[0]
-              
+              console.log('account-'+account);
               // web3.personal.sign(hash, account, function(error, signature) {
               //     console.log('signature:'+signature);
               // });
               
-              let promise = this.handleSignMessage(account, message, web3);
+              let promise = this.handleSignMessage(accounts1[0], message, web3);
               
               promise.then(function(result) {
                 console.log(result.signature); // "Promise resolved successfully"
