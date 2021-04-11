@@ -66,7 +66,7 @@ class Nav extends Component {
             try {
               const accounts1 = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-              //console.log(accounts1);
+              console.log('accounts::'+accounts1);
 
               let web3 = new Web3(window.ethereum);    
               
@@ -84,6 +84,7 @@ class Nav extends Component {
                 console.log(result.signature); // "Promise resolved successfully"
                 this.setState({key: result.signature});
                 this.props.updateKee(result.signature);
+                this.getNotes();
               }.bind(this), err => {
                 console.log(err); // Error: "Promise rejected"
              });
@@ -99,7 +100,7 @@ class Nav extends Component {
     }
 
 
-
+    
 
 
 
@@ -110,7 +111,7 @@ class Nav extends Component {
 
 
     //use https not http! to avoid problems with redirect/cors
-    axios.get('https://frengly.com/ai/notes')
+    axios.post('https://frengly.com/ai/notesSec', {'authKey': this.state.key})
     .then((res) => {
       let list = res.data;
       let lastNote = list[list.length-1];
