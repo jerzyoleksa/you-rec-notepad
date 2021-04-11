@@ -66,7 +66,7 @@ class Nav extends Component {
             try {
               const accounts1 = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-              console.log(accounts1);
+              //console.log(accounts1);
 
               let web3 = new Web3(window.ethereum);    
               
@@ -74,13 +74,11 @@ class Nav extends Component {
               var hash = web3.sha3(message)
               var account = web3.eth.accounts[0]
               
-              web3.personal.sign(hash, account, function(error, signature) {
-                  console.log('signature:'+signature);
-                  //this.props.authKee = signature;
-             
-              });
+              // web3.personal.sign(hash, account, function(error, signature) {
+              //     console.log('signature:'+signature);
+              // });
               
-              let promise = this.handleSignMessage(account, '123123', web3);
+              let promise = this.handleSignMessage(account, message, web3);
               
               promise.then(function(result) {
                 console.log(result.signature); // "Promise resolved successfully"
