@@ -127,13 +127,11 @@ class Nav extends Component {
     
     return (
       <div className="nav-container">
-        <div className="nav-logo">Notes</div>
+        <div className="nav-list"><span class="material-icons">face</span></div>
         <div className="nav-list">{listItems}</div>
-        <div className="nav-button" onClick={() => this.connectMetamask()} >
-          Metamask
-        </div> 
-        <div className="nav-button" onClick={() => toggleNote()} >
-          { showNote ? 'Cancel' :  '+ Note' }
+        <div className="nav-list-right" onClick={() => this.connectMetamask()}><img src="img/mm.svg" width="24" height="24"/></div> 
+        <div className="nav-list" onClick={() => toggleNote()} >
+          { showNote ? 'Cancel' :  <span class="material-icons">note_add</span> }
         </div> 
       </div>
     );

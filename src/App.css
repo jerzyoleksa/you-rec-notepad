@@ -3,6 +3,44 @@ body {
    margin-bottom: 3em;
 }
 
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url(fonts/MaterialIcons-Regular.woff2) format('woff2'),
+    url(fonts/MaterialIcons-Regular.woff) format('woff'),
+    url(fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  color: rgb(65, 65, 65);
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
 /* flash.css */
 .flash-container {
   position: absolute;
@@ -69,8 +107,8 @@ body {
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display:900');
 
 .nav-container {
-  height: 60px;
-  background-color: #3498db;
+  height: 25px;
+  background-color: whitesmoke;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   padding: 10px 40px;
   font-family: 'Assistant', sans-serif;
@@ -101,6 +139,18 @@ body {
   font-weight: normal;
   border: 0px solid black;
   margin-left: 20px;
+}
+
+.nav-list-right {
+  color: black;
+  font-size: 1em;
+  cursor: pointer;
+  font-weight: normal;
+  border: 0px solid black;
+  margin-right: 20px;
+  float: right;
+  border: 0px solid red;
+  margin-top: 0px;
 }
 
 .nav-button {
