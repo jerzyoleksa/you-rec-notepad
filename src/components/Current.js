@@ -9,6 +9,7 @@ class Current extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      status: "",
       value: this.props.prop1.content,
       typing: false,
       typingTimeout: 0
@@ -19,7 +20,8 @@ class Current extends Component {
 
 
   updateNote = () => {
-
+    
+    this.setState({ status: "saving ..." }); //in async methods must be setState, not just this.state.status = ...
     let noteToUpdate = this.props.prop1;
     console.log('updating:'+noteToUpdate);
     console.log('key from parent:'+this.props.authKee);
@@ -27,7 +29,7 @@ class Current extends Component {
     noteToUpdate["authKey"] = this.props.authKee;
     axios.put('https://frengly.com/ai/notes', noteToUpdate)
     .then((res) => {
-    
+      this.setState({ status: "" });
     })
     .catch((err) => console.log("Error updating!!!",err) );
   }
@@ -44,7 +46,7 @@ class Current extends Component {
     this.state.typing = false;
     this.state.typingTimeout = setTimeout(() => {
       this.updateNote();  
-    }, 3000);
+    }, 1500);
 
 
   }
@@ -63,10 +65,12 @@ class Current extends Component {
 
   render() {
   
+  
+
     return (
   
       <div className="note-textarea-container">
-        
+        <span>{this.state.status}</span>
         <textarea value={this.state.value} onChange={this.handleChange} ref={(input) => { this.nameInput = input; }} />
       
       </div>

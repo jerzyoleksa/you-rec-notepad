@@ -3,6 +3,17 @@ body {
    margin-bottom: 3em;
 }
 
+.circleo {
+  
+  text-align: center;
+  padding-left: 6px;
+  padding-right: 6px;
+  border: 1px solid gray;
+  float: left;
+  margin-right: 6px;
+  border-radius: 50%; 
+}
+
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
@@ -15,7 +26,14 @@ body {
     url(fonts/MaterialIcons-Regular.ttf) format('truetype');
 }
 
-.material-icons {
+@font-face {
+  font-family: 'Material Icons Outline';
+  font-style: normal;
+  font-weight: 400;
+  src: url(fonts/MaterialIconsOutline.woff2) format('woff2');
+}
+
+.material-icons-outlined, .material-icons {
   color: rgb(65, 65, 65);
   font-family: 'Material Icons';
   font-weight: normal;
@@ -39,6 +57,10 @@ body {
 
   /* Support for IE. */
   font-feature-settings: 'liga';
+}
+
+.material-icons-outlined {
+  font-family: 'Material Icons Outline';
 }
 
 /* flash.css */

@@ -123,16 +123,19 @@ class Nav extends Component {
 
   render() {
     const { toggleNote, showNote } = this.props;
-    const listItems = this.state.notesX.map((note) => <div key={note.id} onClick={() => this.selectNote(note)} className="nav-button">{note.id}</div>);
+    const listItems = this.state.notesX.map((note) => <div key={note.id} onClick={() => this.selectNote(note)} className="circleo">{note.id}</div>);
     
     return (
       <div className="nav-container">
-        <div className="nav-list"><span class="material-icons">face</span></div>
-        <div className="nav-list">{listItems}</div>
-        <div className="nav-list-right" onClick={() => this.connectMetamask()}><img src="img/mm.svg" width="24" height="24"/></div> 
+        <div className="nav-list"><span class="material-icons-outlined">folder</span></div>
+       
+        
         <div className="nav-list" onClick={() => toggleNote()} >
-          { showNote ? 'Cancel' :  <span class="material-icons">note_add</span> }
+          { showNote ? 'Cancel' :  <span class="material-icons-outlined">note_add</span> }
         </div> 
+        <div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons">fingerprint</span></div> 
+       
+        <div className="nav-list">{listItems}</div>
       </div>
     );
   }
