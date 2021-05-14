@@ -51,7 +51,6 @@ class Nav extends Component {
     //document.body.classList.add('light-mode-dark');
     document.querySelector('.nav-container').classList.add('light-mode-dark');
     document.querySelector('.note-textarea-container').classList.add('light-mode-dark');
-    document.querySelector('textarea').classList.add('light-mode-dark');
   }
 
   connectMetamask = async() => {
