@@ -3,6 +3,21 @@ body {
    margin-bottom: 3em;
 }
 
+.light-mode-dark {
+  background-color: rgb(51,51,51);
+  color: white;
+}
+
+.contentEditablo {
+    background-color: orange;
+    height: 100px;
+    cursor: text;
+    caret-color: black;
+    font-weight: 400;
+    font-stretch: 100%;
+    overflow: hidden;
+}
+
 .circleo {
   
   text-align: center;
@@ -34,7 +49,6 @@ body {
 }
 
 .material-icons-outlined, .material-icons {
-  color: rgb(65, 65, 65);
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
@@ -130,11 +144,13 @@ body {
 
 .nav-container {
   height: 25px;
-  background-color: whitesmoke;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  padding: 10px 40px;
+  /*background-color: whitesmoke;*/
+  /* box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); */
+  padding: 10px;
+  padding-left: 10px;
   font-family: 'Assistant', sans-serif;
   letter-spacing: 0.6px;
+  border-bottom: 2px solid rgba(13, 130, 240, 0.877);
 }
 
 @keyframes move {
@@ -154,13 +170,12 @@ body {
 }
 
 .nav-list {
-  color: black;
   font-size: 1em;
   float: left;
   cursor: pointer;
   font-weight: normal;
   border: 0px solid black;
-  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .nav-list-right {
@@ -470,18 +485,13 @@ body {
 }
 
 .note-textarea-container {
-  background: #fff;
-  margin: 40px;
-  margin-bottom: 10px;
-  margin-top: 0;
-  padding: 40px;
+  margin: 0px;
 }
 
 .note-textarea {
   background: #ecf0f1;
   width: 500px;
   height: 200px;
-  padding: 30px;
   border: none;
   resize: none;
   border-radius: none;

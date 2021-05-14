@@ -4,6 +4,7 @@ import Nav from './components/Nav';
 import List from './components/List';
 import Note from './components/Note';
 import Current from './components/Current';
+import Opener from './components/Opener';
 import axios from 'axios';
 import urlFor from './helpers/urlFor';
 import Flash from './components/Flash';
@@ -20,7 +21,9 @@ class App extends Component {
       newTag: false,
       error: '',
       selectedNote : {"content" : "Hello from Mars", "id" : -1},
-      authKey: ''
+      authKey: '',
+      current: true,
+      opener: false
     };
   }
 
@@ -35,6 +38,12 @@ class App extends Component {
   updateKey = (key) => {console.log('updating key in parent!..');this.setState({ authKey: key });}
   updateNote = (note) => {console.log('updating note in parent!..');this.setState({ selectedNote: note });}
   updateNoteTxt = (text) => {console.log('updating note content!..'+text); this.state.selectedNote.content = text;}
+  updateMenu = (text) => { 
+    
+    if (text == 'opener') this.setState({ current: false, opener: true }); 
+    if (text == 'current') this.setState({ current: true, opener: false }); 
+  
+  }
 
   drukara = () => {
     console.log('printing paper...');
@@ -112,16 +121,16 @@ class App extends Component {
   }
 
   render() {
-    const { showNote, notesX, note, newTag, error } = this.state;
+    const { showNote, notesX, note, newTag, error, current, opener } = this.state;
 
     return (
       <div className="App">
         
-        <Nav toggleNote={this.toggleNote} showNote={showNote} choseNote={this.updateNote} updateKee={this.updateKey}/>
+        <Nav updateMeniu={this.updateMenu} toggleNote={this.toggleNote} showNote={showNote} choseNote={this.updateNote} updateKee={this.updateKey}/>
         {error && <Flash error={error} resetError={this.resetError} />}
-        <br />
-
-          <Current updateNoteContent={this.updateNoteTxt} prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote} authKee={this.state.authKey}/>  
+        {current && <Current updateNoteContent={this.updateNoteTxt} prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote} authKee={this.state.authKey}/>}  
+        {opener && <Opener updateNoteContent={this.updateNoteTxt} prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote} authKee={this.state.authKey}/>}
+      
       </div>
     );
   }

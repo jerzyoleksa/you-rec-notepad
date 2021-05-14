@@ -5,7 +5,7 @@ import NoteCard from './NoteCard';
 import ContentEditable from 'react-contenteditable'
 
 
-class Current extends Component {
+class Opener extends Component {
   
   constructor(props) {
     super(props);
@@ -73,7 +73,7 @@ class Current extends Component {
   }
 
   componentDidMount(){
-    this.nameInput.focus();
+ 
   }
 
 
@@ -97,7 +97,7 @@ class Current extends Component {
             />*/}
 
         <span>{this.state.status}</span>
-        <textarea value={this.state.value} onChange={this.handleChange} ref={(input) => { this.nameInput = input; }} />
+        <span>\__ Untitled.txt</span>
         
 
         
@@ -107,4 +107,4 @@ class Current extends Component {
   }
 }
 
-export default Current;
+export default Opener;

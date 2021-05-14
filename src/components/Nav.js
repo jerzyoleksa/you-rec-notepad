@@ -41,6 +41,19 @@ class Nav extends Component {
     console.log(obj);
   }
 
+  menuTab = async(option) => {
+    console.log('menuTab:'+option);
+    this.props.updateMeniu(option);
+  }
+
+  toggleLightMode = () => {
+    console.log('changing lights');
+    //document.body.classList.add('light-mode-dark');
+    document.querySelector('.nav-container').classList.add('light-mode-dark');
+    document.querySelector('.note-textarea-container').classList.add('light-mode-dark');
+    document.querySelector('textarea').classList.add('light-mode-dark');
+  }
+
   connectMetamask = async() => {
     console.log('connecting metamask1:'+this.props);
     // async () => {
@@ -127,14 +140,14 @@ class Nav extends Component {
     
     return (
       <div className="nav-container">
-        <div className="nav-list"><span class="material-icons-outlined">folder</span></div>
+        <div className="nav-list" onClick={() => {this.menuTab('current');toggleNote()}} ><span class="material-icons-outlined">create</span></div> 
+        <div className="nav-list" onClick={() => this.menuTab('opener')} ><span class="material-icons-outlined">folder</span></div>
        
         
-        <div className="nav-list" onClick={() => toggleNote()} >
-          { showNote ? 'Cancel' :  <span class="material-icons-outlined">note_add</span> }
-        </div> 
-        <div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons">fingerprint</span></div> 
-       
+        
+        <div className="nav-list" onClick={() => this.toggleLightMode()}><span class="material-icons-outlined">wb_sunny</span></div> 
+        <div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
+        
         <div className="nav-list">{listItems}</div>
       </div>
     );
