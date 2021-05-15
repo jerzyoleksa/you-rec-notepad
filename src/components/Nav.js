@@ -49,8 +49,17 @@ class Nav extends Component {
   toggleLightMode = () => {
     console.log('changing lights');
     //document.body.classList.add('light-mode-dark');
-    document.querySelector('.nav-container').classList.add('light-mode-dark');
-    document.querySelector('.note-textarea-container').classList.add('light-mode-dark');
+    //document.querySelector('.nav-container').classList.add('light-mode-dark');
+    //document.querySelector('.App').classList.add('light-mode-dark');
+
+    if (document.body.style.color == 'white') {
+      document.body.style.backgroundColor = "#ecf0f1";
+      document.body.style.color = "black";
+    }
+    else {
+      document.body.style.backgroundColor = "rgb(51,51,51)";
+      document.body.style.color = "white";
+    }
   }
 
   connectMetamask = async() => {
