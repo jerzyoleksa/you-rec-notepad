@@ -15,8 +15,6 @@ class Nav extends Component {
   }
   
   componentWillMount() {
-    //let noteFromProps = this.props.chosenNote;
-    //this.selectNote(noteFromProps);
     this.getNotes(); //this sets notesX in state
   }
 
@@ -102,8 +100,12 @@ class Nav extends Component {
               promise.then(function(result) {
                 console.log(result.signature); // "Promise resolved successfully"
                 this.setState({key: result.signature});
+                this.setState({address: accounts1[0]});
                 this.props.updateKee(result.signature);
+                
+                
                 this.getNotes();
+
               }.bind(this), err => {
                 console.log(err); // Error: "Promise rejected"
              });
@@ -136,6 +138,9 @@ class Nav extends Component {
       let lastNote = list[list.length-1];
       console.log("lastNote::"+lastNote);
       this.setState({notesX: list});
+
+      //jerzy 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! REFACTOR !!!!!!!!!!!!!!!!!!!!!!!!!!
+      if (list.length > 0) this.selectNote(list[2]);
     
     })
     .catch((err) => console.log("Error!!!",err) );
@@ -144,19 +149,21 @@ class Nav extends Component {
 
   render() {
     const { toggleNote, showNote } = this.props;
-    const listItems = this.state.notesX.map((note) => <div key={note.id} onClick={() => this.selectNote(note)} className="circleo">{note.id}</div>);
+    //const listItems = this.state.notesX.map((note) => <div key={note.id} onClick={() => this.selectNote(note)} className="circleo">{note.id}</div>);
     
     return (
       <div className="nav-container">
         <div className="nav-list" onClick={() => {this.menuTab('current');toggleNote()}} ><span class="material-icons-outlined">create</span></div> 
-        <div className="nav-list" onClick={() => this.menuTab('opener')} ><span class="material-icons-outlined">folder</span></div>
+        {this.state.key.length > 0 && <div className="nav-list" onClick={() => this.menuTab('opener')} ><span class="material-icons-outlined">folder</span></div>}
        
         
         
         <div className="nav-list" onClick={() => this.toggleLightMode()}><span class="material-icons-outlined">wb_sunny</span></div> 
         <div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
         
-        <div className="nav-list">{listItems}</div>
+        {this.state.address && <div className="nav-list"><span className="btn btn-primary">{this.state.address}</span></div>}
+        
+        {/*<div className="nav-list">{listItems}</div>*/}
       </div>
     );
   }

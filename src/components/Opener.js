@@ -10,6 +10,8 @@ class Opener extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      key: '',
+      notesX: [],
       status: "",
       value: this.props.prop1.content,
       typing: false,
@@ -23,6 +25,25 @@ class Opener extends Component {
     
   }
 
+  componentWillMount() {
+    console.log('OPENER - component will mount !!!! ');
+    //let noteFromProps = this.props.chosenNote;
+    //this.selectNote(noteFromProps);
+    this.getNotes(); //this sets notesX in state
+  }
+
+  getNotes = () => {
+    //use https not http! to avoid problems with redirect/cors
+    axios.post('https://frengly.com/ai/notesSec', {'authKey': this.props.authKee})
+    .then((res) => {
+      let list = res.data;
+      let lastNote = list[list.length-1];
+      console.log("lastNote::"+lastNote);
+      this.setState({notesX: list});
+    
+    })
+    .catch((err) => console.log("Error!!!",err) );
+  }
 
   updateNote = () => {
     
@@ -56,6 +77,11 @@ class Opener extends Component {
 
   }
 
+  selectNote = (note) => {
+    this.props.choseNote(note);
+    this.props.updateMeniu('current');
+  }
+
   handleChange2 = evt => {
     console.log('handleChange2');
     this.setState({html: evt.target.value});
@@ -79,10 +105,11 @@ class Opener extends Component {
 
   render() {
   
-  
+    const listItems = this.state.notesX.map((note) => <div key={note.id} onClick={() => this.selectNote(note)}>\__ {note.id}.txt</div>);
+    
 
     return (
-  
+     
       <div className="note-textarea-container">
 
       {/*<ContentEditable
@@ -95,9 +122,8 @@ class Opener extends Component {
               tagName='article' // Use a custom HTML tag (uses a div by default)
               className='contentEditablo'
             />*/}
-
-        <span>{this.state.status}</span>
-        <span>\__ Untitled.txt</span>
+     
+        <div className="nav-list">{listItems}</div>
         
 
         

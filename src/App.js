@@ -129,7 +129,7 @@ class App extends Component {
         <Nav updateMeniu={this.updateMenu} toggleNote={this.toggleNote} showNote={showNote} choseNote={this.updateNote} updateKee={this.updateKey}/>
         {error && <Flash error={error} resetError={this.resetError} />}
         {current && <Current updateNoteContent={this.updateNoteTxt} prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote} authKee={this.state.authKey}/>}  
-        {opener && <Opener updateNoteContent={this.updateNoteTxt} prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote} authKee={this.state.authKey}/>}
+        {opener && <Opener updateMeniu={this.updateMenu} updateNoteContent={this.updateNoteTxt} prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote} authKee={this.state.authKey} choseNote={this.updateNote}/>}
       
       </div>
     );
