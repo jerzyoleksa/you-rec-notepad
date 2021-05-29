@@ -32,6 +32,10 @@ class Current extends Component {
     console.log('key from parent:'+this.props.authKee);
     
     noteToUpdate["authKey"] = this.props.authKee;
+
+    noteToUpdate["name"] = "content"; 
+    noteToUpdate["value"] = noteToUpdate["content"];
+
     axios.put('https://frengly.com/ai/notes', noteToUpdate)
     .then((res) => {
       this.setState({ status: "" });
