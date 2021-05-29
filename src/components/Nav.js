@@ -140,7 +140,8 @@ class Nav extends Component {
       this.setState({notesX: list});
 
       //jerzy 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! REFACTOR !!!!!!!!!!!!!!!!!!!!!!!!!!
-      if (list.length > 0) this.selectNote(list[2]);
+      const found = list.find(element => element.status == 1);
+      if (list.length > 0) this.selectNote(found);
     
     })
     .catch((err) => console.log("Error!!!",err) );
