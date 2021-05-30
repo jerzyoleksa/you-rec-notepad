@@ -164,7 +164,7 @@ class Nav extends Component {
         
         {this.state.address && <div className="nav-list"><span className="btn btn-primary">{this.state.address}</span></div>}
         
-        {this.props.prop1 && <div className="nav-list"><span className="btn btn-primary">{this.props.prop1.title}</span></div>}
+        {this.props.prop1.title && <div className="nav-list"><span className="btn btn-primary">{this.props.prop1.title}</span></div>}
 
         {/*<div className="nav-list">{listItems}</div>*/}
       </div>
