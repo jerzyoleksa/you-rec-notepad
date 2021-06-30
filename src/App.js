@@ -23,7 +23,8 @@ class App extends Component {
       selectedNote : {"content" : "Hello from Mars", "id" : -1},
       authKey: '',
       current: true,
-      opener: false
+      opener: false,
+      savingStatus: 'waitin'
     };
   }
 
@@ -38,6 +39,7 @@ class App extends Component {
   updateKey = (key) => {console.log('updating key in parent!..');this.setState({ authKey: key });}
   updateNote = (note) => {console.log('updating note in parent!..');this.setState({ selectedNote: note });}
   updateNoteTxt = (text) => {console.log('updating note content!..'+text); this.state.selectedNote.content = text;}
+  updateSavStatus = (text) => {console.log('updating savingStatys!..'+text); this.setState({ savingStatus: text });}
   updateMenu = (text) => { 
     
     if (text == 'opener') this.setState({ current: false, opener: true }); 
@@ -121,14 +123,14 @@ class App extends Component {
   }
 
   render() {
-    const { showNote, notesX, note, newTag, error, current, opener } = this.state;
+    const { showNote, notesX, note, newTag, error, current, opener, savingStatus } = this.state;
 
     return (
       <div className="App">
         
-        <Nav updateMeniu={this.updateMenu} toggleNote={this.toggleNote} showNote={showNote} choseNote={this.updateNote} updateKee={this.updateKey} prop1={this.state.selectedNote}/>
+        <Nav saviStatus={this.state.savingStatus} updateMeniu={this.updateMenu} toggleNote={this.toggleNote} showNote={showNote} choseNote={this.updateNote} updateKee={this.updateKey} prop1={this.state.selectedNote}/>
         {error && <Flash error={error} resetError={this.resetError} />}
-        {current && <Current updateNoteContent={this.updateNoteTxt} prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote} authKee={this.state.authKey}/>}  
+        {current && <Current updateSaviStatus={this.updateSavStatus} updateNoteContent={this.updateNoteTxt} prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote} authKee={this.state.authKey}/>}  
         {opener && <Opener updateMeniu={this.updateMenu} updateNoteContent={this.updateNoteTxt} prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote} authKee={this.state.authKey} choseNote={this.updateNote}/>}
       
       </div>

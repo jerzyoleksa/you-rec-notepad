@@ -26,7 +26,7 @@ class Current extends Component {
 
   updateNote = () => {
     
-    this.setState({ status: "saving ..." }); //in async methods must be setState, not just this.state.status = ...
+    this.props.updateSaviStatus("saving ..."); //in async methods must be setState, not just this.state.status = ...
     let noteToUpdate = this.props.prop1;
     console.log('updating:'+noteToUpdate);
     console.log('key from parent:'+this.props.authKee);
@@ -38,7 +38,7 @@ class Current extends Component {
 
     axios.put('https://frengly.com/ai/notes', noteToUpdate)
     .then((res) => {
-      this.setState({ status: "" });
+      this.props.updateSaviStatus("");
     })
     .catch((err) => console.log("Error updating!!!",err) );
   }
@@ -100,7 +100,7 @@ class Current extends Component {
               className='contentEditablo'
             />*/}
 
-        <span>{this.state.status}</span>
+        {/*<span>{this.state.status}</span>*/}
         <textarea value={this.state.value} onChange={this.handleChange} ref={(input) => { this.nameInput = input; }} />
         
 

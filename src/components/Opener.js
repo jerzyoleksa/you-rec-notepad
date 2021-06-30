@@ -105,7 +105,7 @@ class Opener extends Component {
 
   render() {
   
-    const listItems = this.state.notesX.map((note) => <div key={note.id} onClick={() => this.selectNote(note)}>\__ {note.id}.txt</div>);
+    const listItems = this.state.notesX.map((note) => <div key={note.id} onClick={() => this.selectNote(note)}>\__ {note.title}.txt</div>);
     
 
     return (

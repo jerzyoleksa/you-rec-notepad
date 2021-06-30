@@ -17,6 +17,11 @@ body {
   box-sizing: content-box;
 }
 
+.btn-grayish {
+  background: rgba(116, 116, 116, 0.397);
+  color: whitesmoke;
+}
+
 
 .light-mode-dark {
   background-color: rgb(51,51,51);

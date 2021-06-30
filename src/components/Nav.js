@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Web3 from 'web3';
+import ContentEditable from 'react-contenteditable'
 
 
 class Nav extends Component {
@@ -9,7 +10,8 @@ class Nav extends Component {
     super();
     this.state = {
       notesX: [],
-      key: ''
+      key: '',
+      isDark : false
     };
 
   }
@@ -34,6 +36,39 @@ class Nav extends Component {
       )
     );
   };
+  
+  updateTitle2 = function(event){
+    let noteToUpdate = this.props.prop1;
+    console.log("inside updateTitle:"+event.target.value);
+    noteToUpdate["title"] = event.target.value;
+    noteToUpdate["value"] = event.target.value;
+    noteToUpdate["authKey"] = this.props.authKee;
+    noteToUpdate["name"] = "title"; 
+    
+
+    axios.put('https://frengly.com/ai/notes', noteToUpdate)
+    .then((res) => {
+    })
+    .catch((err) => console.log("Error updating!!!",err) );
+  }.bind(this);
+
+
+
+
+  updateTitle = event => {
+    let noteToUpdate = this.props.prop1;
+    console.log("inside updateTitle:"+event.target.value);
+    noteToUpdate["title"] = event.target.value;
+    noteToUpdate["value"] = event.target.value;
+    noteToUpdate["authKey"] = this.props.authKee;
+    noteToUpdate["name"] = "title"; 
+    
+
+    axios.put('https://frengly.com/ai/notes', noteToUpdate)
+    .then((res) => {
+    })
+    .catch((err) => console.log("Error updating!!!",err) );
+  }
 
   useSignature = (obj, obj2) => {
     console.log(obj);
@@ -50,14 +85,21 @@ class Nav extends Component {
     //document.querySelector('.nav-container').classList.add('light-mode-dark');
     //document.querySelector('.App').classList.add('light-mode-dark');
 
-    if (document.body.style.color == 'white') {
+    
+
+    if (this.state.isDark) {
       document.body.style.backgroundColor = "#ecf0f1";
       document.body.style.color = "black";
+      
     }
     else {
       document.body.style.backgroundColor = "rgb(51,51,51)";
       document.body.style.color = "white";
+      
     }
+
+   
+    this.setState({isDark: !this.state.isDark})
   }
 
   connectMetamask = async() => {
@@ -162,11 +204,24 @@ class Nav extends Component {
         <div className="nav-list" onClick={() => this.toggleLightMode()}><span class="material-icons-outlined">wb_sunny</span></div> 
         <div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
         
-        {this.state.address && <div className="nav-list"><span className="btn btn-primary">{this.state.address}</span></div>}
+        {this.state.address && <div className="nav-list"><span className={this.state.isDark ? 'btn btn-grayish' : 'btn'}>{this.state.address}</span></div>}
         
-        {this.props.prop1.title && <div className="nav-list"><span className="btn btn-primary">{this.props.prop1.title}</span></div>}
+        {this.props.prop1.title && <div className="nav-list">
+          
+         
+           <ContentEditable
+              innerRef={this.contentEditable}
+              html={this.props.prop1.title} // innerHTML of the editable div
+              disabled={false}       // use true to disable editing
+              onChange={this.updateTitle}
+              tagName='article' // Use a custom HTML tag (uses a div by default)
+              className={this.state.isDark ? 'btn btn-grayish' : 'btn'}
+            />
+        </div>}
 
-        {/*<div className="nav-list">{listItems}</div>*/}
+        {this.props.saviStatus && <div className="nav-list"><span className={this.state.isDark ? 'btn btn-grayish' : 'btn'}>{this.props.saviStatus}</span></div>}
+
+        {/* <div className="nav-list">{String(this.state.isDark)}</div> */}
       </div>
     );
   }
