@@ -6,8 +6,8 @@
 # testing
 /coverage
 
-# production
-/build
+# production - its not possible to build the ui on prod, so build is created locally and delivered via git
+# /build
 
 # misc
 .DS_Store
