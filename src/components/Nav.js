@@ -102,6 +102,17 @@ class Nav extends Component {
     this.setState({isDark: !this.state.isDark})
   }
 
+  export = async() => {
+    console.log('exporting shiit...');
+
+    axios.get('https://frengly.com/ai/export')
+    .then((res) => {
+      
+    })
+    .catch((err) => console.log("Error!!!",err) );
+
+  }
+
   connectMetamask = async() => {
     console.log('connecting metamask1:'+this.props);
     // async () => {
@@ -170,7 +181,24 @@ class Nav extends Component {
 
   }
 
+
+
   getNotes = () => {
+
+    
+    var aes256 = require('aes256');
+
+    var key = 'my passphrase';
+    var plaintext = 'my plaintext message';
+    var buffer = Buffer.from(plaintext);
+
+    var encryptedPlainText = aes256.encrypt(key, plaintext);
+    var decryptedPlainText = aes256.decrypt(key, encryptedPlainText);
+    console.log(encryptedPlainText);
+    // plaintext === decryptedPlainText
+
+
+
 
 
     //use https not http! to avoid problems with redirect/cors
@@ -203,6 +231,8 @@ class Nav extends Component {
         
         <div className="nav-list" onClick={() => this.toggleLightMode()}><span class="material-icons-outlined">wb_sunny</span></div> 
         <div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
+        
+        <div className="nav-list" onClick={() => this.export()}><span class="material-icons-outlined">save_alt</span></div> 
         
         {this.state.address && <div className="nav-list"><span className={this.state.isDark ? 'btn btn-grayish' : 'btn'}>{this.state.address}</span></div>}
         
