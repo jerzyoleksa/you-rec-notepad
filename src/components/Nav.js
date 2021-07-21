@@ -105,13 +105,49 @@ class Nav extends Component {
   export = async() => {
     console.log('exporting shiit...');
 
-    axios.get('https://frengly.com/ai/export')
+    
+    
+    /*
+    axios.get('https://frengly.com/ai/export?id=2', {responseType: 'blob'})
     .then((res) => {
       
     })
     .catch((err) => console.log("Error!!!",err) );
+    */
+
+    axios({
+      url: 'https://frengly.com/ai/export?id=2', //your url
+      method: 'GET',
+      responseType: 'blob', // important
+    }).then((response) => {
+       const url = window.URL.createObjectURL(new Blob([response.data]));
+       const link = document.createElement('a');
+       link.href = url;
+       link.setAttribute('download', 'package.zip'); //or any other extension
+       document.body.appendChild(link);
+       link.click();
+    });
 
   }
+
+  /*
+  axios({
+    url: 'http://api.dev/file-download', //your url
+    method: 'GET',
+    responseType: 'blob', // important
+  }).then((response) => {
+     const url = window.URL.createObjectURL(new Blob([response.data]));
+     const link = document.createElement('a');
+     link.href = url;
+     link.setAttribute('download', 'file.pdf'); //or any other extension
+     document.body.appendChild(link);
+     link.click();
+  });*/
+
+
+
+
+
 
   connectMetamask = async() => {
     console.log('connecting metamask1:'+this.props);
