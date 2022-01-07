@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
-
+import Cookies from 'js-cookie'
 
 class Nav extends Component {
   constructor() {
@@ -17,12 +17,24 @@ class Nav extends Component {
   }
   
   componentWillMount() {
+    this.listenToMetamask();
+    this.connectMetamaskSilently();
     this.getNotes(); //this sets notesX in state
   }
 
   selectNote = (note) => {
     this.props.choseNote(note);
   }
+
+  listenToMetamask = () => {
+    if(window.ethereum) {
+      window.ethereum.on('chainChanged', () => {
+        window.location.reload();
+      })
+      window.ethereum.on('accountsChanged', () => {
+        window.location.reload();
+      })
+  }};
 
   handleSignMessage = ( publicAddress, nonce, web3 ) => {
     return new Promise((resolve, reject) =>
@@ -145,6 +157,41 @@ class Nav extends Component {
   });*/
 
 
+  connectMetamaskSilently = async() => {
+    if (window.ethereum) {
+      
+            try {
+              const accounts1 = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+              console.log('[SILENT] accounts::'+accounts1[0]);
+
+                let web3 = new Web3(window.ethereum);    
+              
+                var storedSign = Cookies.get(accounts1[0]);
+
+                if (storedSign) {
+                  console.log('Signature from cookie:'+storedSign);
+                  this.setState({key: storedSign});
+                  this.props.updateKee(storedSign);
+                }
+
+                this.setState({address: accounts1[0]});
+
+                //get signature from cookies and check if the signature address is the one currently connected
+
+                this.getNotes();
+
+
+              //this.props.authKee = signature;
+
+            } catch (err) {
+                    console.log('user did not add account...', err)
+            }
+
+    } else {
+        console.log("No Ethereum interface injected into browser. Read-only access");
+    }
+  }
 
 
 
@@ -189,6 +236,7 @@ class Nav extends Component {
               promise.then(function(result) {
                 console.log(result.signature); // "Promise resolved successfully"
                 this.setState({key: result.signature});
+                Cookies.set(accounts1[0], result.signature);
                 this.setState({address: accounts1[0]});
                 this.props.updateKee(result.signature);
                 
@@ -206,7 +254,7 @@ class Nav extends Component {
             }
 
     } else {
-        alert("No Ethereum interface injected into browser. Read-only access");
+        console.log("No Ethereum interface injected into browser. Read-only access");
     }
 
 
