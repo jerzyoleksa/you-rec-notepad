@@ -24,7 +24,7 @@ class App extends Component {
       authKey: '',
       current: true,
       opener: false,
-      savingStatus: 'waitin'
+      savingStatus: ''
     };
   }
 

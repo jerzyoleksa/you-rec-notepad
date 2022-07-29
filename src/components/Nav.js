@@ -22,6 +22,10 @@ class Nav extends Component {
     this.getNotes(); //this sets notesX in state
   }
 
+  shortenString = (str) => {
+    return str.substring(0, 4)+'...'+str.substring((str.length-4), str.length);
+  }
+
   selectNote = (note) => {
     this.props.choseNote(note);
   }
@@ -126,12 +130,14 @@ class Nav extends Component {
     })
     .catch((err) => console.log("Error!!!",err) );
     */
-
-    axios({
+    //{'authKey': this.state.key}
+    axios.post('https://frengly.com/ai/export', {'authKey': this.state.key})
+    /*axios({
       url: 'https://frengly.com/ai/export?id=2', //your url
       method: 'GET',
       responseType: 'blob', // important
-    }).then((response) => {
+    })*/
+    .then((response) => {
        const url = window.URL.createObjectURL(new Blob([response.data]));
        const link = document.createElement('a');
        link.href = url;
@@ -314,13 +320,15 @@ class Nav extends Component {
         
         
         <div className="nav-list" onClick={() => this.toggleLightMode()}><span class="material-icons-outlined">wb_sunny</span></div> 
-        <div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
-        
         <div className="nav-list" onClick={() => this.export()}><span class="material-icons-outlined">save_alt</span></div> 
+        <div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
+        {/*
+        <div className="nav-list" onClick={() => this.connectMetamask()}><img src="img/mm.svg" width="24" height="24"/></div> 
+        */}
         
-        {this.state.address && <div className="nav-list"><span className={this.state.isDark ? 'btn btn-grayish' : 'btn'}>{this.state.address}</span></div>}
+        {<div className="nav-list"><span className={this.state.isDark ? 'btn btn-grayish' : 'btn'}>{/*<span className='circle'></span>*/}{this.state.address ? this.shortenString(this.state.address): 'Connect'}</span></div>}
         
-        {this.props.prop1.title && <div className="nav-list">
+        {/*this.props.prop1.title && <div className="nav-list">
           
          
            <ContentEditable
@@ -331,9 +339,9 @@ class Nav extends Component {
               tagName='article' // Use a custom HTML tag (uses a div by default)
               className={this.state.isDark ? 'btn btn-grayish' : 'btn'}
             />
-        </div>}
+      </div>*/}
 
-        {this.props.saviStatus && <div className="nav-list"><span className={this.state.isDark ? 'btn btn-grayish' : 'btn'}>{this.props.saviStatus}</span></div>}
+        {this.props.saviStatus && <div className="nav-list"><span className='savingTextStyle'>{this.props.saviStatus}</span></div>}
 
         {/* <div className="nav-list">{String(this.state.isDark)}</div> */}
       </div>
