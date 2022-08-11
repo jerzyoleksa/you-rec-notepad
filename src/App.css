@@ -1,6 +1,7 @@
 body {
    background: white;
    margin-bottom: 3em;
+   overflow: hidden;
 }
 
 .circle {
@@ -20,18 +21,21 @@ body {
  
 }
 
+.menu-label {
+  font-family: "Inter custom", sans-serif;
+  font-size: 16px;
+}
+
 .btn {
-  padding: 7px;
+  padding: 6px;
   padding-left: 9px;
   padding-right: 9px;
   border-radius: 4px;
-  font-family: "Arial";
+  font-family: "Inter custom", sans-serif;
   border: 0px solid red;
   background: blue;
   font-size: 16px;
   color: white;
-  width: auto;
-  vertical-align: middle;
 }
 
 .btn-grayish {
@@ -139,16 +143,44 @@ body {
 /* nav.css */
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display:900');
 
-.nav-container {
-  
-  height: 25px;
+.nav-bar {
+  width: 100%;
+  border-bottom: 2px solid lightgray;
   background-color: #ecf0f1;
+}
+.nav-container {
+  display:table;
+  border-collapse: separate;
+  border-spacing: 0px;
+
   /* box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); */
   padding: 10px;
-  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   font-family: 'Assistant', sans-serif;
   letter-spacing: 0.6px;
-  border-bottom: 2px solid lightgray;
+}
+
+.nav-row { display:table-row; }
+
+.nav-list {
+  font-size: 1em;
+  /*float: left;*/ /*cant use float with display: table-ce; */
+  cursor: pointer;
+  font-weight: normal;
+  border: 0px solid black;
+  margin-right: 20px;
+  display:table-cell;
+  vertical-align: middle;
+  padding: 5px;
+  padding-right: 25px;
+  
+}
+
+.nav-span {
+  display:block;
+  bottom:0;
+  left: 0;
 }
 
 @keyframes move {
@@ -161,16 +193,7 @@ body {
 
 
 
-.nav-list {
-  font-size: 1em;
-  float: left;
-  cursor: pointer;
-  font-weight: normal;
-  border: 0px solid black;
-  margin-right: 20px;
-  display:table-cell;
 
-}
 
 .nav-list-right {
   color: black;

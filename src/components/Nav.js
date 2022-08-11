@@ -313,37 +313,42 @@ class Nav extends Component {
     //const listItems = this.state.notesX.map((note) => <div key={note.id} onClick={() => this.selectNote(note)} className="circleo">{note.id}</div>);
     
     return (
+      <div className="nav-bar">
       <div className="nav-container">
-        <div className="nav-list" onClick={() => {this.menuTab('current');toggleNote()}} ><span class="material-icons-outlined">create</span></div> 
-        {this.state.key.length > 0 && <div className="nav-list" onClick={() => this.menuTab('opener')} ><span class="material-icons-outlined">folder</span></div>}
+        <div class="nav-row">
+        {this.props.prop1.title && <div className="nav-list" onClick={() => {this.menuTab('current');toggleNote()}} >
+           <ContentEditable
+              innerRef={this.contentEditable}
+              html={this.props.prop1.title+'.txt'} // innerHTML of the editable div
+              disabled={false}       // use true to disable editing
+              onChange={this.updateTitle}
+              tagName='article' // Use a custom HTML tag (uses a div by default)
+              className={this.state.isDark ? 'btn tn-grayishb' : 'btn btn-grayish'}
+            />
+        </div>}  
+        {/*<div className="nav-list" onClick={() => {this.menuTab('current');toggleNote()}} ><span class="material-icons-outlined md-36 nav-span">add</span></div> 
+        */}
+        {this.state.key.length > 0 && <div className="nav-list" onClick={() => this.menuTab('opener')} ><span class="menu-label">Notes</span></div>}
        
         
         
-        <div className="nav-list" onClick={() => this.toggleLightMode()}><span class="material-icons-outlined">wb_sunny</span></div> 
-        <div className="nav-list" onClick={() => this.export()}><span class="material-icons-outlined">save_alt</span></div> 
-        <div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
+        <div className="nav-list" onClick={() => this.export()}><span class="menu-label">Export</span></div> 
+        <div className="nav-list" onClick={() => this.toggleLightMode()}><span class="material-icons-outlined nav-span">wb_sunny</span></div> 
+                
+        {/*<div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
+        */}
         {/*
         <div className="nav-list" onClick={() => this.connectMetamask()}><img src="img/mm.svg" width="24" height="24"/></div> 
         */}
         
-        {<div className="nav-list"><span className={this.state.isDark ? 'btn btn-grayish' : 'btn'}>{/*<span className='circle'></span>*/}{this.state.address ? this.shortenString(this.state.address): 'Connect'}</span></div>}
+        {<div className="nav-list" onClick={() => this.connectMetamask()}><span className={this.state.isDark ? 'btn btn-grayish' : 'btn'}>{/*<span className='circle'></span>*/}{this.state.address ? this.shortenString(this.state.address): 'Connect'}</span></div>}
         
-        {/*this.props.prop1.title && <div className="nav-list">
-          
-         
-           <ContentEditable
-              innerRef={this.contentEditable}
-              html={this.props.prop1.title} // innerHTML of the editable div
-              disabled={false}       // use true to disable editing
-              onChange={this.updateTitle}
-              tagName='article' // Use a custom HTML tag (uses a div by default)
-              className={this.state.isDark ? 'btn btn-grayish' : 'btn'}
-            />
-      </div>*/}
+
 
         {this.props.saviStatus && <div className="nav-list"><span className='savingTextStyle'>{this.props.saviStatus}</span></div>}
-
+      </div>
         {/* <div className="nav-list">{String(this.state.isDark)}</div> */}
+      </div>
       </div>
     );
   }
