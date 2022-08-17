@@ -315,7 +315,7 @@ class Nav extends Component {
     return (
       <div className="nav-bar">
       <div className="nav-container">
-        <div class="nav-row">
+        <div className="nav-row">
         {this.props.prop1.title && <div className="nav-list" onClick={() => {this.menuTab('current');toggleNote()}} >
            <ContentEditable
               innerRef={this.contentEditable}
@@ -328,12 +328,12 @@ class Nav extends Component {
         </div>}  
         {/*<div className="nav-list" onClick={() => {this.menuTab('current');toggleNote()}} ><span class="material-icons-outlined md-36 nav-span">add</span></div> 
         */}
-        {this.state.key.length > 0 && <div className="nav-list" onClick={() => this.menuTab('opener')} ><span class="menu-label">Notes</span></div>}
+        {this.state.key.length > 0 && <div className="nav-list" onClick={() => this.menuTab('opener')} ><span className="menu-label">Notes</span></div>}
        
         
         
-        <div className="nav-list" onClick={() => this.export()}><span class="menu-label">Export</span></div> 
-        <div className="nav-list" onClick={() => this.toggleLightMode()}><span class="material-icons-outlined nav-span">wb_sunny</span></div> 
+        <div className="nav-list" onClick={() => this.export()}><span className="menu-label">Export</span></div> 
+        <div className="nav-list" onClick={() => this.toggleLightMode()}><span className="material-icons-outlined nav-span">wb_sunny</span></div> 
                 
         {/*<div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
         */}

@@ -13,6 +13,8 @@ class Opener extends Component {
       key: '',
       notesX: [],
       status: "",
+      merge1: -1,
+      merge2: -1,
       value: this.props.prop1.content,
       typing: false,
       typingTimeout: 0,
@@ -43,6 +45,32 @@ class Opener extends Component {
     
     })
     .catch((err) => console.log("Error!!!",err) );
+  }
+
+  deleteNote = (note) => {
+    //const newNotesState = this.state.notes.filter((note) => note.id !== id );
+   
+  }
+
+  selectMerge = (note) => {
+    //const newNotesState = this.state.notes.filter((note) => note.id !== id );
+    console.log(this.state.merge1);
+    console.log(note.id);
+    if (this.state.merge1 == -1) {
+      this.setState({ merge1: note.id });
+
+    } else {
+      this.setState({ merge2: note.id });
+    }
+  }
+
+  createNew = () => {
+    //const newNotesState = this.state.notes.filter((note) => note.id !== id );
+    let noteToCreate = {"userId" : 1, "content": ""};
+
+    axios.post(urlFor('notes'), noteToCreate)
+    .then((res) => this.getNotes() )
+    .catch((err) => console.log(err.response) );
   }
 
   updateNote = () => {
@@ -105,7 +133,14 @@ class Opener extends Component {
 
   render() {
   
-    const listItems = this.state.notesX.map((note) => <div key={note.id} onClick={() => this.selectNote(note)}>\__ {note.title}.txt</div>);
+    const listItems = this.state.notesX.map((note) => 
+                      <div className="nav-container" key={note.id+'parent'}>
+                          <div className="nav-list-narrow"  onClick={() => this.deleteNote(note)}><span className="material-icons-outlined nav-span">delete</span></div> 
+                          <div className="nav-list-narrow" onClick={() => this.selectMerge(note)}><span className="material-icons-outlined nav-span">link</span></div> 
+                          
+                          <div className="nav-list opener-tbl"  onClick={() => this.selectNote(note)}>{note.title}.txt</div>
+                      </div>
+                      );
     
 
     return (
@@ -123,9 +158,17 @@ class Opener extends Component {
               className='contentEditablo'
             />*/}
      
-        <div className="nav-list">{listItems}</div>
         
+        <div className="nav-container" onClick={() => this.createNew()}>
+          <div className="nav-list-narrow">
+            <span className="material-icons-outlined nav-span">add</span>
+          </div>
+          <div className="nav-list opener-tbl">Create new note</div>
+          {this.state.merge1>-1 && this.state.merge2>-1 && <div className="nav-list opener-tbl">Merge</div> }
 
+        </div>
+        <div>{listItems}</div>
+        <div>merge1::{this.state.merge1}</div>
         
       </div>
 

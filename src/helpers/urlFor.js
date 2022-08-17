@@ -1,5 +1,5 @@
 const urlFor = (endpoint) => {
- return `https://notes-rails-api.herokuapp.com/${endpoint}`;
+ return `https://frengly.com/ai/${endpoint}`;
 };
 
 export default urlFor;
