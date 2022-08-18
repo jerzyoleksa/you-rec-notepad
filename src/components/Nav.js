@@ -316,7 +316,7 @@ class Nav extends Component {
       <div className="nav-bar">
       <div className="nav-container">
         <div className="nav-row">
-        {this.props.prop1.title && <div className="nav-list" onClick={() => {this.menuTab('current');toggleNote()}} >
+        {this.props.prop1 && this.props.prop1.title && <div className="nav-list" onClick={() => {this.menuTab('current');toggleNote()}} >
            <ContentEditable
               innerRef={this.contentEditable}
               html={this.props.prop1.title+'.txt'} // innerHTML of the editable div

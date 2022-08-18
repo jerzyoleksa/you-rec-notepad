@@ -15,7 +15,7 @@ class Opener extends Component {
       status: "",
       merge1: -1,
       merge2: -1,
-      value: this.props.prop1.content,
+      value: this.props.prop1? this.props.prop1.content : '',
       typing: false,
       typingTimeout: 0,
       html: "<b>Hello <i>World</i></b>"
@@ -74,6 +74,13 @@ class Opener extends Component {
   cancelMerge = () => {
       this.setState({ merge1: -1 });
       this.setState({ merge2: -1 });
+  }
+
+  doMerge = () => {
+    let data = {"id1" : this.state.merge1, "id2": this.state.merge2};
+    axios.post(urlFor('notesMerge'), data)
+    .then((res) => {this.getNotes();this.state.merge1=-1;this.state.merge2=-1;} )
+    .catch((err) => console.log(err.response) );
   }
 
   createNew = () => {
