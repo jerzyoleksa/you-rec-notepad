@@ -73,7 +73,9 @@ class Current extends Component {
   componentWillReceiveProps(nextProps) {
     // This will erase any local state updates!
     // Do not do this.
-    this.setState({ value: nextProps.prop1.content });
+    try {
+      this.setState({ value: nextProps.prop1.content });
+    }catch(ex){console.log(ex);}
   }
 
   componentDidMount(){
