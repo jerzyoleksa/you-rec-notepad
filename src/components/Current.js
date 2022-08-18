@@ -103,7 +103,7 @@ class Current extends Component {
             />*/}
 
         {/*<span>{this.state.status}</span>*/}
-        <textarea className="ta1" value={this.state.value} onChange={this.handleChange} ref={(input) => { this.nameInput = input; }} />
+        <textarea value={this.state.value} onChange={this.handleChange} ref={(input) => { this.nameInput = input; }} />
         
 
         
