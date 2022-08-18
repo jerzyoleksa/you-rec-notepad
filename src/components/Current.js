@@ -74,7 +74,7 @@ class Current extends Component {
     // This will erase any local state updates!
     // Do not do this.
     try {
-      this.setState({ value: nextProps.prop1.content });
+    this.setState({ value: nextProps.prop1.content });
     }catch(ex){console.log(ex);}
   }
 
@@ -89,7 +89,7 @@ class Current extends Component {
 
     return (
   
-      <div className="note-textarea-container">
+      <div className="textarea-container">
 
       {/*<ContentEditable
               innerRef={this.contentEditable}
@@ -103,7 +103,7 @@ class Current extends Component {
             />*/}
 
         {/*<span>{this.state.status}</span>*/}
-        <textarea value={this.state.value} onChange={this.handleChange} ref={(input) => { this.nameInput = input; }} />
+        <textarea className="ta1" value={this.state.value} onChange={this.handleChange} ref={(input) => { this.nameInput = input; }} />
         
 
         

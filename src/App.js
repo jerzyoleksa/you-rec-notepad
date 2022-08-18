@@ -122,7 +122,7 @@ class App extends Component {
     const { showNote, notesX, note, newTag, error, current, opener, savingStatus } = this.state;
 
     return (
-      <div className="App">
+      <div className="rootDiv">
         
         <Nav saviStatus={this.state.savingStatus} updateMeniu={this.updateMenu} toggleNote={this.toggleNote} showNote={showNote} choseNote={this.updateNote} updateKee={this.updateKey} prop1={this.state.selectedNote}/>
         {error && <Flash error={error} resetError={this.resetError} />}

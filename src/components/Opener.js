@@ -164,7 +164,7 @@ class Opener extends Component {
 
     return (
      
-      <div className="note-textarea-container">
+      <div className="textarea-container">
 
       {/*<ContentEditable
               innerRef={this.contentEditable}
