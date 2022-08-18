@@ -207,6 +207,13 @@ body {
   left: 0;
 }
 
+.nav-span-blue {
+  display:block;
+  bottom:0;
+  left: 0;
+  color: blue;
+}
+
 .nav-icon-col {
   padding-left: 3px;
   padding-right: 3px;

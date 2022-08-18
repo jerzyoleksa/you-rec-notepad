@@ -47,6 +47,11 @@ class Opener extends Component {
     .catch((err) => console.log("Error!!!",err) );
   }
 
+  isSelected4Merge = (note) => {
+    if (this.state.merge1 == note.id || this.state.merge2 == note.id) return true;
+    return false;
+  } 
+
   deleteNote = (note) => {
     //const newNotesState = this.state.notes.filter((note) => note.id !== id );
     axios.delete('https://frengly.com/ai/notes/'+note.id)
@@ -143,7 +148,7 @@ class Opener extends Component {
     const listItems = this.state.notesX.map((note) => 
                       <div className="nav-container" key={note.id+'parent'}>
                           <div className="nav-list-narrow"  onClick={() => this.deleteNote(note)}><span className="material-icons-outlined nav-span">delete</span></div> 
-                          <div className="nav-list-narrow" onClick={() => this.selectMerge(note)}><span className="material-icons-outlined nav-span">link</span></div> 
+                          <div className="nav-list-narrow" onClick={() => this.selectMerge(note)}><span className={this.isSelected4Merge(note) ? 'material-icons-outlined nav-span-blue' : 'material-icons-outlined nav-span'}>link</span></div> 
                           
                           <div className="nav-list opener-tbl"  onClick={() => this.selectNote(note)}>{note.title}.txt</div>
                       </div>
