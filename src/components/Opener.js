@@ -49,7 +49,9 @@ class Opener extends Component {
 
   deleteNote = (note) => {
     //const newNotesState = this.state.notes.filter((note) => note.id !== id );
-   
+    axios.delete('https://frengly.com/ai/notes/'+note.id)
+    .then((res) => this.getNotes() )
+    .catch((err) => console.log(err.response) );
   }
 
   selectMerge = (note) => {
@@ -62,6 +64,11 @@ class Opener extends Component {
     } else {
       this.setState({ merge2: note.id });
     }
+  }
+
+  cancelMerge = () => {
+      this.setState({ merge1: -1 });
+      this.setState({ merge2: -1 });
   }
 
   createNew = () => {
@@ -159,17 +166,19 @@ class Opener extends Component {
             />*/}
      
         
-        <div className="nav-container" onClick={() => this.createNew()}>
-          <div className="nav-list-narrow">
-            <span className="material-icons-outlined nav-span">add</span>
-          </div>
-          <div className="nav-list opener-tbl">Create new note</div>
-          {this.state.merge1>-1 && this.state.merge2>-1 && <div className="nav-list opener-tbl">Merge</div> }
+        <div className="nav-container">
+          
+  
+          
+          <div className="nav-list opener-tbl" onClick={() => this.createNew()}><span className="btn btn-framed">Create new note</span></div>
 
+          {this.state.merge1>-1 && this.state.merge2>-1 && <div className="nav-list opener-tbl" onClick={() => this.startMerge()}><span className="btn btn-framed">Merge</span></div> }
+          {this.state.merge1>-1 && this.state.merge2>-1 && <div className="nav-list opener-tbl" onClick={() => this.cancelMerge()}><span className="btn btn-framed">Cancel merge</span></div> }
+  
         </div>
         <div>{listItems}</div>
         <div>merge1::{this.state.merge1}</div>
-        
+        <div>merge2::{this.state.merge2}</div>
       </div>
 
     );

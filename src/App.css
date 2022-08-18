@@ -48,6 +48,11 @@ body {
   color: white;
 }
 
+.btn-framed {
+  background: white;
+  color: black;
+  border: 1px solid gray;
+}
 
 .light-mode-dark {
   background-color: rgb(51,51,51);
