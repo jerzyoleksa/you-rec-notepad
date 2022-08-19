@@ -3,7 +3,7 @@ import axios from 'axios';
 import urlFor from '../helpers/urlFor';
 import NoteCard from './NoteCard';
 import ContentEditable from 'react-contenteditable'
-
+import CryptoJS from "crypto-js";
 
 class Current extends Component {
   
@@ -23,6 +23,17 @@ class Current extends Component {
     
   }
 
+  encryptWithAES = (text) => {
+    const passphrase = '123';
+    return CryptoJS.AES.encrypt(text, passphrase).toString();
+  };
+
+  decryptWithAES = (ciphertext) => {
+    const passphrase = '123';
+    const bytes = CryptoJS.AES.decrypt(ciphertext, passphrase);
+    const originalText = bytes.toString(CryptoJS.enc.Utf8);
+    return originalText;
+  };
 
   updateNote = () => {
     
@@ -35,6 +46,19 @@ class Current extends Component {
 
     noteToUpdate["name"] = "content"; 
     noteToUpdate["value"] = noteToUpdate["content"];
+
+    
+    //1st to update standard content or other param
+    axios.put('https://frengly.com/ai/notes', noteToUpdate)
+    .then((res) => {
+      this.props.updateSaviStatus("");
+    })
+    .catch((err) => console.log("Error updating!!!",err) );
+
+    //2nd update to send encrypted text
+    let encrypted = this.encryptWithAES(noteToUpdate["content"]);
+    noteToUpdate["name"] = "encrypted"; 
+    noteToUpdate["value"] = encrypted;
 
     axios.put('https://frengly.com/ai/notes', noteToUpdate)
     .then((res) => {
