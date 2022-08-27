@@ -23,17 +23,53 @@ class Current extends Component {
     
   }
 
-  encryptWithAES = (text) => {
-    const passphrase = '123';
-    return CryptoJS.AES.encrypt(text, passphrase).toString();
+  encodePass = (password) =>{
+    const encodedWord = CryptoJS.enc.Utf8.parse(password); // encodedWord Array object
+    const encoded = CryptoJS.enc.Base64.stringify(encodedWord); // string: 'NzUzMjI1NDE='
+    return encoded;
   };
 
+  encryptTextWithAES = (plaintText, myPass) => {
+      //var myPass="0123456789123456" //must have 16 chars
+      var encryptedBase64Key = this.encodePass(myPass);
+      console.log('encryptedBase64Key::'+encryptedBase64Key);
+      var parsedBase64Key = CryptoJS.enc.Base64.parse(encryptedBase64Key);
+      console.log('parsedBase64Key::'+parsedBase64Key);
+      var encryptedData = null;
+      
+
+      // this is Base64-encoded encrypted data
+      encryptedData = CryptoJS.AES.encrypt(plaintText, parsedBase64Key, {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+      });
+
+      return encryptedData.toString();
+      
+  }
+
+  //If you use NoPadding, then you must implement your own padding for encryption, 
+  //and make sure to remove it from the resulting string in decryption.
+  /*
+  encryptWithAES = (text) => {
+    const passphrase = '123';
+    //If you use a passphrase without a salt key, then it will generate a 256-bit AES key.
+    return CryptoJS.AES.encrypt(text, passphrase, {
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7
+    }).toString();
+  };*/
+
+  /*
   decryptWithAES = (ciphertext) => {
     const passphrase = '123';
     const bytes = CryptoJS.AES.decrypt(ciphertext, passphrase);
     const originalText = bytes.toString(CryptoJS.enc.Utf8);
     return originalText;
-  };
+  };*/
+
+
+
 
   updateNote = () => {
     
@@ -55,8 +91,14 @@ class Current extends Component {
     })
     .catch((err) => console.log("Error updating!!!",err) );
 
+
+
+    
     //2nd update to send encrypted text
-    let encrypted = this.encryptWithAES(noteToUpdate["content"]);
+    let encrypted = this.encryptTextWithAES(noteToUpdate["content"], '0123456789123456');
+    console.log('just encrypted::');
+    console.log(encrypted);
+
     noteToUpdate["name"] = "encrypted"; 
     noteToUpdate["value"] = encrypted;
 
@@ -65,6 +107,48 @@ class Current extends Component {
       this.props.updateSaviStatus("");
     })
     .catch((err) => console.log("Error updating!!!",err) );
+
+
+
+
+    /*
+    console.log('---------------------------------------');
+    
+    console.log(this.encodePass('mustbe16byteskey'));
+
+
+    var encryptedBase64Key = 'bXVzdGJlMTZieXRlc2tleQ==';
+    var parsedBase64Key = CryptoJS.enc.Base64.parse(encryptedBase64Key);
+
+    var encryptedData = null;
+ 
+    // Encryption process
+    var plaintText = 'Please encrypt this message!';
+    // console.log( “plaintText = “ + plaintText );
+
+    // this is Base64-encoded encrypted data
+    encryptedData = CryptoJS.AES.encrypt(plaintText, parsedBase64Key, {
+    mode: CryptoJS.mode.ECB,
+    padding: CryptoJS.pad.Pkcs7
+    });
+    console.log( 'encryptedData = ' + encryptedData );
+    
+
+
+    var encryptedCipherText = 'U2WvSc8oTur1KkrB6VGNDmA3XxJb9cC+T9RnqT4kD90=' ; // or encryptedData;
+    var decryptedData = CryptoJS.AES.decrypt( encryptedCipherText, parsedBase64Key, {
+    mode: CryptoJS.mode.ECB,
+    padding: CryptoJS.pad.Pkcs7
+    } );
+    // console.log( “DecryptedData = “ + decryptedData );
+
+    // this is the decrypted data as a string
+    var decryptedText = decryptedData.toString( CryptoJS.enc.Utf8 );
+    console.log( 'DecryptedText = ' + decryptedText );
+    console.log('---------------------------------------');
+    */
+
+
   }
 
   //TODO: call parent method to update prent state of selectedNote
