@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+
+#ignore build folder
 /build
 
 # testing
