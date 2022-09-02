@@ -328,7 +328,7 @@ class Nav extends Component {
         </div>}  
         {/*<div className="nav-list" onClick={() => {this.menuTab('current');toggleNote()}} ><span class="material-icons-outlined md-36 nav-span">add</span></div> 
         */}
-        {this.state.key.length > 0 && <div className="nav-list" onClick={() => this.menuTab('opener')} ><span className="menu-label">Notesda</span></div>}
+        {this.state.key.length > 0 && <div className="nav-list" onClick={() => this.menuTab('opener')} ><span className="menu-label">Noteda</span></div>}
        
         
         
