@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
+import SessionData from './SesionData'
 
 class Nav extends Component {
   constructor() {
@@ -20,6 +21,8 @@ class Nav extends Component {
     this.listenToMetamask();
     this.connectMetamaskSilently();
     this.getNotes(); //this sets notesX in state
+    SessionData.setName("Some Guy");
+    //console.log(SessionData.getName());
   }
 
   shortenString = (str) => {
@@ -295,14 +298,14 @@ class Nav extends Component {
     axios.post('https://frengly.com/ai/notesSec', {'authKey': this.state.key})
     .then((res) => {
       let list = res.data;
-      let lastNote = list[list.length-1];
-      console.log("lastNote::"+lastNote);
       this.setState({notesX: list});
+      //SessionData.setNotes(list);
 
-      //jerzy 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! REFACTOR !!!!!!!!!!!!!!!!!!!!!!!!!!
-      const found = list.find(element => element.status == 1);
-      if (list.length > 0) this.selectNote(found);
-    
+      //const found = list.find(element => element.status == 1);
+      //last because getNotes on server side is ordered asc by viewed time, which means we chose recently opened note
+      let lastNote = list[list.length-1];
+      if (list.length > 0) this.selectNote(lastNote);
+      //if (list.length > 0) SessionData.setNote(lastNote);
     })
     .catch((err) => console.log("Error!!!",err) );
   }

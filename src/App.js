@@ -37,7 +37,24 @@ class App extends Component {
 
   //method that lets you update state from child to parent, its passed to Nav as parameter
   updateKey = (key) => {console.log('updating key in parent!..');this.setState({ authKey: key });}
-  updateNote = (note) => {console.log('updating note in parent!..');this.setState({ selectedNote: note });}
+  updateNote = (note) => {
+    console.log('updating note in parent!..');
+    this.setState({ selectedNote: note });
+    
+    //-----now just send info to server that this note has been viewed
+    let ddate = new Date().toISOString().split('.')[0];
+    console.log('Date.now()::'+ddate);
+    let noteUpdateStruct = {"id" : note.id};
+    noteUpdateStruct["value"] = ddate;
+    noteUpdateStruct["authKey"] = this.props.authKee;
+    noteUpdateStruct["name"] = "viewed"; 
+    
+    axios.put('https://frengly.com/ai/notes', noteUpdateStruct)
+    .then((res) => {
+    })
+    .catch((err) => console.log("Error updating!!!",err) )
+    //------
+  }
   //delNote = (note) => {console.log('updating note in parent!..');this.setState({ selectedNote: note });}
   updateNoteTxt = (text) => {console.log('updating note content!..'+text); this.state.selectedNote.content = text;}
   updateSavStatus = (text) => {console.log('updating savingStatys!..'+text); this.setState({ savingStatus: text });}
