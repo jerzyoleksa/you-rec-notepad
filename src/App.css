@@ -10,6 +10,11 @@ body {
    /*overflow: hidden;*/
 }
 
+button {
+  height: 50px;
+  width: 140px;
+}
+
 #root {
   height: 100%;
   width: 100%;
