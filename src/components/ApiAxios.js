@@ -16,4 +16,23 @@ const fetchDataCall = async ({ }) => {
   return apiReturn;
 };
 
+const updateNote = (note) => {
+  console.log('updating note in parent!..');
+  this.setState({ selectedNote: note });
+  
+  //-----now just send info to server that this note has been viewed
+  let ddate = new Date().toISOString().split('.')[0];
+  console.log('Date.now()::'+ddate);
+  let noteUpdateStruct = {"id" : note.id};
+  noteUpdateStruct["value"] = ddate;
+  noteUpdateStruct["authKey"] = this.props.authKee;
+  noteUpdateStruct["name"] = "viewed"; 
+  
+  axios.put('https://frengly.com/ai/notes', noteUpdateStruct)
+  .then((res) => {
+  })
+  .catch((err) => console.log("Error updating!!!",err) )
+  //------
+}
+
 export default fetchDataCall
