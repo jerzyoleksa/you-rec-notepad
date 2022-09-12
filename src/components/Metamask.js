@@ -41,7 +41,7 @@ import { AppContext } from "./AppContext";
                 try {
                   let accounts1 = await window.ethereum.request({ method: 'eth_requestAccounts' });
                     
-                  //console.log('[SILENT] accounts::'+accounts1[0]);
+                  console.log('----> connectMetamaskSilently'+accounts1[0]);
                   return accounts1;
     
                     //get signature from cookies and check if the signature address is the one currently connected

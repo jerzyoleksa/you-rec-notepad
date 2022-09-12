@@ -7,6 +7,7 @@ const fetchDataCall = async ({ }) => {
   let apiReturn = await axios
     .post('https://frengly.com/ai/notesSec', {'authKey': key})
     .then(async function(response) {
+      console.log("--->fetchDataCall");
       return response.data;
     })
     .catch(function(error) {

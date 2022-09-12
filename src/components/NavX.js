@@ -54,7 +54,7 @@ const NavX = () => {
           setNote(lastNote); // this line removes the userData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
           //setUserData(state => ({ ...state, "note": lastNote }));
         } 
-        if (list === 'undefined') console.log('list is NULL !!!');
+      
 
       };
   
