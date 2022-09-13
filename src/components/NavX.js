@@ -3,14 +3,15 @@ import fetchDataCall from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
-import { AppContext } from "./AppContext";
+import { UserContext, NoteContext } from "./ProviderComponent";
 
 
 const NavX = () => {
     
-    const [userData, setUserData] = useContext(AppContext);
-    const [note, setNote] = useContext(AppContext);
-    const [dummy, setDummy] = useContext(AppContext);
+    const context = useContext(UserContext);
+    const note = useContext(NoteContext);
+    //const [note, setNote] = useContext(UserContext);
+    //const [dummy, setDummy] = useContext(UserContext);
 
     //const contentEditableRef = useRef();
 
@@ -44,7 +45,7 @@ const NavX = () => {
 
     useEffect(() => {
       //setDummy({"dummy": "lets see !" });
-      console.log("[NAVX] useEffect:"+JSON.stringify(userData));
+      //console.log("[NAVX] useEffect:"+JSON.stringify(userData));
       const fetchData = async () => {
         let list = await fetchDataCall({});
         
@@ -58,7 +59,7 @@ const NavX = () => {
 
       };
   
-      fetchData();
+      //fetchData();
     }, []); //consider [userData]
 
 
@@ -69,13 +70,13 @@ const NavX = () => {
       <div className="nav-bar">
       <div className="nav-container">
         <div className="nav-row">
-
+        <div>{context.status}</div>
         {note && note.title && <div className="nav-list" onClick={() => {menuTab('current');toggleNote()}} >
            <ContentEditable html={note.name+'.txt'} // innerHTML of the editable div
               disabled={false}       // use true to disable editing
               onChange={updateTitle}
               tagName='article' // Use a custom HTML tag (uses a div by default)
-              className={userData.isDark ? 'btn tn-grayishb' : 'btn btn-grayish'}
+              className={note.isDark ? 'btn tn-grayishb' : 'btn btn-grayish'}
             />
         </div>}  
         
@@ -92,13 +93,13 @@ const NavX = () => {
         <div className="nav-list" onClick={() => this.connectMetamask()}><img src="img/mm.svg" width="24" height="24"/></div> 
         */}
         
-        {<div className="nav-list" onClick={() => connectMetamask()}><span className={userData.isDark ? 'btn btn-grayish' : 'btn'}>{/*<span className='circle'></span>*/}{userData && userData.address && userData.address.length > 0 ? shortenString(userData.address): 'Connect'}</span></div>}
+        {<div className="nav-list" onClick={() => connectMetamask()}><span className={note.isDark ? 'btn btn-grayish' : 'btn'}>{/*<span className='circle'></span>*/}{note && note.address && note.address.length > 0 ? shortenString(note.address): 'Connect'}</span></div>}
         
 
 
-        {userData.saviStatus && <div className="nav-list"><span className='savingTextStyle'>{userData.saviStatus}</span></div>}
+        {note.saviStatus && <div className="nav-list"><span className='savingTextStyle'>{note.saviStatus}</span></div>}
 
-        <div className="nav-list"><span className="menu-label">cur:{userData.current} opener: {userData.opener} dummy: {userData.dummy}</span></div> 
+        <div className="nav-list"><span className="menu-label">cur:{note.current} opener: {note.opener} dummy: {note.dummy}</span></div> 
 
       </div>
         {/* <div className="nav-list">{String(this.state.isDark)}</div> */}

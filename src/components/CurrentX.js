@@ -3,12 +3,13 @@ import fetchDataCall from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
-import { AppContext } from "./AppContext";
+import { UserContext, NoteContext } from "./ProviderComponent";
 
 
 const CurrentX = () => {
-    const [userData, setUserData] = useContext(AppContext);
-    const [note, setNote] = useContext(AppContext);
+    const [context] = useContext(UserContext);
+    const note = useContext(NoteContext);
+    //const [note, setNote] = useContext(AppContext);
     //const contentEditableRef = useRef();
 
     const updateTitle = () => {
@@ -62,7 +63,7 @@ const CurrentX = () => {
 
     useEffect(() => {
       //this.nameInput.focus();
-      console.log("[CurrentX] useEffect:"+JSON.stringify(userData));
+      //console.log("[CurrentX] useEffect:"+JSON.stringify(userData));
       document.getElementById("txtar").focus();
     }, []);
 
@@ -84,7 +85,7 @@ const CurrentX = () => {
             />*/}
 
         {/*<span>{this.state.status}</span>*/}
-        <textarea id="txtar" value={note? note.content : ""} onChange={handleChange}  />
+        <textarea id="txtar" value={note.content} onChange={handleChange}  />
         
 
         
