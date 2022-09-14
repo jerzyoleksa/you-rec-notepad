@@ -146,8 +146,8 @@ const ProviderComponent = ({children}) => {
        //updateNote(lastNote);
       }
      }
-    fetchData0()
-    fetchData()
+    //fetchData0()
+    //fetchData()
     
   }, [])
 
