@@ -152,25 +152,31 @@ const ProviderComponent = ({children}) => {
   }, [])
 
   //WHATS THAT ? when its triggered
-  useEffect(() => {
-    if (context?.updateStatus === functionTemplate) {
+  // useEffect(() => {
+  //   if (context?.updateStatus === functionTemplate) {
       
-      updateContext({
-        updateStatus: value => {updateStatus({ status: value });console.log('!!!!!!! updateNote'+value);},
-      })
-    }
+  //     updateContext({
+  //       updateStatus: value => {updateStatus({ status: value });console.log('!!!!!!! updateNote'+value);},
+  //     })
+  //   }
 
-    if (context?.updateAddress === functionTemplate) {
-      console.log('updateAddress called.....--')
-      updateContext({
-        updateAddress: value => {updateAddress({ adddress: value });console.log('!!!!!!! updateNote'+value);},
-      })
-    }
-  }, [context?.updateStatus, context?.updateAddress])
+  //   if (context?.updateAddress === functionTemplate) {
+  //     console.log('updateAddress called.....--')
+  //     updateContext({
+  //       updateAddress: value => {updateAddress({ adddress: value });console.log('!!!!!!! updateNote'+value);},
+  //     })
+  //   }
+  // }, [context?.updateStatus, context?.updateAddress])
 
   //does value have to match how we later useContext, say const[context, setContext] ?, then below will be wrong
   //moreover it seems that provider can populate only one Context, below it is UserContext
-  return <UserContext.Provider value={[context, setContext]}>{children}</UserContext.Provider>
+  return (
+  <UserContext.Provider value={[context, setContext]}>
+    <NoteContext.Provider value={[noteContext, setNoteContext]}>
+    {children}
+    </NoteContext.Provider>
+  </UserContext.Provider>
+  )
 }
 
 export { UserContext, NoteContext, ProviderComponent };

@@ -128,9 +128,9 @@ import { UserContext } from "./ProviderComponent";
       }
 
       useEffect(() => {
-        //console.log("[METAMASK] useEffect 1"+JSON.stringify(userData));
-        const updateContext = (contextUpdates = {}) =>
-              setContext(currentContext => ({ ...currentContext, ...contextUpdates }))
+  
+        // const updateContext = (contextUpdates = {}) =>
+        //       setContext(currentContext => ({ ...currentContext, ...contextUpdates }))
 
         const fetchData = async () => {
             
@@ -150,7 +150,7 @@ import { UserContext } from "./ProviderComponent";
             let sigKey = Cookies.get(accounts1[0]);
             //console.log('3.'+sigKey);
             //console.log("[METAMASK] useEffect 2"+JSON.stringify(userData));
-            console.log("??? "+context.name);
+            //console.log("??? "+context.name);
             //context.updateAddress(accounts1[0]);
 
             //setContext({"address" : sigKey}) - this will clear out the other params from userContext

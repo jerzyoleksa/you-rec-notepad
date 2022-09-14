@@ -7,8 +7,8 @@ import { UserContext, NoteContext } from "./ProviderComponent";
 
 
 const CurrentX = () => {
-  const [{name, content, email, status, current, opener, updateStatus}] = useContext(UserContext);
-    const note = useContext(NoteContext);
+  const [context, setContext] = useContext(UserContext);
+  const [noteContext, setNoteContext] = useContext(NoteContext);
     //const [note, setNote] = useContext(AppContext);
     //const contentEditableRef = useRef();
 
@@ -85,7 +85,7 @@ const CurrentX = () => {
             />*/}
 
         {/*<span>{this.state.status}</span>*/}
-        <textarea id="txtar" value={content} onChange={handleChange}  />
+        <textarea id="txtar" value={noteContext ? noteContext.content : ""} onChange={handleChange}  />
         
 
         

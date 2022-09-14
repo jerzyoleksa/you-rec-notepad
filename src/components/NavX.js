@@ -9,7 +9,7 @@ import { UserContext, NoteContext } from "./ProviderComponent";
 const NavX = () => {
     
     const [context, setContext] = useContext(UserContext);
-    const note = useContext(NoteContext);
+    const [noteContext, setNoteContext] = useContext(NoteContext);
     //const [note, setNote] = useContext(UserContext);
     //const [dummy, setDummy] = useContext(UserContext);
 
@@ -52,14 +52,16 @@ const NavX = () => {
         if (list && list.length > 0) { 
           let lastNote = list[list.length-1];
 
-          setNote(lastNote); // this line removes the userData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          //setContext(currentContext => ({ ...currentContext, ...{"address" : sigKey} })) //instead of updateContext
+            
+          setNoteContext(lastNote); // this line removes the userData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
           //setUserData(state => ({ ...state, "note": lastNote }));
         } 
       
 
       };
   
-      //fetchData();
+      fetchData();
     }, []); //consider [userData]
 
 
@@ -71,8 +73,8 @@ const NavX = () => {
       <div className="nav-container">
         <div>status:::{context.status}</div>
         <div className="nav-row">
-        {note && note.title && <div className="nav-list" onClick={() => {menuTab('current');toggleNote()}} >
-           <ContentEditable html={note.name+'.txt'} // innerHTML of the editable div
+        {noteContext && noteContext.title && <div className="nav-list" onClick={() => {menuTab('current');toggleNote()}} >
+           <ContentEditable html={noteContext.title+'.txt'} // innerHTML of the editable div
               disabled={false}       // use true to disable editing
               onChange={updateTitle}
               tagName='article' // Use a custom HTML tag (uses a div by default)
