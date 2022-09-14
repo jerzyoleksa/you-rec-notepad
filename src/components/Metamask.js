@@ -154,8 +154,8 @@ import { UserContext } from "./ProviderComponent";
             //context.updateAddress(accounts1[0]);
 
             //setContext({"address" : sigKey}) - this will clear out the other params from userContext
-            updateContext({"address" : sigKey});
-            
+            //updateContext({"address" : sigKey});
+            setContext(currentContext => ({ ...currentContext, ...{"address" : sigKey} })) //instead of updateContext
             
            
             //setData(response.data);
