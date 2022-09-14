@@ -2,14 +2,14 @@ import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import Web3 from 'web3';
 import Cookies from 'js-cookie'
-import { AppContext } from "./AppContext";
+import { UserContext } from "./ProviderComponent";
 
 
 
 
   const Metamask = () => {
-    const [userData, setUserData] = useContext(AppContext);
-    const [address, setAddress] = useContext(AppContext);
+    const [context, setContext] = useContext(UserContext);
+    //const [address, setAddress] = useContext(AppContext);
 
     const listenToMetamask = () => {
         if(window.ethereum) {
@@ -42,6 +42,7 @@ import { AppContext } from "./AppContext";
                   let accounts1 = await window.ethereum.request({ method: 'eth_requestAccounts' });
                     
                   console.log('----> connectMetamaskSilently'+accounts1[0]);
+                  //setContext({"address" : accounts1[0]});
                   return accounts1;
     
                     //get signature from cookies and check if the signature address is the one currently connected
@@ -100,9 +101,9 @@ import { AppContext } from "./AppContext";
                   
                   promise.then(function(result) {
                     console.log(result.signature); // "Promise resolved successfully"
-                    setState({key: result.signature});
+                    //setState({key: result.signature});
                     Cookies.set(accounts1[0], result.signature);
-                    setState({address: accounts1[0]});
+                    //setState({address: accounts1[0]});
                     //this.props.updateKee(result.signature);
                     
                     
@@ -127,7 +128,7 @@ import { AppContext } from "./AppContext";
       }
 
       useEffect(() => {
-        console.log("[METAMASK] useEffect 1"+JSON.stringify(userData));
+        //console.log("[METAMASK] useEffect 1"+JSON.stringify(userData));
         const fetchData = async () => {
             
             // let promise = await connectMetamaskSilently({});
@@ -146,8 +147,9 @@ import { AppContext } from "./AppContext";
             let sigKey = Cookies.get(accounts1[0]);
             //console.log('3.'+sigKey);
             //console.log("[METAMASK] useEffect 2"+JSON.stringify(userData));
-            
-            setUserData({address: accounts1[0], key: sigKey});
+            console.log("??? "+context.name);
+            //context.updateAddress(accounts1[0]);
+            setContext({"address" : accounts1[0]})
             //console.log("[METAMASK] useEffect 3"+JSON.stringify(userData));
 
             

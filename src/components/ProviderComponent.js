@@ -11,7 +11,9 @@ const userObjectContext = {
   status: "Winter is coming",
   current: true,
   opener: false,
-  updateStatus: functionTemplate
+  address: "N/A",
+  updateStatus: functionTemplate,
+  updateAddress: functionTemplate
 }
 
 const noteObjectContext = {
@@ -27,7 +29,11 @@ const noteObjectContext = {
 const UserContext = React.createContext(userObjectContext)
 const NoteContext = React.createContext(noteObjectContext)
 
-
+let user = 
+  { name: 'Robin',
+    email: 'wieruch@gmail.com',
+    status: 'ready',
+  };
 
 let users = [
   { name: 'Robin',
@@ -54,6 +60,18 @@ const getUsers = () =>
     setTimeout(() => resolve(Object.values(users)), 250);
 });
 
+const getUser = () =>
+  new Promise((resolve, reject) => {
+    if (!user) {
+      return setTimeout(
+        () => reject(new Error('User not found')),
+        250
+      );
+    }
+
+    setTimeout(() => resolve(Object.values(user)), 250);
+});
+
 
 getUsers()
   .then((result) => {
@@ -73,10 +91,19 @@ const doGetUsers = async () => {
   }
 };
 
+const doGetUser = async () => {
+  try {
+    const result = await getUser();
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 
 const fetchUser = async () => {
   try {
-    const res = await doGetUsers();
+    const res = await doGetUser();
     return res;
     //return res.json()
   } catch (e) {
@@ -121,9 +148,10 @@ const ProviderComponent = ({children}) => {
      }
     fetchData0()
     fetchData()
-    doGetUsers()
+    
   }, [])
 
+  //WHATS THAT ? when its triggered
   useEffect(() => {
     if (context?.updateStatus === functionTemplate) {
       
@@ -131,9 +159,18 @@ const ProviderComponent = ({children}) => {
         updateStatus: value => {updateStatus({ status: value });console.log('!!!!!!! updateNote'+value);},
       })
     }
-  }, [context?.updateStatus])
 
-  return <UserContext.Provider value={[context, noteContext]}>{children}</UserContext.Provider>
+    if (context?.updateAddress === functionTemplate) {
+      console.log('updateAddress called.....--')
+      updateContext({
+        updateAddress: value => {updateAddress({ adddress: value });console.log('!!!!!!! updateNote'+value);},
+      })
+    }
+  }, [context?.updateStatus, context?.updateAddress])
+
+  //does value have to match how we later useContext, say const[context, setContext] ?, then below will be wrong
+  //moreover it seems that provider can populate only one Context, below it is UserContext
+  return <UserContext.Provider value={[context, setContext]}>{children}</UserContext.Provider>
 }
 
 export { UserContext, NoteContext, ProviderComponent };

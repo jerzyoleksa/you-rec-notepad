@@ -8,7 +8,7 @@ import { UserContext, NoteContext } from "./ProviderComponent";
 
 const NavX = () => {
     
-    const context = useContext(UserContext);
+    const [context, setContext] = useContext(UserContext);
     const note = useContext(NoteContext);
     //const [note, setNote] = useContext(UserContext);
     //const [dummy, setDummy] = useContext(UserContext);
@@ -69,14 +69,14 @@ const NavX = () => {
           
       <div className="nav-bar">
       <div className="nav-container">
+        <div>status:::{context.status}</div>
         <div className="nav-row">
-        <div>{context.status}</div>
         {note && note.title && <div className="nav-list" onClick={() => {menuTab('current');toggleNote()}} >
            <ContentEditable html={note.name+'.txt'} // innerHTML of the editable div
               disabled={false}       // use true to disable editing
               onChange={updateTitle}
               tagName='article' // Use a custom HTML tag (uses a div by default)
-              className={note.isDark ? 'btn tn-grayishb' : 'btn btn-grayish'}
+              className={context.isDark ? 'btn tn-grayishb' : 'btn btn-grayish'}
             />
         </div>}  
         
@@ -93,13 +93,13 @@ const NavX = () => {
         <div className="nav-list" onClick={() => this.connectMetamask()}><img src="img/mm.svg" width="24" height="24"/></div> 
         */}
         
-        {<div className="nav-list" onClick={() => connectMetamask()}><span className={note.isDark ? 'btn btn-grayish' : 'btn'}>{/*<span className='circle'></span>*/}{note && note.address && note.address.length > 0 ? shortenString(note.address): 'Connect'}</span></div>}
+        {<div className="nav-list" onClick={() => connectMetamask()}><span className={context.isDark ? 'btn btn-grayish' : 'btn'}>{/*<span className='circle'></span>*/}{context.address && context.address.length > 0 ? shortenString(context.address): 'Connect'}</span></div>}
         
 
 
-        {note.saviStatus && <div className="nav-list"><span className='savingTextStyle'>{note.saviStatus}</span></div>}
+        {context.saviStatus && <div className="nav-list"><span className='savingTextStyle'>{context.saviStatus}</span></div>}
 
-        <div className="nav-list"><span className="menu-label">cur:{note.current} opener: {note.opener} dummy: {note.dummy}</span></div> 
+        <div className="nav-list"><span className="menu-label">cur:{context.current} opener: {context.opener} dummy: {context.dummy}</span></div> 
 
       </div>
         {/* <div className="nav-list">{String(this.state.isDark)}</div> */}
