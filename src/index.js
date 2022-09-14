@@ -6,5 +6,5 @@ import AppZ from './AppZ';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<AppZ />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 //registerServiceWorker(); //uncomment and you might get CORS issues (503) LOCALLY
