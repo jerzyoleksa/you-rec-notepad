@@ -3,6 +3,7 @@ import fetchDataCall from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
+import axios from 'axios'
 import { UserContext, NoteContext } from "./ProviderComponent";
 
 
@@ -12,50 +13,46 @@ const CurrentX = () => {
     //const [note, setNote] = useContext(AppContext);
     //const contentEditableRef = useRef();
 
-    const updateTitle = () => {
-    }
-
-    const export2 = () => {
-    }
-
-    const toggleLightMode = () => {
-    }
-
     const handleChange = (event) => {
      
-      setUserData({value: event.target.value});
-      //props.updateNoteContent(event.target.value);
-  
-      if (userData.typingTimeout) {
-        clearTimeout(userData.typingTimeout);
+      //!!!!
+      //this can be asynchronous, so cant rely on context being updated on time when updating note, better to use target value later
+      setNoteContext(currentContext => ({ ...currentContext, ...{"content" : event.target.value} })) //instead of updateContext
+      //!!!!      
+      
+      if (context.typingTimeout) {
+        clearTimeout(context.typingTimeout);
       }
       
-      userData.typing = false;
-      userData.typingTimeout = setTimeout(() => {
-        updateNote();  
+      context.typing = false;
+      context.typingTimeout = setTimeout(() => {
+        updateNote(event.target.value);  
       }, 1500);
   
   
     }
 
 
-    const updateNote = () => {
+    const updateNote = (newText) => {
     
-      this.props.updateSaviStatus("saving ..."); //in async methods must be setState, not just this.state.status = ...
-      let noteToUpdate = this.props.prop1;
-      console.log('updating:'+noteToUpdate);
-      console.log('key from parent:'+this.props.authKee);
+      //this.props.updateSaviStatus("saving ..."); //in async methods must be setState, not just this.state.status = ...
+      setContext(currentContext => ({ ...currentContext, ...{"status" : "saving ..."} })) //instead of updateContext
       
-      noteToUpdate["authKey"] = this.props.authKee;
-  
+      let noteToUpdate = {};
+
+      //console.log('updating:'+noteToUpdate);
+      //console.log('key from parent:'+this.props.authKee);
+      //console.log('authKey::'+context.sign);
+      noteToUpdate["id"] = noteContext.id;
+      noteToUpdate["authKey"] = context.sign;
       noteToUpdate["name"] = "content"; 
-      noteToUpdate["value"] = noteToUpdate["content"];
+      noteToUpdate["value"] = newText;
   
       
       //1st to update standard content or other param
       axios.put('https://frengly.com/ai/notes', noteToUpdate)
       .then((res) => {
-        this.props.updateSaviStatus("");
+        setContext(currentContext => ({ ...currentContext, ...{"status" : ""} }))
       })
       .catch((err) => console.log("Error updating!!!",err) );
 
@@ -65,7 +62,7 @@ const CurrentX = () => {
       //this.nameInput.focus();
       //console.log("[CurrentX] useEffect:"+JSON.stringify(userData));
       document.getElementById("txtar").focus();
-    }, []);
+    }, [context.opener, context.current]);
 
 
 

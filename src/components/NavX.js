@@ -6,7 +6,7 @@ import Cookies from 'js-cookie'
 import { UserContext, NoteContext } from "./ProviderComponent";
 
 
-const NavX = () => {
+const NavX = ({ menu, setMenu }) => {
     
     const [context, setContext] = useContext(UserContext);
     const [noteContext, setNoteContext] = useContext(NoteContext);
@@ -30,8 +30,9 @@ const NavX = () => {
       // })
     }
     const menuTab = async(text) => {
-      if (text == 'opener') setUserData({ "current": false, "opener": true }); 
-      if (text == 'current') setUserData({ "current": true, "opener": false }); 
+      console.log("menuTab...")
+      if (text == 'opener') setMenu({ "current": false, "opener": true });
+      if (text == 'current') setMenu({ "current": true, "opener": false });
     }
 
     const shortenString = (str) => {
@@ -71,7 +72,6 @@ const NavX = () => {
           
       <div className="nav-bar">
       <div className="nav-container">
-        <div>status:::{context.status}</div>
         <div className="nav-row">
         {noteContext && noteContext.title && <div className="nav-list" onClick={() => {menuTab('current');toggleNote()}} >
            <ContentEditable html={noteContext.title+'.txt'} // innerHTML of the editable div
@@ -100,8 +100,6 @@ const NavX = () => {
 
 
         {context.saviStatus && <div className="nav-list"><span className='savingTextStyle'>{context.saviStatus}</span></div>}
-
-        <div className="nav-list"><span className="menu-label">cur:{context.current} opener: {context.opener} dummy: {context.dummy}</span></div> 
 
       </div>
         {/* <div className="nav-list">{String(this.state.isDark)}</div> */}

@@ -8,10 +8,13 @@ const userObjectContext = {
   name: "John Snow",
   content: "kwuegfoiqwgf",
   email: "john.snow@thewall.north",
-  status: "Winter is coming",
+  status: "",
   current: true,
   opener: false,
-  address: "N/A",
+  typing: false,
+  typingTimeout: 0,
+  address: "Connect",
+  sign: "",
   updateStatus: functionTemplate,
   updateAddress: functionTemplate
 }

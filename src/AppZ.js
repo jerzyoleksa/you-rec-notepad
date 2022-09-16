@@ -1,4 +1,4 @@
-import React, { Component, useContext } from 'react';
+import React, { Component, useContext, useEffect, useState } from 'react';
 import './App.css';
 import Nav from './components/Nav';
 import List from './components/List';
@@ -18,23 +18,33 @@ import Metamask from './components/Metamask';
 import {UserContext, ProviderComponent} from './components/ProviderComponent';
 
 
-
+const MenuState = {
+  "current" : true,
+  "opener" : false
+}
 
 
 
 const AppZ = () => {
-    const { current, opener, email } = useContext(UserContext)
+  const [menu, setMenu] = useState(MenuState)
+
+    // useEffect(() => {
+      
+    //   console.log("[AppZ] useEffect:");
+     
+    // }, [address]);
+
     return (
       <ProviderComponent>
       <div className="rootDiv">
         
-        <NavX />
-        {current && <CurrentX/> }  
-        {opener && <OpenerX/>}
+        <NavX menu={menu} setMenu={setMenu}/>
+        {menu.current && <CurrentX/> }  
+        {menu.opener && <OpenerX menu={menu} setMenu={setMenu}/>}
         {/* <Child1 />
         <Child2 /> */}
         <Metamask />
-        <div>curr:::{current? "true" : "false"}</div>
+    
       </div>
       </ProviderComponent>
     )

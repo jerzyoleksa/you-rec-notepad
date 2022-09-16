@@ -1,68 +1,88 @@
-import React, { useContext, useEffect, useuserData, useRef } from "react"
+import React, { useContext, useEffect, useuserData, useRef, useState } from "react"
 import fetchDataCall from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
-import { AppContext } from "./AppContext";
+import { UserContext, NoteContext } from "./ProviderComponent";
+import axios from 'axios'
 
+const OpenerX = ({ menu, setMenu }) => {
+    const [context, setContext] = useContext(UserContext);
+    const [noteContext, setNoteContext] = useContext(NoteContext);
+    const [notes, setNotes] = useState([]);
+    const [merge1, setMerge1] = useState(-1);
+    const [merge2, setMerge2] = useState(-1);
 
-const OpenerX = () => {
-    const [userData, setUserData] = useContext(AppContext);
-    //const contentEditableRef = useRef();
+    const isSelected4Merge = (note) => {
+      if (merge1 == note.id || merge2 == note.id) return true;
+      return false;
+    } 
 
-    const updateTitle = () => {
-    }
+    const selectMerge = (note) => {
 
-    const export2 = () => {
-    }
+      if (note.id == merge1) {setMerge1(-1); return;} //deselect
+      if (note.id == merge2) {setMerge2(-1); return;} //deselect
 
-    const toggleLightMode = () => {
-    }
-
-    const handleChange = (event) => {
-     
-      setUserData({value: event.target.value});
-      //props.updateNoteContent(event.target.value);
-  
-      if (userData.typingTimeout) {
-        clearTimeout(userData.typingTimeout);
+      if (merge1 == -1) {
+        setMerge1(note.id);
+      } else {
+        setMerge2(note.id);
       }
-      
-      userData.typing = false;
-      userData.typingTimeout = setTimeout(() => {
-        updateNote();  
-      }, 1500);
-  
-  
     }
 
-
-    const updateNote = () => {
-    
-      this.props.updateSaviStatus("saving ..."); //in async methods must be setUserData, not just this.userData.status = ...
-      let noteToUpdate = this.props.prop1;
-      console.log('updating:'+noteToUpdate);
-      console.log('key from parent:'+this.props.authKee);
-      
-      noteToUpdate["authKey"] = this.props.authKee;
+    const deleteNote = (note) => {
+      //const newNotesState = this.state.notes.filter((note) => note.id !== id );
+      axios.delete('https://frengly.com/ai/notes/'+note.id)
+      .then((res) => getNotes() )
+      .catch((err) => console.log(err.response) );
+    }
   
-      noteToUpdate["name"] = "content"; 
-      noteToUpdate["value"] = noteToUpdate["content"];
+    const cancelMerge = () => {
+        setMerge1(-1);
+        setMerge2(-1);
+    }
   
-      
-      //1st to update standard content or other param
-      axios.put('https://frengly.com/ai/notes', noteToUpdate)
-      .then((res) => {
-        this.props.updateSaviStatus("");
-      })
-      .catch((err) => console.log("Error updating!!!",err) );
+    const doMerge = () => {
+      let data = {"id1" : merge1, "id2": merge2};
+      axios.post('https://frengly.com/ai/notesMerge', data)
+      .then((res) => {getNotes(); setMerge1(-1); setMerge2(-1);} )
+      .catch((err) => console.log(err.response) );
+    }
+  
+    const createNew = () => {
+      //const newNotesState = this.state.notes.filter((note) => note.id !== id );
+      let noteToCreate = {"userId" : 1, "content": ""};
+  
+      axios.post('https://frengly.com/ai/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
+      .then((res) => getNotes() )
+      .catch((err) => console.log(err.response) );
+    }
 
+    //TRICKY !
+    const selectNote = (note) => {
+      setNoteContext(note);
+      setMenu({ "current": true, "opener": false });
+      //this.props.choseNote(note);
+      //this.props.updateMeniu('current');
+    }
+
+    const getNotes = () => {
+      const fetchData = async () => {
+        let list = await fetchDataCall({});
+        setNotes(list);
+      };
+  
+      fetchData();
     }
 
     useEffect(() => {
-      //this.nameInput.focus();
-      console.log('OpenerX');
-      document.getElementById("txtar").focus();
+      const fetchData = async () => {
+        let list = await fetchDataCall({});
+        setNotes(list);
+      };
+  
+      fetchData();
+      //document.getElementById("txtar").focus();
     }, []);
 
     
@@ -74,13 +94,13 @@ const OpenerX = () => {
         <div className="nav-container">
           <div className="nav-list opener-tbl" onClick={() => createNew()}><span className="btn btn-framed">Create new note</span></div>
 
-          {userData.merge1>-1 && this.userData.merge2>-1 && <div className="nav-list opener-tbl" onClick={() => startMerge()}><span className="btn btn-framed">Merge</span></div> }
-          {userData.merge1>-1 && this.userData.merge2>-1 && <div className="nav-list opener-tbl" onClick={() => cancelMerge()}><span className="btn btn-framed">Cancel merge</span></div> }
+          {merge1>-1 && merge2>-1 && <div className="nav-list opener-tbl" onClick={() => doMerge()}><span className="btn btn-framed">Merge</span></div> }
+          {merge1>-1 && merge2>-1 && <div className="nav-list opener-tbl" onClick={() => cancelMerge()}><span className="btn btn-framed">Cancel merge</span></div> }
   
         </div>
         <div>
               { 
-                  userData.notes.map((note) => <div className="nav-container" key={note.id+'parent'}>
+                  notes.map((note) => <div className="nav-container" key={note.id+'parent'}>
                           <div className="nav-list-narrow"  onClick={() => deleteNote(note)}><span className="material-icons-outlined nav-span">delete</span></div> 
                           <div className="nav-list-narrow" onClick={() =>selectMerge(note)}><span className={isSelected4Merge(note) ? 'material-icons-outlined nav-span-blue' : 'material-icons-outlined nav-span'}>link</span></div> 
                           
@@ -90,8 +110,8 @@ const OpenerX = () => {
               }
 
         </div>
-        <div>merge1::{userData.merge1}</div>
-        <div>merge2::{userData.merge2}</div>
+        <div>merge1::{merge1}</div>
+        <div>merge2::{merge2}</div>
       </div>
 
     )

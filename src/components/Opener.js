@@ -184,8 +184,8 @@ class Opener extends Component {
           
           <div className="nav-list opener-tbl" onClick={() => this.createNew()}><span className="btn btn-framed">Create new note</span></div>
 
-          {this.state.merge1>-1 && this.state.merge2>-1 && <div className="nav-list opener-tbl" onClick={() => this.startMerge()}><span className="btn btn-framed">Merge</span></div> }
-          {this.state.merge1>-1 && this.state.merge2>-1 && <div className="nav-list opener-tbl" onClick={() => this.cancelMerge()}><span className="btn btn-framed">Cancel merge</span></div> }
+          {this.state.merge1>-1 && this.state.merge2>-1 && <div className="nav-list opener-tbl" onClick={() => doMerge()}><span className="btn btn-framed">Merge</span></div> }
+          {this.state.merge1>-1 && this.state.merge2>-1 && <div className="nav-list opener-tbl" onClick={() => cancelMerge()}><span className="btn btn-framed">Cancel merge</span></div> }
   
         </div>
         <div>{listItems}</div>
