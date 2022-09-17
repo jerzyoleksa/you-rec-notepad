@@ -9,8 +9,6 @@ const userObjectContext = {
   content: "kwuegfoiqwgf",
   email: "john.snow@thewall.north",
   status: "",
-  current: true,
-  opener: false,
   typing: false,
   typingTimeout: 0,
   address: "Connect",
@@ -22,11 +20,7 @@ const userObjectContext = {
 const noteObjectContext = {
   name: "John Snow",
   content: "kwuegfoiqwgf",
-  title: "john.snow@thewall.north",
-  status: "Winter is coming",
-  current: true,
-  opener: false,
-  saviStatus: ""
+  title: "john.snow@thewall.north"
 }
 
 const UserContext = React.createContext(userObjectContext)

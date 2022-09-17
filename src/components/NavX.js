@@ -99,7 +99,7 @@ const NavX = ({ menu, setMenu }) => {
         
 
 
-        {context.saviStatus && <div className="nav-list"><span className='savingTextStyle'>{context.saviStatus}</span></div>}
+        {context.status && <div className="nav-list"><span className='savingTextStyle'>{context.status}</span></div>}
 
       </div>
         {/* <div className="nav-list">{String(this.state.isDark)}</div> */}
