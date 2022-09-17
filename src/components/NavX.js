@@ -47,8 +47,12 @@ const NavX = ({ menu, setMenu }) => {
     useEffect(() => {
       //setDummy({"dummy": "lets see !" });
       //console.log("[NAVX] useEffect:"+JSON.stringify(userData));
+      console.log("NavX -> useEffect "+context.sign);
+      
+      if (!context.sign) return;
+
       const fetchData = async () => {
-        let list = await fetchDataCall({});
+        let list = await fetchDataCall(context.sign);
         
         if (list && list.length > 0) { 
           let lastNote = list[list.length-1];
@@ -63,7 +67,7 @@ const NavX = ({ menu, setMenu }) => {
       };
   
       fetchData();
-    }, []); //consider [userData]
+    }, [context.sign]); //rerender NavX every time user is changed (sign param is changed)
 
 
 

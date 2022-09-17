@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+const getUser = () =>
+  new Promise((resolve, reject) => {
+    if (!user) {
+      return setTimeout(
+        () => reject(new Error('User not found')),
+        250
+      );
+    }
 
-const fetchDataCall = async () => {
-  let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
+    setTimeout(() => resolve(Object.values(user)), 250);
+});
+
+const fetchDataCall = async (key) => {
+  //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
   let apiReturn = await axios
     .post('https://frengly.com/ai/notesSec', {'authKey': key})
     .then(async function(response) {

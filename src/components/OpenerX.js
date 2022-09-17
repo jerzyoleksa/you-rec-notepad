@@ -74,7 +74,7 @@ const OpenerX = ({ menu, setMenu }) => {
 
     const getNotes = () => {
       const fetchData = async () => {
-        let list = await fetchDataCall({});
+        let list = await fetchDataCall(context.sign);
         setNotes(list);
       };
   
@@ -83,7 +83,7 @@ const OpenerX = ({ menu, setMenu }) => {
 
     useEffect(() => {
       const fetchData = async () => {
-        let list = await fetchDataCall({});
+        let list = await fetchDataCall(context.sign);
         setNotes(list);
       };
   
@@ -105,7 +105,7 @@ const OpenerX = ({ menu, setMenu }) => {
   
         </div>
         <div>
-              { 
+              { Array.isArray(notes) &&
                   notes.map((note) => <div className="nav-container" key={note.id+'parent'}>
                           <div className="nav-list-narrow"  onClick={() => deleteNote(note)}><span className="material-icons-outlined nav-span">delete</span></div> 
                           <div className="nav-list-narrow" onClick={() =>selectMerge(note)}><span className={isSelected4Merge(note) ? 'material-icons-outlined nav-span-blue' : 'material-icons-outlined nav-span'}>link</span></div> 

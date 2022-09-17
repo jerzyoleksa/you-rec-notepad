@@ -128,7 +128,7 @@ import { UserContext } from "./ProviderComponent";
       }
 
       useEffect(() => {
-  
+        listenToMetamask();
         // const updateContext = (contextUpdates = {}) =>
         //       setContext(currentContext => ({ ...currentContext, ...contextUpdates }))
 
