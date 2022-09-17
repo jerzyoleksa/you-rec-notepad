@@ -58,12 +58,18 @@ const OpenerX = ({ menu, setMenu }) => {
       .catch((err) => console.log(err.response) );
     }
 
-    //TRICKY !
+
+
+    //-------- TRICKY !
     const selectNote = (note) => {
       setNoteContext(note);
       setMenu({ "current": true, "opener": false });
-      //this.props.choseNote(note);
-      //this.props.updateMeniu('current');
+
+      //new Date().toISOString() returns ISO-8601 YYYY-MM-DDTHH:mm:ss.sssZ)
+      var tm = new Date().toISOString().substring(0, 19).replace("T"," ");
+      axios.put('https://frengly.com/ai/notes', { "id": note.id, "name": "viewed", "value" :  tm})
+      .catch((err) => console.log("Error updating!!!",err) );
+
     }
 
     const getNotes = () => {
