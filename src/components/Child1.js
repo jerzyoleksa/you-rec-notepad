@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import fetchDataCall from './ApiAxios'
+import {fetchDataCall}  from './ApiAxios'
 import { AppContext } from "./AppContext";
 
 

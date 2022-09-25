@@ -44,7 +44,10 @@ const CurrentX = () => {
       //console.log('key from parent:'+this.props.authKee);
       //console.log('authKey::'+context.sign);
       noteToUpdate["id"] = noteContext.id;
+      noteToUpdate["userId"] = context.userId;
+      noteToUpdate["title"] = noteContext.title; //to be used in case its a first message and needs to be created
       noteToUpdate["authKey"] = context.sign;
+      noteToUpdate["address"] = context.address;
       noteToUpdate["name"] = "content"; 
       noteToUpdate["value"] = newText;
   
@@ -53,8 +56,11 @@ const CurrentX = () => {
       axios.put('https://frengly.com/ai/notes', noteToUpdate)
       .then((res) => {
         setContext(currentContext => ({ ...currentContext, ...{"status" : ""} }))
+        setNoteContext(currentContext => ({ ...currentContext, ...{"id" : res.updatedId} }))
+        
+        console.log('updatedId-->'+res.updatedId);
       })
-      .catch((err) => console.log("Error updating!!!",err) );
+      .catch((err) => {setContext(currentContext => ({ ...currentContext, ...{"status" : "failed :("} })); console.log("Error updating!!!",err)} );
 
     }
 

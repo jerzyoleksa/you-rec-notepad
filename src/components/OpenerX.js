@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useuserData, useRef, useState } from "react"
-import fetchDataCall from './ApiAxios'
+import {fetchDataCall} from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
@@ -82,13 +82,7 @@ const OpenerX = ({ menu, setMenu }) => {
     }
 
     useEffect(() => {
-      const fetchData = async () => {
-        let list = await fetchDataCall(context.sign);
-        setNotes(list);
-      };
-  
-      fetchData();
-      //document.getElementById("txtar").focus();
+      getNotes();
     }, []);
 
     

@@ -14,7 +14,6 @@ import Child2 from './components/Child2';
 import NavX from './components/NavX';
 import CurrentX from './components/CurrentX';
 import OpenerX from './components/OpenerX';
-import Metamask from './components/Metamask';
 
 class App extends Component {
 
@@ -77,7 +76,7 @@ class App extends Component {
         {opener && <OpenerX/>}
         {/* <Child1 />
         <Child2 /> */}
-        <Metamask />
+        
       </div>
       </AppProvider>
     );

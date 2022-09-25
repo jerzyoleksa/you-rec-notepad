@@ -14,7 +14,6 @@ import Child2 from './components/Child2';
 import NavX from './components/NavX';
 import CurrentX from './components/CurrentX';
 import OpenerX from './components/OpenerX';
-import Metamask from './components/Metamask';
 import {UserContext, ProviderComponent} from './components/ProviderComponent';
 
 
@@ -43,8 +42,7 @@ const AppZ = () => {
         {menu.opener && <OpenerX menu={menu} setMenu={setMenu}/>}
         {/* <Child1 />
         <Child2 /> */}
-        <Metamask />
-    
+       
       </div>
       </ProviderComponent>
     )

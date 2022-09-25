@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState, useRef } from "react"
-import fetchDataCall from './ApiAxios'
+import {fetchDataCall} from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
 import { UserContext, NoteContext } from "./ProviderComponent";
-
+//import connectMetamask from "./Metamask";
+import { connectMetamask } from "./MetamaskX";
+import { registerEthAddress } from "./ApiAxios";
 
 const NavX = ({ menu, setMenu }) => {
     
@@ -38,6 +40,25 @@ const NavX = ({ menu, setMenu }) => {
     const shortenString = (str) => {
       //return str;
       return str.substring(0, 4)+'...'+str.substring((str.length-4), str.length);
+    }
+
+    const clickConnect = async() => {
+
+      
+    
+      const meta = async () => {
+
+        let result = await connectMetamask();
+        Cookies.set(result.publicAddress, result.signature);
+        console.log(result);
+
+        let result2 = await registerEthAddress(result.publicAddress, result.signature);  
+        console.log(result2);
+
+      };
+
+      meta();
+
     }
 
 
@@ -77,8 +98,8 @@ const NavX = ({ menu, setMenu }) => {
       <div className="nav-bar">
       <div className="nav-container">
         <div className="nav-row">
-        {noteContext && noteContext.title && <div className="nav-list" onClick={() => {menuTab('current');toggleNote()}} >
-           <ContentEditable html={noteContext.title+'.txt'} // innerHTML of the editable div
+        {noteContext && <div className="nav-list" onClick={() => {menuTab('current');toggleNote()}} >
+           <ContentEditable html={noteContext.title ? noteContext.title+'.txt' : "Untitled.txt"} // innerHTML of the editable div
               disabled={false}       // use true to disable editing
               onChange={updateTitle}
               tagName='article' // Use a custom HTML tag (uses a div by default)
@@ -99,7 +120,7 @@ const NavX = ({ menu, setMenu }) => {
         <div className="nav-list" onClick={() => this.connectMetamask()}><img src="img/mm.svg" width="24" height="24"/></div> 
         */}
         
-        {<div className="nav-list" onClick={() => connectMetamask()}><span className={context.isDark ? 'btn btn-grayish' : 'btn'}>{/*<span className='circle'></span>*/}{context.address && context.address.length > 0 ? shortenString(context.address): 'Connect'}</span></div>}
+        {<div className="nav-list" onClick={() => clickConnect()}><span className={context.isDark ? 'btn btn-grayish' : 'btn'}>{/*<span className='circle'></span>*/}{context.address && context.address.length > 0 ? shortenString(context.address): 'Connect'}</span></div>}
         
 
 
