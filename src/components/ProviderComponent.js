@@ -46,8 +46,8 @@ const ProviderComponent = ({children}) => {
         //TODO:
         //api to server to get userId by address and sign, and set userId in context
         let userResult = await fetchUserId(sign);
-        console.log('userResult--->'+userResult.userId);
-        let userId = userResult.userId
+        //console.log('userResult--->'+userResult.userId);
+        let userId = userResult ? userResult.userId : null;
 
         setContext(currentContext => ({ ...currentContext, ...{"address" : accounts1[0], "sign" : sign, "userId" : userId} })) //instead of updateContext
         
