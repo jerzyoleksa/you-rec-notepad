@@ -51,7 +51,7 @@ const OpenerX = ({ menu, setMenu }) => {
   
     const createNew = () => {
       //const newNotesState = this.state.notes.filter((note) => note.id !== id );
-      let noteToCreate = {"userId" : 1, "content": ""};
+      let noteToCreate = {"userId" : context.userId, "content": ""};
   
       axios.post('https://frengly.com/ai/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
       .then((res) => getNotes() )

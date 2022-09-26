@@ -56,7 +56,7 @@ const CurrentX = () => {
       axios.put('https://frengly.com/ai/notes', noteToUpdate)
       .then((res) => {
         setContext(currentContext => ({ ...currentContext, ...{"status" : ""} }))
-        setNoteContext(currentContext => ({ ...currentContext, ...{"id" : res.updatedId} }))
+        if (res.updatedId) setNoteContext(currentContext => ({ ...currentContext, ...{"id" : res.updatedId} }))
         
         console.log('updatedId-->'+res.updatedId);
       })
