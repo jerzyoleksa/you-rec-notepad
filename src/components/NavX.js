@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from "react"
-import {fetchDataCall} from './ApiAxios'
+import {fetchDataCall, updateTitle} from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
@@ -17,8 +17,8 @@ const NavX = ({ menu, setMenu }) => {
 
     //const contentEditableRef = useRef();
 
-    const updateTitle = () => {
-    }
+    // const updateTitle = () => {
+    // }
 
     const export2 = () => {
     }
@@ -101,7 +101,7 @@ const NavX = ({ menu, setMenu }) => {
         {noteContext && <div className="nav-list" onClick={() => {menuTab('current');toggleNote()}} >
            <ContentEditable html={noteContext.title ? noteContext.title+'.txt' : "Untitled.txt"} // innerHTML of the editable div
               disabled={false}       // use true to disable editing
-              onChange={updateTitle}
+              onChange={e => {updateTitle(e, noteContext.id)}}
               tagName='article' // Use a custom HTML tag (uses a div by default)
               className={context.isDark ? 'btn tn-grayishb' : 'btn btn-grayish'}
             />

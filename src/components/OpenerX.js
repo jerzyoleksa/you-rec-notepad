@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useuserData, useRef, useState } from "react"
-import {fetchDataCall} from './ApiAxios'
+import {deleteNote, fetchDataCall} from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
@@ -30,13 +30,16 @@ const OpenerX = ({ menu, setMenu }) => {
       }
     }
 
-    const deleteNote = (note) => {
+    const delNote = async(note) => {let res = await deleteNote(note); console.log(res); getNotes(res);}
+    
+    const deleteNoteOLD = (note) => {
       //const newNotesState = this.state.notes.filter((note) => note.id !== id );
       axios.delete('https://frengly.com/ai/notes/'+note.id)
       .then((res) => getNotes() )
       .catch((err) => console.log(err.response) );
     }
-  
+
+
     const cancelMerge = () => {
         setMerge1(-1);
         setMerge2(-1);
@@ -52,7 +55,7 @@ const OpenerX = ({ menu, setMenu }) => {
     const createNew = () => {
       //const newNotesState = this.state.notes.filter((note) => note.id !== id );
       let noteToCreate = {"userId" : context.userId, "content": ""};
-  
+      
       axios.post('https://frengly.com/ai/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
       .then((res) => getNotes() )
       .catch((err) => console.log(err.response) );
@@ -72,9 +75,10 @@ const OpenerX = ({ menu, setMenu }) => {
 
     }
 
-    const getNotes = () => {
+    const getNotes = (param) => {
       const fetchData = async () => {
         let list = await fetchDataCall(context.sign);
+        console.log('getNotes');
         setNotes(list);
       };
   
@@ -101,7 +105,7 @@ const OpenerX = ({ menu, setMenu }) => {
         <div>
               { Array.isArray(notes) &&
                   notes.map((note) => <div className="nav-container" key={note.id+'parent'}>
-                          <div className="nav-list-narrow"  onClick={() => deleteNote(note)}><span className="material-icons-outlined nav-span">delete</span></div> 
+                          <div className="nav-list-narrow"  onClick={() => {delNote(note)}}><span className="material-icons-outlined nav-span">delete</span></div> 
                           <div className="nav-list-narrow" onClick={() =>selectMerge(note)}><span className={isSelected4Merge(note) ? 'material-icons-outlined nav-span-blue' : 'material-icons-outlined nav-span'}>link</span></div> 
                           
                           <div className="nav-list opener-tbl"  onClick={() => selectNote(note)}>{note.title}.txt</div>

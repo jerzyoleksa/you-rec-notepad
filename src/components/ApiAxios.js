@@ -1,6 +1,20 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+
+const deleteNote = async (note) => {
+  //const newNotesState = this.state.notes.filter((note) => note.id !== id );
+  axios.delete('https://frengly.com/ai/notes/'+note.id)
+  .then(async function(response) {console.log(response);return response;})
+  .catch((err) => console.log(err.response) );
+}
+
+const createNew = async (noteToCreate) => {
+  axios.post('https://frengly.com/ai/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
+  .then(async function(response) {return response;})
+  .catch((err) => console.log(err.response) );
+}
+
 const getUser = () =>
   new Promise((resolve, reject) => {
     if (!user) {
@@ -83,4 +97,19 @@ const updateNote = (note) => {
   //------
 }
 
-export {fetchDataCall, registerEthAddress, updateNote, fetchUserId}
+const updateTitle = (event, id) => {
+  let noteToUpdate = {"id" : id};
+  console.log("inside updateTitle:"+event.target.value);
+  noteToUpdate["title"] = event.target.value;
+  noteToUpdate["value"] = event.target.value;
+  //noteToUpdate["authKey"] = this.props.authKee;
+  noteToUpdate["name"] = "title"; 
+  
+
+  axios.put('https://frengly.com/ai/notes', noteToUpdate)
+  .then((res) => {
+  })
+  .catch((err) => console.log("Error updating!!!",err) );
+}
+
+export {fetchDataCall, registerEthAddress, updateNote, fetchUserId, deleteNote, createNew, updateTitle}
