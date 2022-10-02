@@ -49,6 +49,8 @@ const NavX = ({ menu, setMenu }) => {
       const meta = async () => {
 
         let result = await connectMetamask();
+
+        if (!result) {console.log('No Metamask detected...'); return;}
         Cookies.set(result.publicAddress, result.signature);
         console.log(result);
 
