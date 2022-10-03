@@ -32,12 +32,12 @@ const OpenerX = ({ menu, setMenu }) => {
 
     const delNote = async(note) => {let res = await deleteNote(note); console.log(res); getNotes(res);}
     
-    const deleteNoteOLD = (note) => {
-      //const newNotesState = this.state.notes.filter((note) => note.id !== id );
-      axios.delete('https://frengly.com/ai/notes/'+note.id)
-      .then((res) => getNotes() )
-      .catch((err) => console.log(err.response) );
-    }
+    // const deleteNoteOLD = (note) => {
+    //   //const newNotesState = this.state.notes.filter((note) => note.id !== id );
+    //   axios.delete('https://frengly.com/ai/notes/'+note.id)
+    //   .then((res) => getNotes() )
+    //   .catch((err) => console.log(err.response) );
+    // }
 
 
     const cancelMerge = () => {
@@ -47,7 +47,7 @@ const OpenerX = ({ menu, setMenu }) => {
   
     const doMerge = () => {
       let data = {"id1" : merge1, "id2": merge2};
-      axios.post('https://frengly.com/ai/notesMerge', data)
+      axios.post('https://urec.app/ai/notesMerge', data)
       .then((res) => {getNotes(); setMerge1(-1); setMerge2(-1);} )
       .catch((err) => console.log(err.response) );
     }
@@ -56,7 +56,7 @@ const OpenerX = ({ menu, setMenu }) => {
       //const newNotesState = this.state.notes.filter((note) => note.id !== id );
       let noteToCreate = {"userId" : context.userId, "content": ""};
       
-      axios.post('https://frengly.com/ai/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
+      axios.post('https://urec.app/ai/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
       .then((res) => getNotes() )
       .catch((err) => console.log(err.response) );
     }
@@ -70,7 +70,7 @@ const OpenerX = ({ menu, setMenu }) => {
 
       //new Date().toISOString() returns ISO-8601 YYYY-MM-DDTHH:mm:ss.sssZ)
       var tm = new Date().toISOString().substring(0, 19).replace("T"," ");
-      axios.put('https://frengly.com/ai/notes', { "id": note.id, "name": "viewed", "value" :  tm})
+      axios.put('https://urec.app/ai/notes', { "id": note.id, "name": "viewed", "value" :  tm})
       .catch((err) => console.log("Error updating!!!",err) );
 
     }

@@ -53,7 +53,7 @@ const CurrentX = () => {
   
       
       //1st to update standard content or other param
-      axios.put('https://frengly.com/ai/notes', noteToUpdate)
+      axios.put('https://urec.app/ai/notes', noteToUpdate)
       .then((res) => {
         setContext(currentContext => ({ ...currentContext, ...{"status" : ""} }))
         if (res.updatedId) setNoteContext(currentContext => ({ ...currentContext, ...{"id" : res.updatedId} }))
