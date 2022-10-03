@@ -4,13 +4,13 @@ import axios from 'axios';
 
 const deleteNote = async (note) => {
   //const newNotesState = this.state.notes.filter((note) => note.id !== id );
-  axios.delete('https://frengly.com/ai/notes/'+note.id)
+  axios.delete('https://urec.app/ai/notes/'+note.id)
   .then(async function(response) {console.log(response);return response;})
   .catch((err) => console.log(err.response) );
 }
 
 const createNew = async (noteToCreate) => {
-  axios.post('https://frengly.com/ai/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
+  axios.post('https://urec.app/ai/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
   .then(async function(response) {return response;})
   .catch((err) => console.log(err.response) );
 }
@@ -36,7 +36,7 @@ const registerEthAddress = async (address, sign) => {
 
   //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
   let apiReturn = await axios
-    .post('https://frengly.com/ai/registerAddress', {'address' : address, 'sign': sign})
+    .post('https://urec.app/ai/registerAddress', {'address' : address, 'sign': sign})
     .then(async function(response) {
       console.log('---> 2.registerEthAddress'+response.data);
       return response.data;
