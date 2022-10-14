@@ -37,6 +37,14 @@ textarea {
   margin-bottom: -30px;
 }
 
+.hidden {
+  display : none !important;
+}
+
+.blued {
+  color: blue; 
+}
+
 :focus {
   outline: none !important;
   border:0px solid red;
@@ -135,6 +143,15 @@ textarea {
   font-style: normal;
   font-weight: 400;
   src: url(fonts/MaterialIconsOutline.woff2) format('woff2');
+}
+
+.edit-parent-div {
+  text-align: center;
+
+}
+
+.edit-child-div {
+  display: inline-block;
 }
 
 .material-icons-outlined, .material-icons {

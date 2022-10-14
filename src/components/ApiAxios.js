@@ -97,11 +97,23 @@ const updateNote = (note) => {
   //------
 }
 
-const updateTitle = (event, id) => {
+const updateNoteParam = async(id, name, value, sign) => {
+  
+  let noteUpdateStruct = {"id" : id};
+  noteUpdateStruct["value"] = value;
+  noteUpdateStruct["authKey"] = sign;
+  noteUpdateStruct["name"] = name; 
+  
+  axios.put('https://urec.app/ai/notes', noteUpdateStruct)
+  .then(async function(response) {console.log(response);return response;})
+  .catch((err) => console.log(err.response) );
+}
+
+const updateTitleDB = (e, id) => {
   let noteToUpdate = {"id" : id};
-  console.log("inside updateTitle:"+event.target.value);
-  noteToUpdate["title"] = event.target.value;
-  noteToUpdate["value"] = event.target.value;
+  console.log("inside updateTitle:"+e.currentTarget.textContent);
+  noteToUpdate["title"] = e.currentTarget.textContent;
+  noteToUpdate["value"] = e.currentTarget.textContent;
   //noteToUpdate["authKey"] = this.props.authKee;
   noteToUpdate["name"] = "title"; 
   
@@ -112,4 +124,4 @@ const updateTitle = (event, id) => {
   .catch((err) => console.log("Error updating!!!",err) );
 }
 
-export {fetchDataCall, registerEthAddress, updateNote, fetchUserId, deleteNote, createNew, updateTitle}
+export {fetchDataCall, registerEthAddress, updateNote, fetchUserId, deleteNote, createNew, updateTitleDB, updateNoteParam}

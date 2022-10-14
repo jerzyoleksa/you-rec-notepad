@@ -5,6 +5,7 @@ import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import { UserContext, NoteContext } from "./ProviderComponent";
+import { encryptTextWithAES } from "./EncryptAES";
 
 
 const CurrentX = () => {
@@ -49,8 +50,10 @@ const CurrentX = () => {
       noteToUpdate["authKey"] = context.sign;
       noteToUpdate["address"] = context.address;
       noteToUpdate["name"] = "content"; 
+      //noteToUpdate["value"] = (noteContext.status == 7 ? encryptTextWithAES(newText) : newText);
       noteToUpdate["value"] = newText;
   
+      (noteContext.status == 7) ? console.log('noteContext.status:'+noteContext.status) : console.log('not 7');
       
       //1st to update standard content or other param
       axios.put('https://urec.app/ai/notes', noteToUpdate)

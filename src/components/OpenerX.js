@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useuserData, useRef, useState } from "react"
-import {deleteNote, fetchDataCall} from './ApiAxios'
+import {deleteNote, fetchDataCall, updateNote, updateNoteParam, updateTitleDB} from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
@@ -12,11 +12,69 @@ const OpenerX = ({ menu, setMenu }) => {
     const [notes, setNotes] = useState([]);
     const [merge1, setMerge1] = useState(-1);
     const [merge2, setMerge2] = useState(-1);
+    const refs = useRef({});
+    refs.current = []; // or an {}
 
+    const addToRefs = el => {
+      if (el && !refs.current.includes(el)) {
+        refs.current.push(el);
+      }
+     };
+ 
     const isSelected4Merge = (note) => {
       if (merge1 == note.id || merge2 == note.id) return true;
       return false;
-    } 
+    }
+    
+    const updateNoteStatusInNotes = (mid, mstatus) => {
+      
+      const newNotes = notes.map(obj => {
+          if (obj.id === mid) {
+            return {...obj, status: mstatus};
+          }
+    
+          // 👇️ otherwise return object as is
+          return obj;
+        });
+      
+      setNotes(newNotes);
+     
+      return true;
+    }
+
+    const toggleEditingInNotes = (note, idx) => {
+      
+      const newNotes = notes.map(obj => {
+          if (obj.id === note.id) {
+            return {...obj, editing: (!note.editing ? true : false)};
+          }
+    
+          // 👇️ otherwise return object as is
+          return obj;
+        });
+      
+      setNotes(newNotes);
+      
+      //set focus
+      console.log("edititle"+note.id);
+
+      //the setTimeout is a weird workaround but it must be !
+
+      setTimeout(function() {
+        refs.current[idx].focus();
+      }, 0);
+      selectDivText(refs.current[idx]);
+
+      return true;
+    }
+
+    const selectDivText = (el) => {
+      var range = document.createRange();
+      range.selectNodeContents(el);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
 
     const selectMerge = (note) => {
 
@@ -31,6 +89,21 @@ const OpenerX = ({ menu, setMenu }) => {
     }
 
     const delNote = async(note) => {let res = await deleteNote(note); console.log(res); getNotes(res);}
+    
+    const updateTitle = (e, noteId) => {
+      updateTitleDB(e, noteId);
+      if (noteContext.id === noteId) {
+        //setNoteContext(currentContext => ({ ...currentContext, ...{"title" : e.currentTarget.textContent} }));  
+      }
+    }
+    
+
+    const secure = async(note) => {
+      (note.status == 7 ? note.status = 1 : note.status = 7); 
+      updateNoteStatusInNotes(note.id, note.status); 
+      let res = await updateNoteParam(note.id, 'status', note.status, context.sign); 
+      console.log('toggled secured'+res);
+    }
     
     // const deleteNoteOLD = (note) => {
     //   //const newNotesState = this.state.notes.filter((note) => note.id !== id );
@@ -104,18 +177,23 @@ const OpenerX = ({ menu, setMenu }) => {
         </div>
         <div>
               { Array.isArray(notes) &&
-                  notes.map((note) => <div className="nav-container" key={note.id+'parent'}>
+                  notes.map((note, idx) => <div className="nav-container" key={note.id+'parent'}>
+                          <div className="nav-list-narrow"  onClick={() => {secure(note)}}><span className={note.status == 7 ?'material-icons-outlined nav-span-blue' : 'material-icons-outlined nav-span'}>lock</span></div> 
+                          <div className="nav-list-narrow"  onClick={() => {toggleEditingInNotes(note,idx)}}><span className="material-icons-outlined nav-span">edit</span></div>                       
                           <div className="nav-list-narrow"  onClick={() => {delNote(note)}}><span className="material-icons-outlined nav-span">delete</span></div> 
                           <div className="nav-list-narrow" onClick={() =>selectMerge(note)}><span className={isSelected4Merge(note) ? 'material-icons-outlined nav-span-blue' : 'material-icons-outlined nav-span'}>link</span></div> 
                           
-                          <div className="nav-list opener-tbl"  onClick={() => selectNote(note)}>{note.title}.txt</div>
+                          <div className={!note.editing ? "nav-list opener-tbl" : "nav-list opener-tbl hidden"}  onClick={() => selectNote(note)}>{note.title}.txt</div>
+                          {/* W momencie generowania jest niewidoczny !!!! */}
+                          <div className={note.editing ? "nav-list opener-tbl edit-parent-div" : "nav-list opener-tbl edit-parent-div hidden"}><div ref={el => addToRefs(el)} className="edit-child-div" suppressContentEditableWarning={true} contentEditable="true" onInput={e => { updateTitle(e, note.id)} }>{note.title}</div><div className="edit-child-div">.txt</div></div>
+                      
                       </div>
                       )
               }
 
         </div>
-        <div>merge1::{merge1}</div>
-        <div>merge2::{merge2}</div>
+        {/* <div>merge1::{merge1}</div>
+        <div>merge2::{merge2}</div> */}
       </div>
 
     )
