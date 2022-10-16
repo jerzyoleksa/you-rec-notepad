@@ -90,9 +90,12 @@ const OpenerX = ({ menu, setMenu }) => {
 
     const delNote = async(note) => {let res = await deleteNote(note); console.log(res); getNotes(res);}
     
-    const updateTitle = (e, noteId) => {
-      updateTitleDB(e, noteId);
-      if (noteContext.id === noteId) {
+    const updateTitle = (e, note) => {
+      updateTitleDB(e, note.id);
+      if (noteContext.id === note.id) {
+        console.log("Editing title of the selected note:"+e.currentTarget.textContent);
+        note.title = e.currentTarget.textContent;
+        setNoteContext(note);
         //setNoteContext(currentContext => ({ ...currentContext, ...{"title" : e.currentTarget.textContent} }));  
       }
     }
@@ -185,7 +188,7 @@ const OpenerX = ({ menu, setMenu }) => {
                           
                           <div className={!note.editing ? "nav-list opener-tbl" : "nav-list opener-tbl hidden"}  onClick={() => selectNote(note)}>{note.title}.txt</div>
                           {/* W momencie generowania jest niewidoczny !!!! */}
-                          <div className={note.editing ? "nav-list opener-tbl edit-parent-div" : "nav-list opener-tbl edit-parent-div hidden"}><div ref={el => addToRefs(el)} className="edit-child-div" suppressContentEditableWarning={true} contentEditable="true" onInput={e => { updateTitle(e, note.id)} }>{note.title}</div><div className="edit-child-div">.txt</div></div>
+                          <div className={note.editing ? "nav-list opener-tbl edit-parent-div" : "nav-list opener-tbl edit-parent-div hidden"}><div ref={el => addToRefs(el)} className="edit-child-div" suppressContentEditableWarning={true} contentEditable="true" onInput={e => { updateTitle(e, note)} }>{note.title}</div><div className="edit-child-div">.txt</div></div>
                       
                       </div>
                       )

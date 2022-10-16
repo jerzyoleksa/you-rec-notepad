@@ -109,6 +109,12 @@ const updateNoteParam = async(id, name, value, sign) => {
   .catch((err) => console.log(err.response) );
 }
 
+const exporto = () => {
+  axios.get('https://urec.app/ai/export')
+  .then(async function(response) {console.log(response);return response;})
+  .catch((err) => console.log(err.response) );
+}
+
 const updateTitleDB = (e, id) => {
   let noteToUpdate = {"id" : id};
   console.log("inside updateTitle:"+e.currentTarget.textContent);
@@ -124,4 +130,4 @@ const updateTitleDB = (e, id) => {
   .catch((err) => console.log("Error updating!!!",err) );
 }
 
-export {fetchDataCall, registerEthAddress, updateNote, fetchUserId, deleteNote, createNew, updateTitleDB, updateNoteParam}
+export {fetchDataCall, registerEthAddress, updateNote, fetchUserId, deleteNote, createNew, updateTitleDB, updateNoteParam, exporto}

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from "react"
-import {fetchDataCall} from './ApiAxios'
+import {exporto, fetchDataCall} from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
@@ -112,7 +112,7 @@ const NavX = ({ menu, setMenu }) => {
        
         
         
-        <div className="nav-list" onClick={() => export2()}><span className="menu-label">Export</span></div> 
+        <div className="nav-list" onClick={() => exporto()}><span className="menu-label">Export</span></div> 
         <div className="nav-list" onClick={() => toggleLightMode()}><span className="material-icons-outlined nav-span">wb_sunny</span></div> 
                 
         {/*<div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
