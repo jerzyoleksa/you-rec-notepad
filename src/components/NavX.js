@@ -31,7 +31,25 @@ const NavX = ({ menu, setMenu }) => {
     }
 
     const toggleLightMode = () => {
+    
+        if (context.isDark) {
+          document.body.style.backgroundColor = "#ecf0f1";
+          document.body.style.color = "black";
+          document.getElementsByClassName("nav-bar").backgroundColor = "red";
+          document.getElementsByClassName("nav-container").backgroundColor = "orange";
+          
+        }
+        else {
+          document.body.style.backgroundColor = "rgb(51,51,51)";
+          document.body.style.color = "white";
+          document.getElementsByClassName("nav-bar").backgroundColor = "red";
+          document.getElementsByClassName("nav-container").backgroundColor = "orange";
+          
+        }
+    
+        setContext(currentContext => ({ ...currentContext, ...{isDark : !context.isDark} }));    
     }
+
 
     const toggleNote = () => {
       // setState({
@@ -104,14 +122,14 @@ const NavX = ({ menu, setMenu }) => {
 
     return (
           
-      <div className="nav-bar">
+      <div className={(context.isDark ? 'nav-bar-dark' : 'nav-bar-light')}>
       <div className="nav-container">
         <div className="nav-row">
         {noteContext && <div className="nav-list" onClick={() => {menuTab('current');toggleNote()}} >
            <ContentEditable html={noteContext.title ? noteContext.title+'.txt' : "Untitled.txt"} // innerHTML of the editable div
               disabled={true}       // use true to disable editing
               tagName='article' // Use a custom HTML tag (uses a div by default)
-              className={context.isDark ? 'btn tn-grayishb' : 'btn btn-grayish'}
+              className="btn btn-grayish"
             />
         </div>}  
         
@@ -128,7 +146,7 @@ const NavX = ({ menu, setMenu }) => {
         <div className="nav-list" onClick={() => this.connectMetamask()}><img src="img/mm.svg" width="24" height="24"/></div> 
         */}
         
-        {<div className="nav-list" onClick={() => clickConnect()}><span className={context.isDark ? 'btn btn-grayish' : 'btn'}>{/*<span className='circle'></span>*/}{context.address && context.address.length > 0 ? shortenString(context.address): 'Connect'}</span></div>}
+        {<div className="nav-list" onClick={() => clickConnect()}><span className='btn'>{/*<span className='circle'></span>*/}{context.address && context.address.length > 0 ? shortenString(context.address): 'Connect'}</span></div>}
         
 
 

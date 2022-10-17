@@ -186,7 +186,7 @@ const OpenerX = ({ menu, setMenu }) => {
                           <div className="nav-list-narrow"  onClick={() => {delNote(note)}}><span className="material-icons-outlined nav-span">delete</span></div> 
                           <div className="nav-list-narrow" onClick={() =>selectMerge(note)}><span className={isSelected4Merge(note) ? 'material-icons-outlined nav-span-blue' : 'material-icons-outlined nav-span'}>link</span></div> 
                           
-                          <div className={!note.editing ? "nav-list opener-tbl" : "nav-list opener-tbl hidden"}  onClick={() => selectNote(note)}>{note.title}.txt</div>
+                          <div className={!note.editing ? "nav-list opener-tbl" : "nav-list opener-tbl hidden"}  onClick={() => selectNote(note)}><span className={context.isDark ? 'label-white' : 'label-black'}>{note.title}.txt</span></div>
                           {/* W momencie generowania jest niewidoczny !!!! */}
                           <div className={note.editing ? "nav-list opener-tbl edit-parent-div" : "nav-list opener-tbl edit-parent-div hidden"}><div ref={el => addToRefs(el)} className="edit-child-div" suppressContentEditableWarning={true} contentEditable="true" onInput={e => { updateTitle(e, note)} }>{note.title}</div><div className="edit-child-div">.txt</div></div>
                       

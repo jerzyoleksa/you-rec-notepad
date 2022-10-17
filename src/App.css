@@ -28,6 +28,8 @@ textarea {
   border: 0px solid #ccc;
   font-family: "Roboto Mono", monospace;
   font-size: 16px;
+  background-color: transparent;
+  color: inherit;
 }
 
 .textarea-container {
@@ -67,6 +69,13 @@ textarea {
  
 }
 
+.label-white {
+  color: white;
+}
+
+.label-black {
+  color: black;
+}
 .menu-label {
   font-family: "Inter custom", sans-serif;
   font-size: 16px;
@@ -209,6 +218,20 @@ textarea {
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display:900');
 
 .nav-bar {
+  /*position:absolute;*/
+  width: 100%;
+  border-bottom: 2px solid lightgray;
+  background-color: #ecf0f1;
+}
+
+.nav-bar-dark {
+  /*position:absolute;*/
+  width: 100%;
+  border-bottom: 2px solid white;
+  background-color: rgb(51,51,51);
+}
+
+.nav-bar-light {
   /*position:absolute;*/
   width: 100%;
   border-bottom: 2px solid lightgray;
