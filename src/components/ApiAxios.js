@@ -109,7 +109,7 @@ const updateNoteParam = async(id, name, value, sign) => {
   .catch((err) => console.log(err.response) );
 }
 
-const exporto = () => {
+const exporto = async() => {
   axios.get('https://urec.app/ai/export')
   .then(async function(response) {console.log(response);return response;})
   .catch((err) => console.log(err.response) );
@@ -131,3 +131,19 @@ const updateTitleDB = (e, id) => {
 }
 
 export {fetchDataCall, registerEthAddress, updateNote, fetchUserId, deleteNote, createNew, updateTitleDB, updateNoteParam, exporto}
+
+/*
+notes:
+
+id; int(11)
+title;  varchar(256)
+content;  text
+encrypted;  text
+userId; int(11)
+status; int(2)
+created;  timestamp
+updated;  timestamp
+viewed; timestamp
+
+select COLUMN_NAME, column_type from information_schema.columns WHERE TABLE_NAME = 'notes'
+*/

@@ -20,7 +20,14 @@ const NavX = ({ menu, setMenu }) => {
     // const updateTitle = () => {
     // }
 
-    const export2 = () => {
+    const export2 = async () => {
+      setContext(currentContext => ({ ...currentContext, ...{"status" : "exporting..."} }));
+      let resp = await exporto();
+      setContext(currentContext => ({ ...currentContext, ...{"status" : "exported :)"} }));
+
+      setTimeout(function () {
+        setContext(currentContext => ({ ...currentContext, ...{"status" : ""} }));
+      }, 1000)
     }
 
     const toggleLightMode = () => {
@@ -112,7 +119,7 @@ const NavX = ({ menu, setMenu }) => {
        
         
         
-        <div className="nav-list" onClick={() => exporto()}><span className="menu-label">Export</span></div> 
+        <div className="nav-list" onClick={() => export2()}><span className="menu-label">Export</span></div> 
         <div className="nav-list" onClick={() => toggleLightMode()}><span className="material-icons-outlined nav-span">wb_sunny</span></div> 
                 
         {/*<div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
