@@ -33,7 +33,7 @@ const NavX = ({ menu, setMenu }) => {
     const toggleLightMode = () => {
     
         if (context.isDark) {
-          document.body.style.backgroundColor = "#ecf0f1";
+          document.body.style.backgroundColor = "white";
           document.body.style.color = "black";
           document.getElementsByClassName("nav-bar").backgroundColor = "red";
           document.getElementsByClassName("nav-container").backgroundColor = "orange";
