@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from "react"
-import fetchDataCall from './ApiAxios'
+import fetchDataCall, { getNote } from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
@@ -33,20 +33,6 @@ const CurrentX = () => {
   
     }
 
-    const processContent = (ecryptedText) => {
-      if (noteContext.status === 7) {
-        console.log('77777777777777777777777777777'+ecryptedText);
-        var decrypted = ecryptedText;
-        try {
-            decrypted = decryptWithAES(ecryptedText, '0123456789123456');       
-        } catch (error) {
-          console.log(error);
-        }
-        return decrypted;
-      }
-      return ecryptedText;
-      
-    }
 
     const updateNote = (newText) => {
     
@@ -81,10 +67,20 @@ const CurrentX = () => {
 
     }
 
+    
     useEffect(() => {
-      //this.nameInput.focus();
-      //console.log("[CurrentX] useEffect:"+JSON.stringify(userData));
       document.getElementById("txtar").focus();
+      
+      console.log('CurrentX.useEffect()');
+      
+      const fetchData = async () => {
+
+        if (!noteContext || !context.sign) return;
+        let fullNoteObject = await getNote(noteContext.id, context.sign);
+        setNoteContext(fullNoteObject);
+      }
+      fetchData();
+
     }, [context.opener, context.current]);
 
 

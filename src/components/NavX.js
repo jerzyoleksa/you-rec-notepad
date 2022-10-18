@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from "react"
-import {exporto, fetchDataCall} from './ApiAxios'
+import {exporto, fetchDataCall, getNote} from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
@@ -7,6 +7,7 @@ import { UserContext, NoteContext } from "./ProviderComponent";
 //import connectMetamask from "./Metamask";
 import { connectMetamask } from "./MetamaskX";
 import { registerEthAddress } from "./ApiAxios";
+import { decryptWithAES } from "./EncryptAES";
 
 const NavX = ({ menu, setMenu }) => {
     
@@ -89,6 +90,7 @@ const NavX = ({ menu, setMenu }) => {
     }
 
 
+    
 
 
 
@@ -105,9 +107,9 @@ const NavX = ({ menu, setMenu }) => {
         if (list && list.length > 0) { 
           let lastNote = list[list.length-1];
 
-          //setContext(currentContext => ({ ...currentContext, ...{"address" : sigKey} })) //instead of updateContext
-            
-          setNoteContext(lastNote); // this line removes the userData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          let fullNoteObject = await getNote(lastNote.id, context.sign);
+         
+          setNoteContext(fullNoteObject); // this line removes the userData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
           //setUserData(state => ({ ...state, "note": lastNote }));
         } 
       

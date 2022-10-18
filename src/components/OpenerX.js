@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useuserData, useRef, useState } from "react"
-import {deleteNote, fetchDataCall, updateNote, updateNoteParam, updateTitleDB} from './ApiAxios'
+import {deleteNote, fetchDataCall, getNote, updateNote, updateNoteParam, updateTitleDB} from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
 import { UserContext, NoteContext } from "./ProviderComponent";
 import axios from 'axios'
+import { decryptWithAES } from "./EncryptAES";
 
 const OpenerX = ({ menu, setMenu }) => {
     const [context, setContext] = useContext(UserContext);
@@ -138,10 +139,28 @@ const OpenerX = ({ menu, setMenu }) => {
     }
 
 
+    
 
     //-------- TRICKY !
     const selectNote = (note) => {
       setNoteContext(note);
+      
+      
+      
+      //to LOAD content, ultimately we dont want to get contents with getNotesSec
+      //NIU
+      // const fetchData = async () => {  
+      //    let res = await getNote(noteContext.id, context.sign);
+      //    setNoteContext(currentContext => ({ ...currentContext, ...{"content" : processContent(res.data.content) }})); //instead of updateContext
+            
+      //    console.log(res.data);
+      //  }
+      // fetchData();
+      //NIU
+
+
+
+
       setMenu({ "current": true, "opener": false });
 
       //new Date().toISOString() returns ISO-8601 YYYY-MM-DDTHH:mm:ss.sssZ)
