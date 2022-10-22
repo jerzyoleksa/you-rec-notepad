@@ -31,24 +31,40 @@ const NavX = ({ menu, setMenu }) => {
       }, 1000)
     }
 
-    const toggleLightMode = () => {
+    const setCssBodyByMode = (isDark) => {
     
-        if (context.isDark) {
-          document.body.style.backgroundColor = "white";
-          document.body.style.color = "black";
-          document.getElementsByClassName("nav-bar").backgroundColor = "red";
-          document.getElementsByClassName("nav-container").backgroundColor = "orange";
-          
-        }
-        else {
-          document.body.style.backgroundColor = "rgb(51,51,51)";
-          document.body.style.color = "white";
-          document.getElementsByClassName("nav-bar").backgroundColor = "red";
-          document.getElementsByClassName("nav-container").backgroundColor = "orange";
-          
-        }
-    
-        setContext(currentContext => ({ ...currentContext, ...{isDark : !context.isDark} }));    
+
+      //if (context.isDark) returns true even is isDark is false !!!!!!!!!!!!!!!!!!!!!!!!!
+      if (isDark === true) {
+        console.log('setting background to rgb(51,51,51)');
+        document.body.style.backgroundColor = "rgb(51,51,51)";
+        document.body.style.color = "white";
+        
+      } else {
+        console.log('setting background to white');
+        document.body.style.backgroundColor = "white";
+        document.body.style.color = "black";
+      }
+
+    }
+
+    const toggleLightMode = async () => {
+      
+      let oldValue = (context.isDark === undefined || context.isDark === false) ? false : true;
+      let newValue = !context.isDark;
+      console.log('oldValue:'+oldValue);
+      console.log('newValue:'+newValue);
+      console.log('toggleLightMode BEFORE:'+oldValue);
+      console.log('toggleLightMode AFTER:'+newValue);
+
+      //SWITCH isDark flag in context
+      setContext(currentContext => ({ ...currentContext, ...{"isDark" : newValue} }));  
+      
+      setCssBodyByMode(newValue);
+
+      Cookies.set("isDark", newValue); 
+        
+       
     }
 
 
@@ -95,6 +111,7 @@ const NavX = ({ menu, setMenu }) => {
 
 
     useEffect(() => {
+      setCssBodyByMode(context.isDark === true);
       //setDummy({"dummy": "lets see !" });
       //console.log("[NAVX] useEffect:"+JSON.stringify(userData));
       console.log("NavX -> useEffect "+context.sign);

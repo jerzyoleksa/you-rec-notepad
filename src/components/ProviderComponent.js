@@ -5,6 +5,16 @@ import { fetchUserId } from "./ApiAxios"
 
 const functionTemplate = () => {}
 
+//Cannot access 'loadIsDark' before initialization
+const loadIsDark = () => {
+  let initValue = Cookies.get("isDark");
+
+  let result = (initValue === undefined || initValue === "false") ?  false :  true; 
+  console.log("isDark -> cookie initValue:"+initValue + " of type "+typeof initValue);
+  console.log("loadIsDark will return "+result);
+  return result;
+}
+
 const userObjectContext = {
   name: "John Snow",
   content: "kwuegfoiqwgf",
@@ -15,6 +25,7 @@ const userObjectContext = {
   address: null,
   sign: null,
   userId : null,
+  isDark : loadIsDark(),
   updateStatus: functionTemplate,
   updateAddress: functionTemplate
 }
@@ -25,6 +36,8 @@ const noteObjectContext = {
   title: null
 }
 
+
+
 const UserContext = React.createContext(userObjectContext)
 const NoteContext = React.createContext(noteObjectContext)
 
@@ -33,7 +46,7 @@ const ProviderComponent = ({children}) => {
   const [noteContext, setNoteContext] = useState(noteObjectContext)
 
   useEffect(() => {
-
+    console.log("isDark, Cookies: "+Cookies.get("isDark")+", userContext: "+context.isDark);
     listenToMetamask();
     
     const fetchData = async () => {
