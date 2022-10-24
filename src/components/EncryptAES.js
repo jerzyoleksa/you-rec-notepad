@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+import axios from 'axios';
 import CryptoJS from "crypto-js";
 
 let key = 'secret#456!23key' //(16 Byte key for 128 Bit AES)
@@ -17,7 +19,7 @@ const encryptTextWithAES = (plaintText) => {
   });
   return encryptedData.toString();    
 }
-export {encryptTextWithAES, decryptWithAES}
+
 
 const aesEncrypt = (data) => {
   const key = '6fa979f20126cb08aa645a8f495f6d85'
