@@ -49,6 +49,21 @@ const registerEthAddress = async (address, sign) => {
   return apiReturn;
 };
 
+const accessByKey = async (password) => {
+
+  //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
+  let apiReturn = await axios
+    .post('https://urec.app/ai/accessByKey', {'accesskey' : password})
+    .then(async function(response) {
+      return response.data;
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  
+  return apiReturn;
+};
+
 const getNote = async (id, sign) => {
 
   //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
@@ -166,7 +181,7 @@ const updateTitleDB = (e, id) => {
   .catch((err) => console.log("Error updating!!!",err) );
 }
 
-export {fetchDataCall, registerEthAddress, updateNote, fetchUserId, deleteNote, createNew, updateTitleDB, updateNoteParam, exporto, getNote}
+export {accessByKey, fetchDataCall, registerEthAddress, updateNote, fetchUserId, deleteNote, createNew, updateTitleDB, updateNoteParam, exporto, getNote}
 
 /*
 notes:

@@ -15,6 +15,20 @@ button {
   width: 140px;
 }
 
+.pass-input {
+  color: orange;
+  font-size: 24px;
+  margin: 10px;
+  padding: 5px;
+  background-color: darkslategray;
+}
+
+#auth-but {
+  margin: 10px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
 #root {
   height: 100%;
   width: 100%;

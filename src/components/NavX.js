@@ -86,8 +86,11 @@ const NavX = ({ menu, setMenu }) => {
 
     const clickConnect = async() => {
 
-      
-    
+      //if there is no metamask installed, then open a page where user can input the string
+      if (!window.ethereum) {
+        console.log('NO METAMASK !');
+        setMenu({ "current": false, "opener": false, "password" : true });
+      }
       const meta = async () => {
 
         let result = await connectMetamask();

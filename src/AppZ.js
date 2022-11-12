@@ -14,6 +14,7 @@ import Child2 from './components/Child2';
 import NavX from './components/NavX';
 import CurrentX from './components/CurrentX';
 import OpenerX from './components/OpenerX';
+import CredsX from './components/CredsX';
 import {UserContext, ProviderComponent} from './components/ProviderComponent';
 
 
@@ -40,6 +41,7 @@ const AppZ = () => {
         <NavX menu={menu} setMenu={setMenu}/>
         {menu.current && <CurrentX/> }  
         {menu.opener && <OpenerX menu={menu} setMenu={setMenu}/>}
+        {menu.password && <CredsX/>}
         {/* <Child1 />
         <Child2 /> */}
        

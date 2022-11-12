@@ -145,6 +145,7 @@ class App extends Component {
         {error && <Flash error={error} resetError={this.resetError} />}
         {current && <Current updateSaviStatus={this.updateSavStatus} updateNoteContent={this.updateNoteTxt} prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote} authKee={this.state.authKey}/>}  
         {opener && <Opener delNote={this.deleteNote} updateMeniu={this.updateMenu} updateNoteContent={this.updateNoteTxt} prop1={this.state.selectedNote} name="Jurek" theChosenNote={this.selectedNote} authKee={this.state.authKey} choseNote={this.updateNote}/>}
+        {password && <Creds />}
       
       </div>
     );
