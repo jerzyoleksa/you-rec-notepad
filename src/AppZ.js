@@ -41,7 +41,7 @@ const AppZ = () => {
         <NavX menu={menu} setMenu={setMenu}/>
         {menu.current && <CurrentX/> }  
         {menu.opener && <OpenerX menu={menu} setMenu={setMenu}/>}
-        {menu.password && <CredsX/>}
+        {menu.password && <CredsX setMenu={setMenu}/>}
         {/* <Child1 />
         <Child2 /> */}
        

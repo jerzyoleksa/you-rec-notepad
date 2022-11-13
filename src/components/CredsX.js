@@ -161,6 +161,7 @@ const CredsX = ({ menu, setMenu }) => {
         let address = result2.address;
         let uid = result2.newId;
         setContext(currentContext => ({ ...currentContext, ...{"sign" : credo, "address" : address, "userId" : uid} })); 
+        setMenu({ "current": true, "opener": false, "password" : false });
       };
 
       callAccess();
