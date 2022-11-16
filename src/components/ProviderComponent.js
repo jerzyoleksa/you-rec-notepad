@@ -55,7 +55,10 @@ const ProviderComponent = ({children}) => {
         if (!accounts1) return;
         
         let sign = Cookies.get(accounts1[0]);
-       
+        console.log(accounts1[0]+'> it sign found in cookies: '+sign);
+
+        if (!sign) return; //with this line we require the sign to be stored in cookies to autologin
+
         //TODO:
         //api to server to get userId by address and sign, and set userId in context
         let userResult = await fetchUserId(sign);

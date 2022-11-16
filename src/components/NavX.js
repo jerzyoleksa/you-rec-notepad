@@ -68,10 +68,16 @@ const NavX = ({ menu, setMenu }) => {
     }
 
 
-    const toggleNote = () => {
-      // setState({
-      //   showNote: ! state.showNote
-      // })
+    const logout = () => {
+ 
+      //TODO: removing cookie below, still lets you autologin on the browser refresh
+      Cookies.remove(context.address);
+
+      setContext(currentContext => ({ ...currentContext, ...{  "address": null, "sign": null, "userId" : null} })); 
+     
+      setNoteContext(null);
+      //In Cookies we keep a cookie with a name=address and value=sign !
+      
     }
     const menuTab = async(text) => {
       console.log("menuTab...")
@@ -91,19 +97,27 @@ const NavX = ({ menu, setMenu }) => {
         console.log('NO METAMASK !');
         setMenu({ "current": false, "opener": false, "password" : true });
       }
+
+
+      //metamask function
       const meta = async () => {
 
         let result = await connectMetamask();
 
         if (!result) {console.log('No Metamask detected...'); return;}
+        
         Cookies.set(result.publicAddress, result.signature);
         console.log(result);
 
         let result2 = await registerEthAddress(result.publicAddress, result.signature);  
+        console.log('result2 below:');
         console.log(result2);
-
+        let uid = result2.newId;
+        setContext(currentContext => ({ ...currentContext, ...{"address" : result.publicAddress, "sign" : result.signature, "userId" : uid} })) //instead of updateContext
+        
       };
 
+      //call metamask
       meta();
 
     }
@@ -147,7 +161,7 @@ const NavX = ({ menu, setMenu }) => {
       <div className={(context.isDark ? 'nav-bar-dark' : 'nav-bar-light')}>
       <div className="nav-container">
         <div className="nav-row">
-        {noteContext && <div className="nav-list" onClick={() => {menuTab('current');toggleNote()}} >
+        {noteContext && <div className="nav-list" onClick={() => {menuTab('current');}} >
            <ContentEditable html={noteContext.title ? noteContext.title+'.txt' : "Untitled.txt"} // innerHTML of the editable div
               disabled={true}       // use true to disable editing
               tagName='article' // Use a custom HTML tag (uses a div by default)
@@ -170,7 +184,7 @@ const NavX = ({ menu, setMenu }) => {
         
         {<div className="nav-list" onClick={() => clickConnect()}><span className='btn'>{/*<span className='circle'></span>*/}{context.address && context.address.length > 0 ? shortenString(context.address): 'Connect'}</span></div>}
         
-
+        {context.address && context.address.length > 0 && <div className="nav-list" onClick={() => logout()}><span className="material-icons-outlined nav-span">logout</span></div>}
 
         {context.status && <div className="nav-list"><span className='savingTextStyle'>{context.status}</span></div>}
 
