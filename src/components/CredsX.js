@@ -160,7 +160,9 @@ const CredsX = ({ menu, setMenu }) => {
         let result2 = await accessByKey(credo);  
         let address = result2.address;
         let uid = result2.newId;
-        setContext(currentContext => ({ ...currentContext, ...{"sign" : credo, "address" : address, "userId" : uid} })); 
+        let sign = result2.sign.toString();
+
+        setContext(currentContext => ({ ...currentContext, ...{"sign" : sign, "address" : address, "userId" : uid} })); 
         setMenu({ "current": true, "opener": false, "password" : false });
       };
 
