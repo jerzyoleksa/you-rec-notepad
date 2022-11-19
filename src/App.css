@@ -206,11 +206,21 @@ textarea {
   font-family: 'Material Icons Outline';
 }
 
+@media only screen and (max-width: 768px) {
+  .menu-label {
+    display: none;
+  }
+}
 
+.menu-icon {
+   display: none !important; /* !important must be added otherwise it will be overriden by other css, not sure which */
+}
 
-/* @media only screen and (max-width: 500px) {
-
-} */
+@media only screen and (max-width: 768px) {
+  .menu-icon {
+    display: inline !important;
+  }
+}
 
 /* list.css */
 .list-container {
@@ -252,7 +262,7 @@ textarea {
   background-color: #ecf0f1;
 }
 .nav-container {
-  display:table;
+  display: table;
   border-collapse: separate;
   border-spacing: 0px;
 

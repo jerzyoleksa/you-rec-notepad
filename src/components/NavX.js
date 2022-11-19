@@ -169,11 +169,10 @@ const NavX = ({ menu, setMenu }) => {
             />
         </div>}  
         
-        <div className="nav-list" onClick={() => menuTab('opener')} ><span className="menu-label">Notes</span></div>
-       
-        
-        
+        <div className="nav-list" onClick={() => menuTab('opener')} ><span className="menu-label">Notes</span><span className="menu-icon material-icons-outlined nav-span">apps</span></div>
         <div className="nav-list" onClick={() => export2()}><span className="menu-label">Export</span></div> 
+
+
         <div className="nav-list" onClick={() => toggleLightMode()}><span className="material-icons-outlined nav-span">wb_sunny</span></div> 
                 
         {/*<div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
