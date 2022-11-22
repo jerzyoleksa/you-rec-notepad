@@ -7,7 +7,7 @@ import { UserContext, NoteContext } from "./ProviderComponent";
 import axios from 'axios'
 import { decryptWithAES } from "./EncryptAES";
 
-const HamburgerMenuX = ({ menu, setMenu }) => {
+const BottomFixedMenuX = ({ menu, setMenu }) => {
     const [context, setContext] = useContext(UserContext);
     const [noteContext, setNoteContext] = useContext(NoteContext);
     const [notes, setNotes] = useState([]);
@@ -208,4 +208,4 @@ const HamburgerMenuX = ({ menu, setMenu }) => {
     )
 }
 
-export default HamburgerMenuX
+export default BottomFixedMenuX

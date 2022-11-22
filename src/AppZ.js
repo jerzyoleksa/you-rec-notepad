@@ -15,7 +15,7 @@ import NavX from './components/NavX';
 import CurrentX from './components/CurrentX';
 import OpenerX from './components/OpenerX';
 import CredsX from './components/CredsX';
-import HamburgerMenuX from './components/HamburgerMenuX';
+import BottomFixedMenuX from './components/BottomFixedMenuX';
 import {UserContext, ProviderComponent} from './components/ProviderComponent';
 
 
@@ -43,7 +43,7 @@ const AppZ = () => {
         {menu.current && <CurrentX/> }  
         {menu.opener && <OpenerX menu={menu} setMenu={setMenu}/>}
         {menu.password && <CredsX setMenu={setMenu}/>}
-        <HamburgerMenuX setMenu={setMenu}/>
+        {/* <BottomFixedMenuX setMenu={setMenu}/> */}
         {/* <Child1 />
         <Child2 /> */}
        

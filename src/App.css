@@ -1,3 +1,52 @@
+@media only screen and (max-width: 768px) {
+  .menu-large {
+    display: none !important;
+  }
+}
+
+/* .menu-icon {
+   display: none !important; 
+} */
+
+@media only screen and (max-width: 768px) {
+  .menu-icon {
+    display: inline !important;
+  }
+}
+
+/* .ham-icon {
+  display: inline;
+} */
+
+
+/* .menuBTN:checked ~ .hamburgerMenu {
+  display: inline !important;
+} */
+
+/* #button + label:before {
+  content: "\f0c9";
+}
+
+#button:checked + label:before {
+  content: "\f0aa";
+} */
+
+.hamburgerMenu {
+  top: 70px;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  overflow: hidden;
+  color: #fff;
+   background: #c94b4b;
+  background: -webkit-linear-gradient(to right, #4b134f, #c94b4b);
+  background: linear-gradient(to right, #4b134f, #c94b4b); 
+  z-index: 0;
+  /* transform: translateX(110%);
+  transition: transform 0.5s ease; */
+}
+
 html, body {
   margin:0px;
   height:100%;
@@ -206,21 +255,7 @@ textarea {
   font-family: 'Material Icons Outline';
 }
 
-@media only screen and (max-width: 768px) {
-  .menu-label {
-    display: none;
-  }
-}
 
-.menu-icon {
-   display: none !important; /* !important must be added otherwise it will be overriden by other css, not sure which */
-}
-
-@media only screen and (max-width: 768px) {
-  .menu-icon {
-    display: inline !important;
-  }
-}
 
 /* list.css */
 .list-container {

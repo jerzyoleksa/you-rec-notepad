@@ -13,6 +13,7 @@ const NavX = ({ menu, setMenu }) => {
     
     const [context, setContext] = useContext(UserContext);
     const [noteContext, setNoteContext] = useContext(NoteContext);
+    const [hamburger, setHamburger] = useState(false);
     //const [note, setNote] = useContext(UserContext);
     //const [dummy, setDummy] = useContext(UserContext);
 
@@ -66,7 +67,10 @@ const NavX = ({ menu, setMenu }) => {
         
        
     }
-
+    
+    const clickHamburger = () => {
+      setHamburger(!hamburger);
+    }
 
     const logout = () => {
  
@@ -169,11 +173,11 @@ const NavX = ({ menu, setMenu }) => {
             />
         </div>}  
         
-        <div className="nav-list" onClick={() => menuTab('opener')} ><span className="menu-label">Notes</span><span className="menu-icon material-icons-outlined nav-span">apps</span></div>
-        <div className="nav-list" onClick={() => export2()}><span className="menu-label">Export</span></div> 
+        <div className="nav-list menu-large" onClick={() => menuTab('opener')} ><span className="menu-label">Notes</span></div>
+        <div className="nav-list menu-large" onClick={() => export2()}><span className="menu-label">Export</span></div> 
 
 
-        <div className="nav-list" onClick={() => toggleLightMode()}><span className="material-icons-outlined nav-span">wb_sunny</span></div> 
+        <div className="nav-list menu-large" onClick={() => toggleLightMode()}><span className="material-icons-outlined nav-span">wb_sunny</span></div> 
                 
         {/*<div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
         */}
@@ -183,7 +187,24 @@ const NavX = ({ menu, setMenu }) => {
         
         {<div className="nav-list" onClick={() => clickConnect()}><span className='btn'>{/*<span className='circle'></span>*/}{context.address && context.address.length > 0 ? shortenString(context.address): 'Connect'}</span></div>}
         
-        {context.address && context.address.length > 0 && <div className="nav-list" onClick={() => logout()}><span className="material-icons-outlined nav-span">logout</span></div>}
+        <div className="nav-list menu-icon ham-icon" onClick={() => clickHamburger()}><span className="material-icons-outlined nav-span">menu</span></div> 
+        
+
+
+        {/*  ------------------ HAMBURGER MENU ---------------------- */}
+        {hamburger &&
+        <div className="hamburgerMenu">
+          <div onClick={() => menuTab('opener')} ><span className="menu-label">Notes</span></div>
+          <div onClick={() => export2()}><span className="menu-label">Export</span></div>
+          {context.address && context.address.length > 0 && <div onClick={() => logout()}><span className="menu-label">Logout</span></div>}
+          <div onClick={() => toggleLightMode()}><span className="menu-label">Switch Light</span></div> 
+        </div>
+        }
+        {/*  ------------------ HAMBURGER MENU ---------------------- */}
+
+
+
+        {context.address && context.address.length > 0 && <div className="nav-list menu-large" onClick={() => logout()}><span className="material-icons-outlined nav-span">logout</span></div>}
 
         {context.status && <div className="nav-list"><span className='savingTextStyle'>{context.status}</span></div>}
 
