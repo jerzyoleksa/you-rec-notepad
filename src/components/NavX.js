@@ -94,6 +94,10 @@ const NavX = ({ menu, setMenu }) => {
       return str.substring(0, 4)+'...'+str.substring((str.length-4), str.length);
     }
 
+    const closeHamburger = () => {
+      setHamburger(false);
+    }
+
     const clickConnect = async() => {
 
       //if there is no metamask installed, then open a page where user can input the string
@@ -187,16 +191,19 @@ const NavX = ({ menu, setMenu }) => {
         
         {<div className="nav-list" onClick={() => clickConnect()}><span className='btn'>{/*<span className='circle'></span>*/}{context.address && context.address.length > 0 ? shortenString(context.address): 'Connect'}</span></div>}
         
-        <div className="nav-list menu-icon ham-icon" onClick={() => clickHamburger()}><span className="material-icons-outlined nav-span">menu</span></div> 
+        <div className="nav-list menu-icon ham-icon" onClick={() => clickHamburger()}>
+            {!hamburger && <span className="material-icons-outlined nav-span">menu</span>}
+            {hamburger && <span className="material-icons-outlined nav-span">close</span>}
+        </div> 
         
 
 
         {/*  ------------------ HAMBURGER MENU ---------------------- */}
         {hamburger &&
         <div className="hamburgerMenu">
-          <div onClick={() => menuTab('opener')} ><span className="menu-label">Notes</span></div>
+          <div onClick={() => {closeHamburger();menuTab('opener')}} ><span className="menu-label">Notes</span></div>
           <div onClick={() => export2()}><span className="menu-label">Export</span></div>
-          {context.address && context.address.length > 0 && <div onClick={() => logout()}><span className="menu-label">Logout</span></div>}
+          {context.address && context.address.length > 0 && <div onClick={() => {closeHamburger();logout()}}><span className="menu-label">Logout</span></div>}
           <div onClick={() => toggleLightMode()}><span className="menu-label">Switch Light</span></div> 
         </div>
         }

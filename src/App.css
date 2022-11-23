@@ -32,19 +32,23 @@
 } */
 
 .hamburgerMenu {
-  top: 70px;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+
   position: absolute;
   overflow: hidden;
   color: #fff;
-   background: #c94b4b;
-  background: -webkit-linear-gradient(to right, #4b134f, #c94b4b);
-  background: linear-gradient(to right, #4b134f, #c94b4b); 
-  z-index: 0;
+  background: #c94b4b;
+  /* background: -webkit-linear-gradient(to right, #4b134f, #c94b4b);
+  background: linear-gradient(to right, #4b134f, #c94b4b);  */
+  /* z-index: 1; */
   /* transform: translateX(110%);
   transition: transform 0.5s ease; */
+  padding-left: 10px;
+  padding-top: 10px;
+  top: 52px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  
 }
 
 html, body {
@@ -53,6 +57,11 @@ html, body {
   font-family: "Roboto Mono", monospace;
   font-size: 16px;
 
+  /* added that only to hide scroll bars on hamburger menu - dont know why */
+  /* found here: https://stackoverflow.com/questions/36531708/why-does-position-absolute-make-page-to-overflow */
+  overflow-x:hidden;
+  overflow-y:hidden;
+ /* added that only to hide scroll bars on hamburger menu - dont know why */
 }
 body {
    background: white;
@@ -96,7 +105,7 @@ textarea {
 }
 
 .textarea-container {
-  height: 90%;
+  height: 90%; /* this might determine the height of nav-bar-container */
   padding-left: 10px;
   padding-top: 10px;
   margin-bottom: -30px;
@@ -276,18 +285,20 @@ textarea {
 /* nav.css */
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display:900');
 
-.nav-bar {
-  /*position:absolute;*/
+/* .nav-bar {
+  
   width: 100%;
   border-bottom: 2px solid lightgray;
   background-color: #ecf0f1;
-}
+
+} */
 
 .nav-bar-dark {
-  /*position:absolute;*/
+  /* position:absolute; */
   width: 100%;
   border-bottom: 2px solid white;
   background-color: rgb(51,51,51);
+  height: 50px;
 }
 
 .nav-bar-light {
@@ -307,6 +318,7 @@ textarea {
   padding-bottom: 5px;
   font-family: 'Assistant', sans-serif;
   letter-spacing: 0.6px;
+  
 }
 
 .nav-row { display:table-row; }
