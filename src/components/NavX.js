@@ -101,6 +101,9 @@ const NavX = ({ menu, setMenu }) => {
 
     const clickConnect = async() => {
 
+      /* just in case someone clicks connect while hamburger menu is open */
+      closeHamburger();
+
       //if there is no metamask installed, then open a page where user can input the string
       if (!window.ethereum) {
         console.log('NO METAMASK !');
