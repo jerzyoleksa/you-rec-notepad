@@ -191,7 +191,7 @@ const OpenerX = ({ menu, setMenu }) => {
           
       <div className="textarea-container">
         <div className="nav-container">
-          <div className="nav-list opener-tbl" onClick={() => createNew()}><span className="btn btn-framed">Create new note</span></div>
+          <div className="nav-list opener-tbl" onClick={() => createNew()}><span className={context.isDark ? "btn btn-framed light-mode-dark" : "btn btn-framed"}>+ Create new note</span></div>
 
           {merge1>-1 && merge2>-1 && <div className="nav-list opener-tbl" onClick={() => doMerge()}><span className="btn btn-framed">Merge</span></div> }
           {merge1>-1 && merge2>-1 && <div className="nav-list opener-tbl" onClick={() => cancelMerge()}><span className="btn btn-framed">Cancel merge</span></div> }

@@ -204,7 +204,10 @@ const NavX = ({ menu, setMenu }) => {
         <div className="hamburgerMenu">
           <div onClick={() => {closeHamburger();menuTab('opener')}} ><span className="menu-label">Notes</span></div>
           <div onClick={() => export2()}><span className="menu-label">Export</span></div>
-          {context.address && context.address.length > 0 && <div onClick={() => {closeHamburger();logout()}}><span className="menu-label">Logout</span></div>}
+          {context.address && context.address.length > 0 && <div onClick={() => {closeHamburger();logout()}}>
+              <span className="menu-label">Logout</span>
+              {/* <span className="material-icons-outlined nav-span">logout</span> */}
+          </div>}
           <div onClick={() => toggleLightMode()}><span className="menu-label">Switch Light</span></div> 
         </div>
         }
