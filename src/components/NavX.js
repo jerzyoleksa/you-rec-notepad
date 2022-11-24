@@ -84,6 +84,7 @@ const NavX = ({ menu, setMenu }) => {
       
     }
     const menuTab = async(text) => {
+      closeHamburger();
       console.log("menuTab...")
       if (text == 'opener') setMenu({ "current": false, "opener": true });
       if (text == 'current') setMenu({ "current": true, "opener": false });
