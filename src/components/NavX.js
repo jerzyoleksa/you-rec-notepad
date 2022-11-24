@@ -201,7 +201,7 @@ const NavX = ({ menu, setMenu }) => {
 
         {/*  ------------------ HAMBURGER MENU ---------------------- */}
         {hamburger &&
-        <div className="hamburgerMenu">
+        <div className={context.isDark ? "hamburgerMenu light-mode-dark" : "hamburgerMenu light-mode-light"}>
           <div onClick={() => {closeHamburger();menuTab('opener')}} ><span className="menu-label">Notes</span></div>
           <div onClick={() => export2()}><span className="menu-label">Export</span></div>
           {context.address && context.address.length > 0 && <div onClick={() => {closeHamburger();logout()}}>
