@@ -1,6 +1,19 @@
+
+.ham-icon {
+  display: none !important;
+}
+
 @media only screen and (max-width: 768px) {
   .menu-large {
     display: none !important;
+  }
+
+  .menu-icon {
+    display: table-cell !important;
+  }
+
+  .ham-icon {
+    display: table-cell !important;
   }
 }
 
@@ -8,15 +21,9 @@
    display: none !important; 
 } */
 
-@media only screen and (max-width: 768px) {
-  .menu-icon {
-    display: table-cell !important;
-  }
-}
 
-/* .ham-icon {
-  display: inline;
-} */
+
+
 
 
 /* .menuBTN:checked ~ .hamburgerMenu {
@@ -32,7 +39,6 @@
 } */
 
 .hamburgerMenu {
-
   position: absolute;
   overflow: hidden;
 
