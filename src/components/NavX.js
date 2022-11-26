@@ -14,6 +14,7 @@ const NavX = ({ menu, setMenu }) => {
     const [context, setContext] = useContext(UserContext);
     const [noteContext, setNoteContext] = useContext(NoteContext);
     const [hamburger, setHamburger] = useState(false);
+    const [notes, setNotes] = useState([]); /* keeps notes in locally in NavX component, [!] separate to notes kept in Opener */
     //const [note, setNote] = useContext(UserContext);
     //const [dummy, setDummy] = useContext(UserContext);
 
@@ -72,6 +73,18 @@ const NavX = ({ menu, setMenu }) => {
       setHamburger(!hamburger);
     }
 
+    const closeHamburger = () => {
+      setHamburger(false);
+    }
+
+    const shuffleNote = async() => {
+      //console.log('shuffling');
+      let nId = notes[Math.floor(Math.random()*notes.length)].id;
+      //console.log('nId:'+nId);
+      let fullNoteObject = await getNote(nId, context.sign);
+      setNoteContext(fullNoteObject); // this line removes the userData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    }
+
     const logout = () => {
  
       //TODO: removing cookie below, still lets you autologin on the browser refresh
@@ -95,9 +108,7 @@ const NavX = ({ menu, setMenu }) => {
       return str.substring(0, 4)+'...'+str.substring((str.length-4), str.length);
     }
 
-    const closeHamburger = () => {
-      setHamburger(false);
-    }
+   
 
     const clickConnect = async() => {
 
@@ -149,7 +160,8 @@ const NavX = ({ menu, setMenu }) => {
 
       const fetchData = async () => {
         let list = await fetchDataCall(context.sign);
-        
+        setNotes(list);
+
         if (list && list.length > 0) { 
           let lastNote = list[list.length-1];
 
@@ -173,14 +185,28 @@ const NavX = ({ menu, setMenu }) => {
       <div className={(context.isDark ? 'nav-bar-dark' : 'nav-bar-light')}>
       <div className="nav-container">
         <div className="nav-row">
-        {noteContext && <div className="nav-list" onClick={() => {menuTab('current');}} >
+        
+        
+        {/* Textfile title */}
+        {noteContext && 
+        <div className="nav-list" onClick={() => {menuTab('current');}} >
            <ContentEditable html={noteContext.title ? noteContext.title+'.txt' : "Untitled.txt"} // innerHTML of the editable div
               disabled={true}       // use true to disable editing
               tagName='article' // Use a custom HTML tag (uses a div by default)
               className="btn btn-grayish"
             />
+            
+        
+
         </div>}  
         
+        {noteContext && 
+  
+            <div className="nav-list">
+              <span onClick={() => shuffleNote()} className="material-icons-outlined nav-span">repeat</span>
+            </div>
+
+        }  
         <div className="nav-list menu-large" onClick={() => menuTab('opener')} ><span className="menu-label">Notes</span></div>
         <div className="nav-list menu-large" onClick={() => export2()}><span className="menu-label">Export</span></div> 
 
