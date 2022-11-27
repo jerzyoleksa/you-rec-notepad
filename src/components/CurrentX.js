@@ -6,13 +6,18 @@ import Cookies from 'js-cookie'
 import axios from 'axios'
 import { UserContext, NoteContext } from "./ProviderComponent";
 import { decryptWithAES, encryptTextWithAES } from "./EncryptAES";
-
+import * as indentation from 'indent-textarea';
 
 const CurrentX = () => {
   const [context, setContext] = useContext(UserContext);
   const [noteContext, setNoteContext] = useContext(NoteContext);
     //const [note, setNote] = useContext(AppContext);
     //const contentEditableRef = useRef();
+
+    //tab ident in textarea, from https://www.npmjs.com/package/indent-textarea
+    
+    //indentation.watch(textarea);          
+    //tab ident in textarea
 
     const handleChange = (event) => {
      
@@ -70,7 +75,12 @@ const CurrentX = () => {
     
     useEffect(() => {
       document.getElementById("txtar").focus();
-      
+
+      //textarea ident
+      const textarea = document.querySelector('textarea');
+      indentation.watch(textarea);
+      //textarea ident
+
       console.log('CurrentX.useEffect()');
       
       const fetchData = async () => {
