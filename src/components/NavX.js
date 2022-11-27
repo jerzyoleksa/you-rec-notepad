@@ -83,6 +83,22 @@ const NavX = ({ menu, setMenu }) => {
       //console.log('nId:'+nId);
       let fullNoteObject = await getNote(nId, context.sign);
       setNoteContext(fullNoteObject); // this line removes the userData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      menuTab('current')
+    }
+
+    const nextNote = async() => {
+      //console.log('shuffling');
+      let currIdx = notes.findIndex(x => x.id === noteContext.id);
+      var nextIdx = currIdx + 1;
+      if (nextIdx > notes.length - 1) nextIdx = 0;
+      console.log("nextIdx:"+nextIdx);
+      let nextId = notes[nextIdx].id;
+      console.log("nextId:"+nextId);
+     
+      //console.log('nId:'+nId);
+      let fullNoteObject = await getNote(nextId, context.sign);
+      setNoteContext(fullNoteObject); // this line removes the userData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      menuTab('current')
     }
 
     const logout = () => {
@@ -203,7 +219,7 @@ const NavX = ({ menu, setMenu }) => {
         {noteContext && 
   
             <div className="nav-list">
-              <span onClick={() => shuffleNote()} className="material-icons-outlined nav-span">repeat</span>
+              <span onClick={() => nextNote()} className="material-icons-outlined nav-span">repeat</span>
             </div>
 
         }  
