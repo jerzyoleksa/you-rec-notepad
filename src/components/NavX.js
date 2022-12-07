@@ -10,7 +10,7 @@ import { registerEthAddress } from "./ApiAxios";
 import { decryptWithAES } from "./EncryptAES";
 
 const NavX = ({ menu, setMenu }) => {
-    
+
     const [context, setContext] = useContext(UserContext);
     const [noteContext, setNoteContext] = useContext(NoteContext);
     const [hamburger, setHamburger] = useState(false);
@@ -22,7 +22,7 @@ const NavX = ({ menu, setMenu }) => {
 
     // const updateTitle = () => {
     // }
-
+   
     const export2 = async () => {
       setContext(currentContext => ({ ...currentContext, ...{"status" : "exporting..."} }));
       let resp = await exporto();
@@ -167,6 +167,12 @@ const NavX = ({ menu, setMenu }) => {
 
 
     useEffect(() => {
+      
+    
+      // return () => {
+      //   document.removeEventListener('keyup', handlekeydownEvent)
+      // }
+
       setCssBodyByMode(context.isDark === true);
       //setDummy({"dummy": "lets see !" });
       //console.log("[NAVX] useEffect:"+JSON.stringify(userData));
@@ -176,6 +182,8 @@ const NavX = ({ menu, setMenu }) => {
 
       const fetchData = async () => {
         let list = await fetchDataCall(context.sign);
+        console.log('now will be setting notes in useState:'+list);
+
         setNotes(list);
 
         if (list && list.length > 0) { 
@@ -191,6 +199,32 @@ const NavX = ({ menu, setMenu }) => {
       };
   
       fetchData();
+
+
+
+      // Add Key Listener to captur CTRL + <0..9> events
+      // function handlekeydownEvent(event) {
+      //   const { key, keyCode } = event;
+      //   if ((window.event.keyCode >= 48 && window.event.keyCode <= 57) && (window.event.ctrlKey)) {
+      //     event.preventDefault();
+      //     event.stopPropagation();
+        
+      //     let no = keyCode - 48;
+         
+      //     console.log('ctrl+' + no);
+      //     console.log('notes in listener:-' + notesRef);
+      //     openNoteByIndex(no);
+      //   }
+        
+      // }
+      
+
+      //keept it for knowing
+      
+      //window.addEventListener('keydown', handlekeydownEvent)
+      // end of listener
+
+
     }, [context.sign]); //rerender NavX every time user is changed (sign param is changed)
 
 

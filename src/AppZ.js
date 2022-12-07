@@ -24,7 +24,18 @@ const MenuState = {
   "opener" : false
 }
 
-
+const handleKeyDown = event => {
+  console.log('User pressed: ', event.key);
+  console.log('User pressed: ', event);
+  if ((event.key >= 0 && event.key <= 9) && (event.ctrlKey)) {
+    event.preventDefault();
+    event.stopPropagation();
+  
+    console.log('ctrl+' + event.key);
+    console.log('notes in listener:-');
+    //openNoteByIndex(event.key);
+  }
+};
 
 const AppZ = () => {
   const [menu, setMenu] = useState(MenuState)
@@ -37,7 +48,7 @@ const AppZ = () => {
 
     return (
       <ProviderComponent>
-      <div className="rootDiv">
+      <div className="rootDiv" tabIndex={0} onKeyDown={handleKeyDown}>
         
         <NavX menu={menu} setMenu={setMenu}/>
         {menu.current && <CurrentX/> }  
