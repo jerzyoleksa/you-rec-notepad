@@ -17,25 +17,13 @@ import OpenerX from './components/OpenerX';
 import CredsX from './components/CredsX';
 import BottomFixedMenuX from './components/BottomFixedMenuX';
 import {UserContext, ProviderComponent} from './components/ProviderComponent';
+import { KeyHandlerX } from './components/KeyHandlerX';
 
 
 const MenuState = {
   "current" : true,
   "opener" : false
 }
-
-const handleKeyDown = event => {
-  console.log('User pressed: ', event.key);
-  console.log('User pressed: ', event);
-  if ((event.key >= 0 && event.key <= 9) && (event.ctrlKey)) {
-    event.preventDefault();
-    event.stopPropagation();
-  
-    console.log('ctrl+' + event.key);
-    console.log('notes in listener:-');
-    //openNoteByIndex(event.key);
-  }
-};
 
 const AppZ = () => {
   const [menu, setMenu] = useState(MenuState)
@@ -48,7 +36,8 @@ const AppZ = () => {
 
     return (
       <ProviderComponent>
-      <div className="rootDiv" tabIndex={0} onKeyDown={handleKeyDown}>
+      <KeyHandlerX>  
+      <div className="rootDiv">
         
         <NavX menu={menu} setMenu={setMenu}/>
         {menu.current && <CurrentX/> }  
@@ -59,6 +48,7 @@ const AppZ = () => {
         <Child2 /> */}
        
       </div>
+      </KeyHandlerX>
       </ProviderComponent>
     )
 }

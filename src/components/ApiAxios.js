@@ -82,6 +82,24 @@ const getNote = async (id, sign) => {
   return apiReturn;
 };
 
+const getNoteByIdx = async (idx, sign) => {
+
+  //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
+  let apiReturn = await axios
+    .post('https://urec.app/ai/getNoteByIdx', {'idx' : idx, 'sign': sign})
+    .then(async function(response) {
+      let note = response.data;
+      note.content = processContent(note); //decrypt if needed (if status === 7)
+      console.log('ApiAxios.getNote() successfull');
+      return note;
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  
+  return apiReturn;
+};
+
 const processContent = (note) => {
   let ecryptedText = note.content;
   console.log(note.status);
@@ -181,7 +199,7 @@ const updateTitleDB = (e, id) => {
   .catch((err) => console.log("Error updating!!!",err) );
 }
 
-export {accessByKey, fetchDataCall, registerEthAddress, updateNote, fetchUserId, deleteNote, createNew, updateTitleDB, updateNoteParam, exporto, getNote}
+export {getNoteByIdx, accessByKey, fetchDataCall, registerEthAddress, updateNote, fetchUserId, deleteNote, createNew, updateTitleDB, updateNoteParam, exporto, getNote}
 
 /*
 notes:

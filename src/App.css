@@ -17,26 +17,11 @@
   }
 }
 
-/* .menu-icon {
-   display: none !important; 
-} */
 
-
-
-
-
-
-/* .menuBTN:checked ~ .hamburgerMenu {
-  display: inline !important;
-} */
-
-/* #button + label:before {
-  content: "\f0c9";
+/* make sure this div has no impact on layat, its only to have a parent that supports keyDown event !!!! */
+.keyDownDiv {
+  display: inline;
 }
-
-#button:checked + label:before {
-  content: "\f0aa";
-} */
 
 .hamburgerMenu {
   position: absolute;
