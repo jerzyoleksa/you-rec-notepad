@@ -3,6 +3,26 @@
   display: none !important;
 }
 
+.absolute-pass {
+  display: flex;
+  align-items: center;
+ 
+
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+
+  color: white;
+  min-width: 160px;
+  border: 2px solid black;
+
+  background-color: grey;
+  border: 0px solid red;
+  height: 10px !important;
+  padding: 10px !important;
+
+}
+
 @media only screen and (max-width: 768px) {
   .menu-large {
     display: none !important;

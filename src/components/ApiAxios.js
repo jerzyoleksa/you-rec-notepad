@@ -103,7 +103,9 @@ const getNoteByIdx = async (idx, sign) => {
 const processContent = (note) => {
   let ecryptedText = note.content;
   console.log(note.status);
-  if (note.status === 7) {
+  //if (note.status === 7) {
+  if (note.status === 100000) { //disables decryption basically
+
     console.log('77777777777777777777777777777'+ecryptedText);
     var decrypted = ecryptedText;
     try {

@@ -18,12 +18,54 @@ const CurrentX = () => {
     
     //indentation.watch(textarea);          
     //tab ident in textarea
+    const decryptSecured = (e) => {
+      
+      let key = e.currentTarget.textContent;
+      setNoteContext(currentContext => ({ ...currentContext, ...{"key" : key} }))
+
+      if (key.length !== 16) {
+        console.log('password must contain exactly 16 characters');
+        return;
+      }
+
+      if (noteContext.decrypted) {
+        console.log('Note already decrypted. Now you changing password for future updates');
+        return;
+      }
+
+      var decrypted = noteContext.content;
+      
+      try {
+        decrypted = decryptWithAES(noteContext.content, key);
+        setNoteContext(currentContext => ({ ...currentContext, ...{"content" : decrypted} })) //instead of updateContext  
+        
+        console.log('Message decrypted. Now when you change the input field key, you change the encryption password')
+        setNoteContext(currentContext => ({ ...currentContext, ...{"decrypted" : true} })) //instead of updateContext      
+        
+      } catch (error) {
+        //Error: Malformed UTF-8 data - means wrong password
+        // console.log(error.name);
+        // console.log(error.message);
+        if (error.message.startsWith('Malformed UTF-8 data')) {
+          console.log('Password Incorrect');
+        } else {
+          console.log(error);
+        }
+        //setNoteContext(currentContext => ({ ...currentContext, ...{"decrypted" : undefined} })) //instead of updateContext
+      }
+      
+    }
+
 
     const handleChange = (event) => {
-     
+      if (noteContext.status === 7 && noteContext.content.length > 0 && !noteContext.decrypted) {
+        console.log('Content needs to be unencrypted to be updated');
+        return;
+      }
       //!!!!
       //this can be asynchronous, so cant rely on context being updated on time when updating note, better to use target value later
       setNoteContext(currentContext => ({ ...currentContext, ...{"content" : event.target.value} })) //instead of updateContext
+      //setNoteContext(currentContext => ({ ...currentContext, ...{"decrypted" : event.target.value} })) //instead of updateContext
       //!!!!      
       
       if (context.typingTimeout) {
@@ -37,10 +79,28 @@ const CurrentX = () => {
   
   
     }
+    const getContentToDisplay = (noteContext) => {
+      if (noteContext) {
 
+        if (noteContext.status === 7 && noteContext.decrypted) return noteContext.decrypted;
 
+        return noteContext.content;
+      }
+      return "";
+    }
+
+    //newText is taken directly from textarea
     const updateNote = (newText) => {
     
+      if (noteContext.status === 7 && noteContext.key.length != 16) {
+        console.log('Update Failed. Encryption key must have exactly 16 chars');
+        return;
+      }
+      //TODO
+      // if (noteContext && noteContext.decrypted){
+
+      // }
+
       //this.props.updateSaviStatus("saving ..."); //in async methods must be setState, not just this.state.status = ...
       setContext(currentContext => ({ ...currentContext, ...{"status" : "saving ..."} })) //instead of updateContext
       
@@ -55,7 +115,10 @@ const CurrentX = () => {
       noteToUpdate["authKey"] = context.sign;
       noteToUpdate["address"] = context.address;
       noteToUpdate["name"] = "content"; 
-      noteToUpdate["value"] = (noteContext.status == 7 ? encryptTextWithAES(newText, '0123456789123456') : newText);
+
+      console.log(newText);
+      console.log(noteContext.key);
+      noteToUpdate["value"] = (noteContext.status == 7 ? encryptTextWithAES(newText, noteContext.key) : newText);
       //noteToUpdate["value"] = newText;
   
       (noteContext.status == 7) ? console.log('noteContext.status:'+noteContext.status) : console.log('not 7');
@@ -111,8 +174,12 @@ const CurrentX = () => {
             />*/}
 
         {/*<span>{this.state.status}</span>*/}
-        <textarea id="txtar" value={noteContext ? noteContext.content : ""} onChange={handleChange}  />
         
+        <textarea id="txtar" value={noteContext ? noteContext.content : ""} onChange={handleChange}  />
+        {noteContext.status === 7 && <div className="absolute-pass"
+             suppressContentEditableWarning={true} 
+             contentEditable="true"
+             onInput={e => { decryptSecured(e)}}></div>}
 
         
       </div>
