@@ -37,6 +37,14 @@ const CurrentX = () => {
       
       try {
         decrypted = decryptWithAES(noteContext.content, key);
+
+        console.log('decrypted:'+decrypted);
+        if (decrypted.length === 0) {
+          console.log('not decrypted, message probably not encrypted yet. make sure you have set 16char key and update your note.');
+          noteContext.decrypted = true; //settting to true even if its not encrypted, to let it go through the condition in edit function
+          return;
+        }
+
         setNoteContext(currentContext => ({ ...currentContext, ...{"content" : decrypted} })) //instead of updateContext  
         
         console.log('Message decrypted. Now when you change the input field key, you change the encryption password')
