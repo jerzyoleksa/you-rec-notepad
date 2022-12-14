@@ -100,7 +100,7 @@ const CurrentX = () => {
     //newText is taken directly from textarea
     const updateNote = (newText) => {
     
-      if (noteContext.status === 7 && noteContext.key.length != 16) {
+      if (noteContext.status === 7 && (!noteContext.key || noteContext.key.length != 16)) {
         console.log('Update Failed. Encryption key must have exactly 16 chars');
         return;
       }
