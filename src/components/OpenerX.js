@@ -102,12 +102,12 @@ const OpenerX = ({ menu, setMenu }) => {
     }
     
 
-    const secure = async(note) => {
-      (note.status == 7 ? note.status = 1 : note.status = 7); 
-      updateNoteStatusInNotes(note.id, note.status); 
-      let res = await updateNoteParam(note.id, 'status', note.status, context.sign); 
-      console.log('toggled secured'+res);
-    }
+    // const secure = async(note) => {
+    //   (note.status == 7 ? note.status = 1 : note.status = 7); 
+    //   updateNoteStatusInNotes(note.id, note.status); 
+    //   let res = await updateNoteParam(note.id, 'status', note.status, context.sign); 
+    //   console.log('toggled secured'+res);
+    // }
     
     // const deleteNoteOLD = (note) => {
     //   //const newNotesState = this.state.notes.filter((note) => note.id !== id );
@@ -200,14 +200,16 @@ const OpenerX = ({ menu, setMenu }) => {
         <div>
               { Array.isArray(notes) &&
                   notes.map((note, idx) => <div className="nav-container" key={note.id+'parent'}>
-                          <div className="nav-list-narrow"  onClick={() => {secure(note)}}><span className={note.status == 7 ?'material-icons-outlined nav-span-blue' : 'material-icons-outlined nav-span'}>lock</span></div> 
+                          
+                          {/* <div className="nav-list-narrow"  onClick={() => {secure(note)}}><span className={note.status == 7 ?'material-icons-outlined nav-span-blue' : 'material-icons-outlined nav-span'}>lock</span></div> 
+                           */}
                           <div className="nav-list-narrow"  onClick={() => {toggleEditingInNotes(note,idx)}}><span className="material-icons-outlined nav-span">edit</span></div>                       
                           <div className="nav-list-narrow"  onClick={() => {delNote(note)}}><span className="material-icons-outlined nav-span">delete</span></div> 
                           <div className="nav-list-narrow" onClick={() =>selectMerge(note)}><span className={isSelected4Merge(note) ? 'material-icons-outlined nav-span-blue' : 'material-icons-outlined nav-span'}>link</span></div> 
                           
                           <div className={!note.editing ? "nav-list opener-tbl" : "nav-list opener-tbl hidden"}  onClick={() => selectNote(note)}><span className={context.isDark ? 'label-white' : 'label-black'}>{note.title}.txt</span></div>
                           {/* W momencie generowania jest niewidoczny !!!! */}
-                          <div className={note.editing ? "nav-list opener-tbl edit-parent-div" : "nav-list opener-tbl edit-parent-div hidden"}><div ref={el => addToRefs(el)} className="edit-child-div" suppressContentEditableWarning={true} contentEditable="true" onInput={e => { updateTitle(e, note)} }>{note.title}</div><div className="edit-child-div">.txt</div></div>
+                          <div className={note.editing ? "nav-list opener-tbl edit-parent-div" : "nav-list opener-tbl edit-parent-div hidden"}><div ref={el => addToRefs(el)} className={context.isDark ? 'label-white edit-child-div' : 'label-black edit-child-div'} suppressContentEditableWarning={true} contentEditable="true" initialValue={note.title} onInput={e => { updateTitle(e, note)} }></div><div className={context.isDark ? 'label-white edit-child-div' : 'label-black edit-child-div'}>.txt</div></div>
                       
                       </div>
                       )

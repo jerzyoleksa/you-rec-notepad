@@ -38,7 +38,7 @@ const AppZ = () => {
       <ProviderComponent>
       <KeyHandlerX>  
       <div className="rootDiv">
-        
+      
         <NavX menu={menu} setMenu={setMenu}/>
         {menu.current && <CurrentX/> }  
         {menu.opener && <OpenerX menu={menu} setMenu={setMenu}/>}
