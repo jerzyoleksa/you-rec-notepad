@@ -224,6 +224,7 @@ const CurrentX = () => {
       updateNoteParam(noteContext.id, 'status', 1, context.sign); 
       toggleSecInput();
       setKey(null);
+      setIsDecrypted(false);
     }
     
     const toggleSecInput = () => {
