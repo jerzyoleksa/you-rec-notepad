@@ -301,11 +301,11 @@ const CurrentX = () => {
                   <span>Unsecure</span> </div> 
           }
 
-          {/* OK */}
+          {/* SECURE */}
           {noteContext.status === 1 && key && key.length === 16 && secInput &&
             <div className="absolute-pass-ico-ok"  
                onClick={() => {secure()}}>
-                  <span>OK</span> </div> 
+                  <span>Secure</span> </div> 
           }
 
 
