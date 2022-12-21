@@ -23,16 +23,7 @@ const CurrentX = () => {
     //tab ident in textarea
 
 
-    const okEncrypt = async() => {
-      setNoteContext(currentContext => ({ ...currentContext, ...{"status" : 7} }));
-      
-      //need to set it again, cause the setNoteContext is async
-      noteContext.status = 7;
-      
-      updateNote(noteContext.content); 
-      updateNoteParam(noteContext.id, 'status', 7, context.sign); 
-      
-    }
+
 
 
     /**
@@ -213,28 +204,30 @@ const CurrentX = () => {
 
     }
 
+    const secure = async() => {
+      setNoteContext(currentContext => ({ ...currentContext, ...{"status" : 7} }));
+      
+      //need to set it again, cause the setNoteContext is async
+      noteContext.status = 7;
+      
+      updateNote(noteContext.content); 
+      updateNoteParam(noteContext.id, 'status', 7, context.sign); 
+      
+      toggleSecInput();
+      setKey(null);
+    }
+
+    const unsecure = () => {
+      console.log('unsecuring...');
+      noteContext.status = 1;
+      updateNote(noteContext.content);
+      updateNoteParam(noteContext.id, 'status', 1, context.sign); 
+      toggleSecInput();
+      setKey(null);
+    }
+    
     const toggleSecInput = () => {
       setSecInput(!secInput);
-      //2 screens - Opener and Current
-      //Lock icon just toggles input, doesnt change a note state
-      /*
-
-        1 - unsecured
-
-        7 - secured
-
-
-      */
-
-
-      //(noteContext.status == 7 ? setNoteContext(currentContext => ({ ...currentContext, ...{"status" : 1} })) : setNoteContext(currentContext => ({ ...currentContext, ...{"status" : 7} }))); 
-      
-      //updateNoteStatusInNotes(note.id, note.status); 
-      //let res = await updateNoteParam(note.id, 'status', note.status, context.sign); 
-      //console.log('toggled secured'+res);
-
-      //TODO: - automatically encrypt/decrypt when toggling lock icon
-
     }
     
     const getSecIconName = () => {
@@ -249,6 +242,12 @@ const CurrentX = () => {
     }, [key]);
     //separate useEffect for key
 
+    useEffect(() => {
+      if (secInput) {
+        console.log('secInput:'+secInput);
+        document.getElementById("secInputDiva").focus();
+      }
+    }, [secInput]);
 
     useEffect(() => {
       document.getElementById("txtar").focus();
@@ -295,22 +294,28 @@ const CurrentX = () => {
          
 
 
-          {/* OK */}
-          {noteContext.status === 1 && key && key.length === 16 &&
+          {/* UNSECURE */}
+          {noteContext.status === 7 && isDecrypted && secInput &&
             <div className="absolute-pass-ico-ok"  
-               onClick={() => {okEncrypt()}}>
+               onClick={() => {unsecure()}}>
+                  <span>Unsecure</span> </div> 
+          }
+
+          {/* OK */}
+          {noteContext.status === 1 && key && key.length === 16 && secInput &&
+            <div className="absolute-pass-ico-ok"  
+               onClick={() => {secure()}}>
                   <span>OK</span> </div> 
           }
 
 
           {/* INPUT */}                
           {secInput && 
-          <div className={key && key.length === 16 ? 'absolute-pass-inp absolute-pass-inp-ok' : 'absolute-pass-inp'}
+          <div id="secInputDiva" className={key && key.length === 16 ? 'absolute-pass-inp absolute-pass-inp-ok' : 'absolute-pass-inp'}
           suppressContentEditableWarning={true} 
           contentEditable={!isDecrypted}
           onInput={e => { setKey(e.currentTarget.textContent)}}></div>}
-         
-         
+
           {/* LOCK */}
           <div className="absolute-pass-ico"  
                onClick={() => {toggleSecInput()}}>
@@ -318,7 +323,7 @@ const CurrentX = () => {
 
           {/* STATUS (TEST-ONLY) */}                
               
-          <div className="absolute-pass-ico">{noteContext.status}, {key ? key.length : "0"}</div>
+          {/* <div className="absolute-pass-ico">{noteContext.status}, {key ? key.length : "0"}</div> */}
 
           
 
