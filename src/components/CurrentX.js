@@ -232,8 +232,8 @@ const CurrentX = () => {
     }
     
     const getSecIconName = () => {
-      if (noteContext.status === 7) return 'lock';
-      if (noteContext.status === 1) return 'no_encryption';
+      if (noteContext && noteContext.status === 7) return 'lock';
+      if (noteContext && noteContext.status === 1) return 'no_encryption';
     }
     
     //separate useEffect just for key useState param - react sucks
@@ -296,14 +296,14 @@ const CurrentX = () => {
 
 
           {/* UNSECURE */}
-          {noteContext.status === 7 && isDecrypted && secInput &&
+          {noteContext && noteContext.status === 7 && isDecrypted && secInput &&
             <div className="absolute-pass-ico-ok"  
                onClick={() => {unsecure()}}>
                   <span>Unsecure</span> </div> 
           }
 
           {/* SECURE */}
-          {noteContext.status === 1 && key && key.length === 16 && secInput &&
+          {noteContext && noteContext.status === 1 && key && key.length === 16 && secInput &&
             <div className="absolute-pass-ico-ok"  
                onClick={() => {secure()}}>
                   <span>Secure</span> </div> 
@@ -320,7 +320,7 @@ const CurrentX = () => {
           {/* LOCK */}
           <div className="absolute-pass-ico"  
                onClick={() => {toggleSecInput()}}>
-                  <span className={noteContext.status == 7 ?'material-icons-outlined nav-span' : 'material-icons-outlined nav-span'}>{getSecIconName()}</span></div> 
+                  <span className={noteContext && noteContext.status == 7 ?'material-icons-outlined nav-span' : 'material-icons-outlined nav-span'}>{getSecIconName()}</span></div> 
 
           {/* STATUS (TEST-ONLY) */}                
               
