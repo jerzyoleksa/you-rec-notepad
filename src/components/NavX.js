@@ -109,6 +109,10 @@ const NavX = ({ menu, setMenu }) => {
       setContext(currentContext => ({ ...currentContext, ...{  "address": null, "sign": null, "userId" : null} })); 
      
       setNoteContext(null);
+
+      //when logout - always move to 'current' tab
+      menuTab('current')
+      
       //In Cookies we keep a cookie with a name=address and value=sign !
       
     }
