@@ -184,6 +184,12 @@ const OpenerX = ({ menu, setMenu }) => {
       getNotes();
     }, []);
 
+    //context listener de fact
+    useEffect(() => {
+      console.log('module OpenerX noticed the change in context:'+context.userId);
+      if (context.userId === null) setNotes([]);
+    }, [context]);
+
     
 
 
@@ -208,7 +214,7 @@ const OpenerX = ({ menu, setMenu }) => {
                           
                           <div className={!note.editing ? "nav-list opener-tbl" : "nav-list opener-tbl hidden"}  onClick={() => selectNote(note)}><span className={context.isDark ? 'label-white' : 'label-black'}>{note.title}.txt</span></div>
                           {/* W momencie generowania jest niewidoczny !!!! */}
-                          <div className={note.editing ? "nav-list opener-tbl edit-parent-div" : "nav-list opener-tbl edit-parent-div hidden"}><div ref={el => addToRefs(el)} className={context.isDark ? 'label-white edit-child-div' : 'label-black edit-child-div'} suppressContentEditableWarning={true} contentEditable="true" initialValue={note.title} onInput={e => { updateTitle(e, note)} }></div><div className={context.isDark ? 'label-white edit-child-div' : 'label-black edit-child-div'}>.txt</div></div>
+                          <div className={note.editing ? "nav-list opener-tbl edit-parent-div" : "nav-list opener-tbl edit-parent-div hidden"}><div ref={el => addToRefs(el)} className={context.isDark ? 'label-white edit-child-div' : 'label-black edit-child-div'} suppressContentEditableWarning={true} contentEditable="true" onInput={e => { updateTitle(e, note)} }></div><div className={context.isDark ? 'label-white edit-child-div' : 'label-black edit-child-div'}>.txt</div></div>
                           {note.status === 7 && <div className="nav-list-narrow"><span className="material-icons-outlined nav-span info">shield</span></div> }
                       </div>
                       )
