@@ -65,7 +65,7 @@ class Nav extends Component {
     noteToUpdate["name"] = "title"; 
     
 
-    axios.put('https://frengly.com/ai/notes', noteToUpdate)
+    axios.put('https://frengly.com/rest/v1/notes', noteToUpdate)
     .then((res) => {
     })
     .catch((err) => console.log("Error updating!!!",err) );
@@ -83,7 +83,7 @@ class Nav extends Component {
     noteToUpdate["name"] = "title"; 
     
 
-    axios.put('https://frengly.com/ai/notes', noteToUpdate)
+    axios.put('https://frengly.com/rest/v1/notes', noteToUpdate)
     .then((res) => {
     })
     .catch((err) => console.log("Error updating!!!",err) );
@@ -127,16 +127,16 @@ class Nav extends Component {
     
     
     /*
-    axios.get('https://frengly.com/ai/export?id=2', {responseType: 'blob'})
+    axios.get('https://frengly.com/rest/v1/export?id=2', {responseType: 'blob'})
     .then((res) => {
       
     })
     .catch((err) => console.log("Error!!!",err) );
     */
     //{'authKey': this.state.key}
-    axios.post('https://frengly.com/ai/export', {'authKey': this.state.key})
+    axios.post('https://frengly.com/rest/v1/export', {'authKey': this.state.key})
     /*axios({
-      url: 'https://frengly.com/ai/export?id=2', //your url
+      url: 'https://frengly.com/rest/v1/export?id=2', //your url
       method: 'GET',
       responseType: 'blob', // important
     })*/
@@ -295,7 +295,7 @@ class Nav extends Component {
 
 
     //use https not http! to avoid problems with redirect/cors
-    axios.post('https://frengly.com/ai/notesSec', {'authKey': this.state.key})
+    axios.post('https://frengly.com/rest/v1/notesSec', {'authKey': this.state.key})
     .then((res) => {
       let list = res.data;
       this.setState({notesX: list});

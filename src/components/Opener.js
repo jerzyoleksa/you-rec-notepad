@@ -36,7 +36,7 @@ class Opener extends Component {
 
   getNotes = () => {
     //use https not http! to avoid problems with redirect/cors
-    axios.post('https://frengly.com/ai/notesSec', {'authKey': this.props.authKee})
+    axios.post('https://frengly.com/rest/v1/notesSec', {'authKey': this.props.authKee})
     .then((res) => {
       let list = res.data;
       let lastNote = list[list.length-1];
@@ -54,7 +54,7 @@ class Opener extends Component {
 
   deleteNote = (note) => {
     //const newNotesState = this.state.notes.filter((note) => note.id !== id );
-    axios.delete('https://frengly.com/ai/notes/'+note.id)
+    axios.delete('https://frengly.com/rest/v1/notes/'+note.id)
     .then((res) => this.getNotes() )
     .catch((err) => console.log(err.response) );
   }
@@ -100,7 +100,7 @@ class Opener extends Component {
     console.log('key from parent:'+this.props.authKee);
     
     noteToUpdate["authKey"] = this.props.authKee;
-    axios.put('https://frengly.com/ai/notes', noteToUpdate)
+    axios.put('https://frengly.com/rest/v1/notes', noteToUpdate)
     .then((res) => {
       this.setState({ status: "" });
     })

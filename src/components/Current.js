@@ -85,7 +85,7 @@ class Current extends Component {
 
     
     //1st to update standard content or other param
-    axios.put('https://frengly.com/ai/notes', noteToUpdate)
+    axios.put('https://frengly.com/rest/v1/notes', noteToUpdate)
     .then((res) => {
       this.props.updateSaviStatus("");
     })
@@ -102,7 +102,7 @@ class Current extends Component {
     noteToUpdate["name"] = "encrypted"; 
     noteToUpdate["value"] = encrypted;
 
-    axios.put('https://frengly.com/ai/notes', noteToUpdate)
+    axios.put('https://frengly.com/rest/v1/notes', noteToUpdate)
     .then((res) => {
       this.props.updateSaviStatus("");
     })

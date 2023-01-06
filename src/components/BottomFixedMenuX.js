@@ -112,7 +112,7 @@ const BottomFixedMenuX = ({ menu, setMenu }) => {
     
     // const deleteNoteOLD = (note) => {
     //   //const newNotesState = this.state.notes.filter((note) => note.id !== id );
-    //   axios.delete('https://frengly.com/ai/notes/'+note.id)
+    //   axios.delete('https://frengly.com/rest/v1/notes/'+note.id)
     //   .then((res) => getNotes() )
     //   .catch((err) => console.log(err.response) );
     // }
@@ -125,7 +125,7 @@ const BottomFixedMenuX = ({ menu, setMenu }) => {
   
     const doMerge = () => {
       let data = {"id1" : merge1, "id2": merge2};
-      axios.post('https://urec.app/ai/notesMerge', data)
+      axios.post('https://urec.app/rest/v1/notesMerge', data)
       .then((res) => {getNotes(); setMerge1(-1); setMerge2(-1);} )
       .catch((err) => console.log(err.response) );
     }
@@ -134,7 +134,7 @@ const BottomFixedMenuX = ({ menu, setMenu }) => {
       //const newNotesState = this.state.notes.filter((note) => note.id !== id );
       let noteToCreate = {"userId" : context.userId, "content": ""};
       
-      axios.post('https://urec.app/ai/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
+      axios.post('https://urec.app/rest/v1/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
       .then((res) => getNotes() )
       .catch((err) => console.log(err.response) );
     }

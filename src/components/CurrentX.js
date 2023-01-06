@@ -131,7 +131,7 @@ const CurrentX = () => {
     const handleTextAreaChange = (event) => {
       
       //check if content is encrypted, if encrypted then disable editting
-      if (noteContext.status === 7 && noteContext.content.length > 0 && !isDecrypted) {
+      if (noteContext && noteContext.status === 7 && noteContext.content.length > 0 && !isDecrypted) {
         console.log('Content needs to be unencrypted to be updated');
         return;
       }
@@ -193,7 +193,7 @@ const CurrentX = () => {
    
       
       //1st to update standard content or other param
-      axios.put('https://urec.app/ai/notes', noteToUpdate)
+      axios.put('https://urec.app/rest/v1/notes', noteToUpdate)
       .then((res) => {
         setContext(currentContext => ({ ...currentContext, ...{"status" : ""} }))
         if (res.updatedId) setNoteContext(currentContext => ({ ...currentContext, ...{"id" : res.updatedId} }))

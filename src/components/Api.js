@@ -7,7 +7,7 @@ export default class Api{
 
     getNotes = (signedKey) => {
         //use https not http! to avoid problems with redirect/cors
-        axios.post('https://frengly.com/ai/notesSec', {'authKey': signedKey})
+        axios.post('https://frengly.com/rest/v1/notesSec', {'authKey': signedKey})
         .then((res) => {
           
           this.putNotifsInSession(res.data);
@@ -26,7 +26,7 @@ export default class Api{
 
       getNotes2 = (signedKey, callback) => {
         //use https not http! to avoid problems with redirect/cors
-        axios.post('https://frengly.com/ai/notesSec', {'authKey': signedKey})
+        axios.post('https://frengly.com/rest/v1/notesSec', {'authKey': signedKey})
         .then((res) => {
           
           callback(res.data);

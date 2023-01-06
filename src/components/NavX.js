@@ -254,7 +254,7 @@ const NavX = ({ menu, setMenu }) => {
 
         </div>}  
         
-        {noteContext && 
+        {false && noteContext && 
   
             <div className="nav-list">
               <span onClick={() => nextNote()} className="material-icons-outlined nav-span">repeat</span>

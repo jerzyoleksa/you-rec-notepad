@@ -6,7 +6,7 @@ var ServiceFactory = (function() {
    
     var getNotes = function(signKey) {
       //use https not http! to avoid problems with redirect/cors
-      axios.post('https://frengly.com/ai/notesSec', {'authKey': signKey})
+      axios.post('https://frengly.com/rest/v1/notesSec', {'authKey': signKey})
       .then((res) => {
         let list = res.data;
         //this.setState({notesX: list});

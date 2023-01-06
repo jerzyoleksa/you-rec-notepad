@@ -49,7 +49,7 @@ class App extends Component {
     noteUpdateStruct["authKey"] = this.props.authKee;
     noteUpdateStruct["name"] = "viewed"; 
     
-    axios.put('https://frengly.com/ai/notes', noteUpdateStruct)
+    axios.put('https://frengly.com/rest/v1/notes', noteUpdateStruct)
     .then((res) => {
     })
     .catch((err) => console.log("Error updating!!!",err) )
