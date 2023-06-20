@@ -5,13 +5,13 @@ import { decryptWithAES } from './EncryptAES';
 
 const deleteNote = async (note) => {
   //const newNotesState = this.state.notes.filter((note) => note.id !== id );
-  axios.delete('https://urec.app/rest/v1/notes/'+note.id)
+  axios.delete('https://syslang.io/rest/v1/notes/'+note.id)
   .then(async function(response) {console.log(response);return response;})
   .catch((err) => console.log(err.response) );
 }
 
 const createNew = async (noteToCreate) => {
-  axios.post('https://urec.app/rest/v1/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
+  axios.post('https://syslang.io/rest/v1/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
   .then(async function(response) {return response;})
   .catch((err) => console.log(err.response) );
 }
@@ -37,7 +37,7 @@ const registerEthAddress = async (address, sign) => {
 
   //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
   let apiReturn = await axios
-    .post('https://urec.app/rest/v1/registerAddress', {'address' : address, 'sign': sign})
+    .post('https://syslang.io/rest/v1/registerAddress', {'address' : address, 'sign': sign})
     .then(async function(response) {
       console.log('---> 2.registerEthAddress'+response.data);
       return response.data;
@@ -53,7 +53,7 @@ const accessByKey = async (password) => {
 
   //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
   let apiReturn = await axios
-    .post('https://urec.app/rest/v1/accessByKey', {'accesskey' : password})
+    .post('https://syslang.io/rest/v1/accessByKey', {'accesskey' : password})
     .then(async function(response) {
       return response.data;
     })
@@ -68,7 +68,7 @@ const getNote = async (id, sign) => {
 
   //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
   let apiReturn = await axios
-    .post('https://urec.app/rest/v1/note', {'id' : id, 'sign': sign})
+    .post('https://syslang.io/rest/v1/note', {'id' : id, 'sign': sign})
     .then(async function(response) {
       let note = response.data;
       note.content = processContent(note); //decrypt if needed (if status === 7)
@@ -86,7 +86,7 @@ const getNoteByIdx = async (idx, sign) => {
 
   //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
   let apiReturn = await axios
-    .post('https://urec.app/rest/v1/getNoteByIdx', {'idx' : idx, 'sign': sign})
+    .post('https://syslang.io/rest/v1/getNoteByIdx', {'idx' : idx, 'sign': sign})
     .then(async function(response) {
       let note = response.data;
       note.content = processContent(note); //decrypt if needed (if status === 7)
@@ -122,7 +122,7 @@ const processContent = (note) => {
 const fetchUserId = async (sign) => {
   //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
   let apiReturn = await axios
-    .get('https://urec.app/rest/v1/findUser/'+sign)
+    .get('https://syslang.io/rest/v1/findUser/'+sign)
     .then(async function(response) {
       console.log("--->fetchUser");
       return response.data;
@@ -137,7 +137,7 @@ const fetchUserId = async (sign) => {
 const fetchDataCall = async (key) => {
   //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
   let apiReturn = await axios
-    .post('https://urec.app/rest/v1/notesSec', {'authKey': key})
+    .post('https://syslang.io/rest/v1/notesSec', {'authKey': key})
     .then(async function(response) {
       console.log("--->fetchDataCall");
       return response.data;
@@ -161,7 +161,7 @@ const updateNote = (note) => {
   noteUpdateStruct["authKey"] = this.props.authKee;
   noteUpdateStruct["name"] = "viewed"; 
   
-  axios.put('https://urec.app/rest/v1/notes', noteUpdateStruct)
+  axios.put('https://syslang.io/rest/v1/notes', noteUpdateStruct)
   .then((res) => {
   })
   .catch((err) => console.log("Error updating!!!",err) )
@@ -175,13 +175,13 @@ const updateNoteParam = async(id, name, value, sign) => {
   noteUpdateStruct["authKey"] = sign;
   noteUpdateStruct["name"] = name; 
   
-  axios.put('https://urec.app/rest/v1/notes', noteUpdateStruct)
+  axios.put('https://syslang.io/rest/v1/notes', noteUpdateStruct)
   .then(async function(response) {console.log(response);return response;})
   .catch((err) => console.log(err.response) );
 }
 
 const exporto = async() => {
-  axios.get('https://urec.app/rest/v1/export')
+  axios.get('https://syslang.io/rest/v1/export')
   .then(async function(response) {console.log(response);return response;})
   .catch((err) => console.log(err.response) );
 }
@@ -195,7 +195,7 @@ const updateTitleDB = (e, id) => {
   noteToUpdate["name"] = "title"; 
   
 
-  axios.put('https://urec.app/rest/v1/notes', noteToUpdate)
+  axios.put('https://syslang.io/rest/v1/notes', noteToUpdate)
   .then((res) => {
   })
   .catch((err) => console.log("Error updating!!!",err) );

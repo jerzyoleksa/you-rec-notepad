@@ -193,7 +193,7 @@ const CurrentX = () => {
    
       
       //1st to update standard content or other param
-      axios.put('https://urec.app/rest/v1/notes', noteToUpdate)
+      axios.put('https://syslang.io/rest/v1/notes', noteToUpdate)
       .then((res) => {
         setContext(currentContext => ({ ...currentContext, ...{"status" : ""} }))
         if (res.updatedId) setNoteContext(currentContext => ({ ...currentContext, ...{"id" : res.updatedId} }))
