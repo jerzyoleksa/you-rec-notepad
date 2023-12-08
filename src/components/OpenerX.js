@@ -124,7 +124,7 @@ const OpenerX = ({ menu, setMenu }) => {
   
     const doMerge = () => {
       let data = {"id1" : merge1, "id2": merge2};
-      axios.post('https://urec.app/rest/v1/notesMerge', data)
+      axios.post('https://syslang.io/rest/v1/notesMerge', data)
       .then((res) => {getNotes(); setMerge1(-1); setMerge2(-1);} )
       .catch((err) => console.log(err.response) );
     }
@@ -133,7 +133,7 @@ const OpenerX = ({ menu, setMenu }) => {
       //const newNotesState = this.state.notes.filter((note) => note.id !== id );
       let noteToCreate = {"userId" : context.userId, "content": ""};
       
-      axios.post('https://urec.app/rest/v1/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
+      axios.post('https://syslang.io/rest/v1/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
       .then((res) => getNotes() )
       .catch((err) => console.log(err.response) );
     }
@@ -165,7 +165,7 @@ const OpenerX = ({ menu, setMenu }) => {
 
       //new Date().toISOString() returns ISO-8601 YYYY-MM-DDTHH:mm:ss.sssZ)
       var tm = new Date().toISOString().substring(0, 19).replace("T"," ");
-      axios.put('https://urec.app/rest/v1/notes', { "id": note.id, "name": "viewed", "value" :  tm})
+      axios.put('https://syslang.io/rest/v1/notes', { "id": note.id, "name": "viewed", "value" :  tm})
       .catch((err) => console.log("Error updating!!!",err) );
 
     }
