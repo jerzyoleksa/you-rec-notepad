@@ -261,7 +261,7 @@ const NavX = ({ menu, setMenu }) => {
             </div>
 
         }  
-        <div className="nav-list menu-large" onClick={() => menuTab('opener')} ><span className="menu-label">Notes</span></div>
+        <div className="nav-list menu-large" onClick={() => menuTab('opener')} ><span className="menu-label">MyNotes</span></div>
         <div className="nav-list menu-large" onClick={() => export2()}><span className="menu-label">Export</span></div> 
 
 
