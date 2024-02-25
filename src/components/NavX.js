@@ -49,6 +49,9 @@ const NavX = ({ menu, setMenu }) => {
       }
 
     }
+    const openDoprawdy = async () => {
+      setMenu({ "current": false, "opener": false, "password" : true });
+    }
 
     const toggleLightMode = async () => {
       
@@ -266,6 +269,7 @@ const NavX = ({ menu, setMenu }) => {
 
 
         <div className="nav-list menu-large" onClick={() => toggleLightMode()}><span className="material-icons-outlined nav-span">wb_sunny</span></div> 
+        <div className="nav-list menu-large" onClick={() => openDoprawdy()}><span className="material-icons-outlined nav-span">key</span></div> 
                 
         {/*<div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
         */}
