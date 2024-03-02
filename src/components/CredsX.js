@@ -143,11 +143,22 @@ const CredsX = ({ menu, setMenu }) => {
     
 
 
+    
+    const handleKeyup = (e) => {
+      
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        console.log('someone hit dat enter');
+        accessByPassword();
+      }
+    }
 
     const updateCredo = (e) => {
-
+      console.log('inside updateCredo');
       setCredo(e.currentTarget.textContent);
       document.getElementById("inp2016").focus();
+      console.log(e.key);
+     
      
     }
 
@@ -160,10 +171,12 @@ const CredsX = ({ menu, setMenu }) => {
         let result2 = await accessByKey(credo);  
         let address = result2.address;
         let uid = result2.newId;
-        let sign = result2.sign.toString();
+        if (result2.sign) {
+          let sign = result2.sign.toString();
 
-        setContext(currentContext => ({ ...currentContext, ...{"sign" : sign, "address" : address, "userId" : uid} })); 
-        setMenu({ "current": true, "opener": false, "password" : false });
+          setContext(currentContext => ({ ...currentContext, ...{"sign" : sign, "address" : address, "userId" : uid} })); 
+          setMenu({ "current": true, "opener": false, "password" : false });
+        }
       };
 
       callAccess();
@@ -179,7 +192,7 @@ const CredsX = ({ menu, setMenu }) => {
     return (
         
       <div>
-        <div id="inp2016" onInput={e => { updateCredo(e) }} suppressContentEditableWarning={true} contentEditable="true" className="pass-input"></div>
+        <div id="inp2016" onKeyDown={(event) => {handleKeyup(event);}} onInput={e => { updateCredo(e) }} suppressContentEditableWarning={true} contentEditable="true" className="pass-input"></div>
         <div id="auth-but" onClick={() => accessByPassword()}><span className="btn btn-framed">authenticate</span></div>
       </div>
                       
