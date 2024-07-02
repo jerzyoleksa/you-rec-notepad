@@ -36,7 +36,7 @@ const AppZ = () => {
 
     return (
       <ProviderComponent>
-      <KeyHandlerX>  
+      {/*<KeyHandlerX setMenu={setMenu} menu={menu}>  */}
       <div className="rootDiv">
       
         <NavX menu={menu} setMenu={setMenu}/>
@@ -48,7 +48,7 @@ const AppZ = () => {
         <Child2 /> */}
        
       </div>
-      </KeyHandlerX>
+      {/*</KeyHandlerX >*/}
       </ProviderComponent>
     )
 }

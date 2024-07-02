@@ -21,10 +21,48 @@ const CurrentX = () => {
     
     //indentation.watch(textarea);          
     //tab ident in textarea
+    const handleKeyDownPressed = event => {
+      //console.log(event.key);
+  
+      //ctrl-q to insert timestamp
+      if ((event.key == 'q') && (event.ctrlKey)) {
+        console.log('inserting timestamp JESLI menu == current ', event.key);
+        insertTimestamp();
+        event.preventDefault();
+        event.stopPropagation();
+        //TODO: set 
+      } else {
+        console.log('DONT');
+      }
+    }
 
+    /**
+     * insert timestamp at
+     */
+    const textareaRef = useRef(null);
+    const insertTimestamp = () => {
+      const textarea = textareaRef.current;
+      if (!textarea) return;
+  
+      const { selectionStart, selectionEnd } = textarea;
+      //let timestamp = '['+new Date().toLocaleString('pl-PL', { timeZoneName: 'short' })+']';
+      //timestamp = timestamp.replace(' CEST','').replace(', ','|');
+      let currentTimestamp = new Intl.DateTimeFormat('en-GB', {
+        dateStyle: 'long',
+        timeStyle: 'short',
+        timeZone: 'Europe/Warsaw',
+      }).format(new Date());
+      let timestamp = '['+currentTimestamp+']';
 
-
-
+      const textBeforeCursor = textarea.value.substring(0, selectionStart);
+      const textAfterCursor = textarea.value.substring(selectionEnd);
+  
+      const newText = textBeforeCursor + timestamp + textAfterCursor;
+      textarea.value = newText;
+  
+      // Move the cursor to the end of the inserted timestamp
+      textarea.selectionStart = textarea.selectionEnd = textBeforeCursor.length + timestamp.length;
+    };
 
     /**
      * 
@@ -129,10 +167,9 @@ const CurrentX = () => {
 
 
     const handleTextAreaChange = (event) => {
-      
-      //check if content is encrypted, if encrypted then disable editting
+       //check if content is encrypted, if encrypted then disable editting
       if (noteContext && noteContext.status === 7 && noteContext.content.length > 0 && !isDecrypted) {
-        console.log('Content needs to be unencrypted to be updated');
+        console.log('Content needs to be Decrypted to be updated');
         return;
       }
 
@@ -275,7 +312,7 @@ const CurrentX = () => {
 
     return (
           
-      <div className="textarea-container">
+      <div className="textarea-container" onKeyDown={handleKeyDownPressed}>
       {/*<ContentEditable
               innerRef={this.contentEditable}
               html={this.state.html} // innerHTML of the editable div
@@ -288,9 +325,10 @@ const CurrentX = () => {
             />*/}
 
         {/*<span>{this.state.status}</span>*/}
+        {/* <button onClick={insertTimestamp}>Insert Timestamp</button> */}
+        <textarea  ref={textareaRef} id="txtar" value={noteContext ? noteContext.content : ""} onChange={handleTextAreaChange}  />
         
-        <textarea id="txtar" value={noteContext ? noteContext.content : ""} onChange={handleTextAreaChange}  />
-         
+
         <div className="absolute-pass">
          
 

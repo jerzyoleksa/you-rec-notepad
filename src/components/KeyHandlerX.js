@@ -4,14 +4,27 @@ import Cookies from 'js-cookie'
 import { fetchUserId, getNote, getNoteByIdx } from "./ApiAxios"
 import { UserContext, NoteContext } from "./ProviderComponent";
 
+const KeyHandlerX = ({children, setMenu, menu}) => {
 
-const KeyHandlerX = ({children}) => {
-
+  //to be able to call child component (CurX) function from here
   
+
   const [context, setContext] = useContext(UserContext);
   const [noteContext, setNoteContext] = useContext(NoteContext);
 
+  //gdziekolwiek na ekranie nacisnieszcz klawisz, uruchomi sie ta funkcja
   const handleKeyDown = event => {
+    //console.log(event.key);
+
+    //ctrl-q to insert timestamp
+    // if (menu.current && (event.key == 'q') && (event.ctrlKey)) {
+    //   console.log('inserting timestamp JESLI menu == current ', event.key);
+    //   childCurXRef.current.insertTimestamp();
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    //   //TODO: set 
+    // }
+
     if ((event.key >= 0 && event.key <= 9) && (event.ctrlKey)) {
       event.preventDefault();
       event.stopPropagation();
@@ -23,6 +36,7 @@ const KeyHandlerX = ({children}) => {
       let fullNoteObject = await getNoteByIdx(idx, context.sign);
       setNoteContext(fullNoteObject); // this line removes the userData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       //menuTab('current');
+      setMenu({ "current": true, "opener": false, "password" : false });
   }
 
 
