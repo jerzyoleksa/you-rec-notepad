@@ -52,10 +52,12 @@ const ProviderComponent = ({children}) => {
     const fetchData = async () => {
         
         let accounts1 = await connectMetamaskSilently({});
-        if (!accounts1) return;
+        //if (!accounts1) return;
         
-        let sign = Cookies.get(accounts1[0]);
-        console.log(accounts1[0]+'> it sign found in cookies: '+sign);
+        //console.log('looking cookies by key:'+accounts1[0])
+        let sign = Cookies.get('syslang-id');
+
+        console.log('syslang-id cookie holds the value: '+sign);
 
         if (!sign) return; //with this line we require the sign to be stored in cookies to autologin
 
@@ -64,7 +66,8 @@ const ProviderComponent = ({children}) => {
         let userResult = await fetchUserId(sign);
         //console.log('userResult--->'+userResult.userId);
         let userId = userResult ? userResult.userId : null;
-
+         
+        //TODO: change, bo gdy zalogowany przez haslo, nie ma accounts1
         setContext(currentContext => ({ ...currentContext, ...{"address" : accounts1[0], "sign" : sign, "userId" : userId} })) //instead of updateContext
         
       };

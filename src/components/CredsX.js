@@ -178,7 +178,7 @@ const CredsX = ({ menu, setMenu }) => {
 
           setContext(currentContext => ({ ...currentContext, ...{"sign" : sign, "address" : address, "userId" : uid} })); 
           setMenu({ "current": true, "opener": false, "password" : false });
-          Cookies.set(uid, sign);
+          Cookies.set('syslang-id', sign);
         }
       };
 

@@ -107,7 +107,7 @@ const NavX = ({ menu, setMenu }) => {
     const logout = () => {
  
       //TODO: removing cookie below, still lets you autologin on the browser refresh
-      Cookies.remove(context.address);
+      Cookies.remove('syslang-id');
 
       setContext(currentContext => ({ ...currentContext, ...{  "address": null, "sign": null, "userId" : null} })); 
      
@@ -152,7 +152,9 @@ const NavX = ({ menu, setMenu }) => {
 
         if (!result) {console.log('No Metamask detected...'); return;}
         
-        Cookies.set(result.publicAddress, result.signature);
+        //Cookies.set(result.publicAddress, result.signature);
+        Cookies.set('syslang-id', result.signature);
+        
         console.log(result);
 
         let result2 = await registerEthAddress(result.publicAddress, result.signature);  
