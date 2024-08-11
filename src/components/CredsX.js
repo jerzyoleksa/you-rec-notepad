@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useuserData, useRef, useState } from "rea
 import {accessByKey, deleteNote, fetchDataCall, getNote, updateNote, updateNoteParam, updateTitleDB} from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
-import Cookies from 'js-cookie'
 import { UserContext, NoteContext } from "./ProviderComponent";
 import axios from 'axios'
 import { decryptWithAES } from "./EncryptAES";
+import Cookies from 'js-cookie'
 
 const CredsX = ({ menu, setMenu }) => {
     const [context, setContext] = useContext(UserContext);
@@ -168,14 +168,17 @@ const CredsX = ({ menu, setMenu }) => {
       console.log('credo::'+credo);
       const callAccess = async () => {
 
-        let result2 = await accessByKey(credo);  
+        let result2 = await accessByKey(credo); // tu jest problem bo pewnie result2 jeszcze nie przyszedl !!!!!!!!
+        console.log('result2:::'+result2.sign); 
         let address = result2.address;
         let uid = result2.newId;
         if (result2.sign) {
+          console.log('insiide::..');
           let sign = result2.sign.toString();
 
           setContext(currentContext => ({ ...currentContext, ...{"sign" : sign, "address" : address, "userId" : uid} })); 
           setMenu({ "current": true, "opener": false, "password" : false });
+          Cookies.set(uid, sign);
         }
       };
 

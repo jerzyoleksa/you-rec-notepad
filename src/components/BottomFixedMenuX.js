@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useuserData, useRef, useState } from "rea
 import {accessByKey, deleteNote, fetchDataCall, getNote, updateNote, updateNoteParam, updateTitleDB} from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
-import Cookies from 'js-cookie'
 import { UserContext, NoteContext } from "./ProviderComponent";
 import axios from 'axios'
 import { decryptWithAES } from "./EncryptAES";
