@@ -15,6 +15,7 @@ import NavX from './components/NavX';
 import CurrentX from './components/CurrentX';
 import OpenerX from './components/OpenerX';
 import CredsX from './components/CredsX';
+import LoginPageX from './components/LoginPageX';
 import BottomFixedMenuX from './components/BottomFixedMenuX';
 import {UserContext, ProviderComponent} from './components/ProviderComponent';
 import { KeyHandlerX } from './components/KeyHandlerX';
@@ -22,7 +23,9 @@ import { KeyHandlerX } from './components/KeyHandlerX';
 
 const MenuState = {
   "current" : true,
-  "opener" : false
+  "opener" : false,
+  "password" : false,
+  "loginPage" : false
 }
 
 const AppZ = () => {
@@ -43,6 +46,7 @@ const AppZ = () => {
         {menu.current && <CurrentX/> }  
         {menu.opener && <OpenerX menu={menu} setMenu={setMenu}/>}
         {menu.password && <CredsX setMenu={setMenu}/>}
+        {menu.loginPage && <LoginPageX setMenu={setMenu}/>}
         {/* <BottomFixedMenuX setMenu={setMenu}/> */}
         {/* <Child1 />
         <Child2 /> */}

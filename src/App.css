@@ -1,3 +1,19 @@
+.login-table {
+  display: grid;
+  padding: 15px;
+  row-gap: 25px;
+  width: 300px;
+  border: 0px solid black;
+}
+
+.login-option {
+  display: table-cell;
+  cursor: pointer;
+  width: 100%;
+  border: 0px solid orange;
+  /* text-align: center; */
+}
+
 
 .ham-icon {
   display: none !important;
@@ -232,6 +248,14 @@ textarea:focus {
   background: white;
   color: black;
   border: 1px solid gray;
+}
+
+.btn-framed-100 {
+  background: white;
+  color: black;
+  border: 1px solid gray;
+  width: 100%;
+  display: block;
 }
 
 .light-mode-dark {
