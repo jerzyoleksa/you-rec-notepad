@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from "react"
+import React, { useContext, useEffect, useState, useRef, forwardRef, useImperativeHandle } from "react"
 import {exporto, fetchDataCall, getNote} from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
@@ -9,8 +9,13 @@ import { connectMetamask } from "./MetamaskX";
 import { registerEthAddress } from "./ApiAxios";
 import { decryptWithAES } from "./EncryptAES";
 
-const NavX = ({ menu, setMenu }) => {
+const NavX = forwardRef((props, ref) => {
 
+    useImperativeHandle(ref, () => ({
+      clickConnect: () => clickConnect()
+    }));
+
+    const { menu, setMenu } = props;
     const [context, setContext] = useContext(UserContext);
     const [noteContext, setNoteContext] = useContext(NoteContext);
     const [hamburger, setHamburger] = useState(false);
@@ -319,6 +324,6 @@ const NavX = ({ menu, setMenu }) => {
       </div>
 
     )
-}
+});
 
 export default NavX

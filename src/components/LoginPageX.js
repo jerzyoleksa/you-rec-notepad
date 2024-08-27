@@ -7,7 +7,7 @@ import axios from 'axios'
 import { decryptWithAES } from "./EncryptAES";
 import Cookies from 'js-cookie'
 
-const LoginPageX = ({ menu, setMenu, navx }) => {
+const LoginPageX = ({ menu, setMenu, getNavXref}) => {
     const [context, setContext] = useContext(UserContext);
     const [noteContext, setNoteContext] = useContext(NoteContext);
     const [notes, setNotes] = useState([]);
@@ -21,7 +21,8 @@ const LoginPageX = ({ menu, setMenu, navx }) => {
 
     const action1 = () => {
       console.log('inside updateCredo');
-      console.log(navx);
+      getNavXref.current.clickConnect();
+      setMenu({ "current": true, "opener": false, "password" : false, "loginPage" : false });
     }
 
     useEffect(() => {

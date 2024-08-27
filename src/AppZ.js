@@ -1,4 +1,4 @@
-import React, { Component, useContext, useEffect, useState } from 'react';
+import React, { Component, useContext, useEffect, useState, useRef } from 'react';
 import './App.css';
 import Nav from './components/Nav';
 import List from './components/List';
@@ -28,9 +28,11 @@ const MenuState = {
   "loginPage" : false
 }
 
+
+
 const AppZ = () => {
   const [menu, setMenu] = useState(MenuState)
-
+  const ref1 = useRef();
     // useEffect(() => {
       
     //   console.log("[AppZ] useEffect:");
@@ -42,11 +44,11 @@ const AppZ = () => {
       {/*<KeyHandlerX setMenu={setMenu} menu={menu}>  */}
       <div className="rootDiv">
       
-        <NavX menu={menu} setMenu={setMenu}/>
+        <NavX menu={menu} setMenu={setMenu} ref = {ref1}/>
         {menu.current && <CurrentX/> }  
         {menu.opener && <OpenerX menu={menu} setMenu={setMenu}/>}
         {menu.password && <CredsX setMenu={setMenu}/>}
-        {menu.loginPage && <LoginPageX setMenu={setMenu}/>}
+        {menu.loginPage && <LoginPageX setMenu={setMenu} getNavXref = {ref1} />}
         {/* <BottomFixedMenuX setMenu={setMenu}/> */}
         {/* <Child1 />
         <Child2 /> */}
