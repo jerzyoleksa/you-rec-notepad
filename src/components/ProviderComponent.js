@@ -68,7 +68,11 @@ const ProviderComponent = ({children}) => {
         let userId = userResult ? userResult.userId : null;
          
         //TODO: change, bo gdy zalogowany przez haslo, nie ma accounts1
-        setContext(currentContext => ({ ...currentContext, ...{"address" : accounts1[0], "sign" : sign, "userId" : userId} })) //instead of updateContext
+        var address = "n/a";
+        if (accounts1 && accounts1.length > 0) {
+          address = accounts1[0];
+        }
+        setContext(currentContext => ({ ...currentContext, ...{"address" : address, "sign" : sign, "userId" : userId} })) //instead of updateContext
         
       };
   
