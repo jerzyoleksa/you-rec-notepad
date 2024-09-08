@@ -3,7 +3,6 @@ import axios from 'axios';
 import Web3 from 'web3';
 import Cookies from 'js-cookie'
 import { UserContext } from "./ProviderComponent";
-import { registerEthAddress } from "./ApiAxios";
 
 
 
@@ -86,23 +85,7 @@ import { registerEthAddress } from "./ApiAxios";
                   
                   let promise = handleSignMessage(accounts1[0], message, web3);
                   return promise;
-                  //promise.then(function(result) {
-                    
-                    //return result;
-                    // const fetch2 = async () => {
-                    //   console.log(accounts1[0], result.signature);
-                    //   let result2 = await registerEthAddress(accounts1[0], result.signature);
-                      
-                    //   console.log(result2);
-                    // };
-                    // fetch2()
-                    // Cookies.set(accounts1[0], result.signature);
-    
-                  //}.bind(this), err => {
-                   // console.log(err); // Error: "Promise rejected"
-                 //});
-    
-                  //this.props.authKee = signature;
+
     
                 } catch (err) {
                         console.log('user did not add account...', err)
