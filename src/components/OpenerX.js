@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useuserData, useRef, useState } from "react"
-import {deleteNote, fetchDataCall, getNote, updateNote, updateNoteParam, updateTitleDB} from './ApiAxios'
+import {fetchNoteSec, deleteNote, getNote, updateNote, updateNoteParam, updateTitleDB} from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
-import { UserContext, NoteContext } from "./ProviderComponent";
+// import { UserContext, Note } from "./ProviderComponent";
 import axios from 'axios'
 import { decryptWithAES } from "./EncryptAES";
 
-const OpenerX = ({ menu, setMenu }) => {
-    const [context, setContext] = useContext(UserContext);
-    const [noteContext, setNoteContext] = useContext(NoteContext);
-    const [notes, setNotes] = useState([]);
+const OpenerX = ({ menu, setMenu, user, setUser, note, setNote, notes, setNotes }) => {
+    // const [context, setUser] = useContext(UserContext);
+    // const [note, setNote] = useContext(Note);
+    // const [notes, setNotes] = useState([]);
     const [merge1, setMerge1] = useState(-1);
     const [merge2, setMerge2] = useState(-1);
     const refs = useRef({});
@@ -93,11 +93,11 @@ const OpenerX = ({ menu, setMenu }) => {
     
     const updateTitle = (e, note) => {
       updateTitleDB(e, note.id);
-      if (noteContext.id === note.id) {
+      if (note.id === note.id) {
         console.log("Editing title of the selected note:"+e.currentTarget.textContent);
         note.title = e.currentTarget.textContent;
-        setNoteContext(note);
-        //setNoteContext(currentContext => ({ ...currentContext, ...{"title" : e.currentTarget.textContent} }));  
+        setNote(note);
+        //setNote(currentContext => ({ ...currentContext, ...{"title" : e.currentTarget.textContent} }));  
       }
     }
     
@@ -105,7 +105,7 @@ const OpenerX = ({ menu, setMenu }) => {
     // const secure = async(note) => {
     //   (note.status == 7 ? note.status = 1 : note.status = 7); 
     //   updateNoteStatusInNotes(note.id, note.status); 
-    //   let res = await updateNoteParam(note.id, 'status', note.status, context.sign); 
+    //   let res = await updateNoteParam(note.id, 'status', note.status, user.sign); 
     //   console.log('toggled secured'+res);
     // }
     
@@ -131,7 +131,7 @@ const OpenerX = ({ menu, setMenu }) => {
   
     const createNew = () => {
       //const newNotesState = this.state.notes.filter((note) => note.id !== id );
-      let noteToCreate = {"userId" : context.userId, "content": ""};
+      let noteToCreate = {"userId" : user.userId, "content": ""};
       
       axios.post('https://syslang.io/rest/v1/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
       .then((res) => getNotes() )
@@ -143,15 +143,20 @@ const OpenerX = ({ menu, setMenu }) => {
 
     //-------- TRICKY !
     const selectNote = (note) => {
-      setNoteContext(note);
+      setNote(note);
       
+      const fetchNote = async (sign, secret, id) => {
+        let note = await fetchNoteSec(sign, secret, id);
+        //console.log('now will be setting notes in useState:'+JSON.stringify(note));
+        setNote(note);
+      }
       
-      
+      fetchNote(user.sign, user.secret, note.id);
       //to LOAD content, ultimately we dont want to get contents with getNotesSec
       //NIU
       // const fetchData = async () => {  
-      //    let res = await getNote(noteContext.id, context.sign);
-      //    setNoteContext(currentContext => ({ ...currentContext, ...{"content" : processContent(res.data.content) }})); //instead of updateContext
+      //    let res = await getNote(note.id, user.sign);
+      //    setNote(currentContext => ({ ...currentContext, ...{"content" : processContent(res.data.content) }})); //instead of updateContext
             
       //    console.log(res.data);
       //  }
@@ -170,25 +175,15 @@ const OpenerX = ({ menu, setMenu }) => {
 
     }
 
-    const getNotes = (param) => {
-      const fetchData = async () => {
-        let list = await fetchDataCall(context.sign);
-        console.log('getNotes');
-        setNotes(list);
-      };
-  
-      fetchData();
-    }
-
     useEffect(() => {
-      getNotes();
+      //getNotes();
     }, []);
 
     //context listener de fact
     useEffect(() => {
-      console.log('module OpenerX noticed the change in context:'+context.userId);
-      if (context.userId === null) setNotes([]);
-    }, [context]);
+      // console.log('module OpenerX noticed the change in context:'+user.userId);
+      // if (user.userId === null) setNotes([]);
+    }, []);
 
     
 
@@ -197,7 +192,7 @@ const OpenerX = ({ menu, setMenu }) => {
           
       <div className="textarea-container">
         <div className="nav-container">
-          <div className="nav-list opener-tbl" onClick={() => createNew()}><span className={context.isDark ? "btn btn-framed light-mode-dark" : "btn btn-framed"}>+ Create new note</span></div>
+          <div className="nav-list opener-tbl" onClick={() => createNew()}><span className={user.isDark ? "btn btn-framed light-mode-dark" : "btn btn-framed"}>+ Create new note</span></div>
 
           {merge1>-1 && merge2>-1 && <div className="nav-list opener-tbl" onClick={() => doMerge()}><span className="btn btn-framed">Merge</span></div> }
           {merge1>-1 && merge2>-1 && <div className="nav-list opener-tbl" onClick={() => cancelMerge()}><span className="btn btn-framed">Cancel merge</span></div> }
@@ -212,9 +207,9 @@ const OpenerX = ({ menu, setMenu }) => {
                           <div className="nav-list-narrow"  onClick={() => {delNote(note)}}><span className="material-icons-outlined nav-span">delete</span></div> 
                           <div className="nav-list-narrow" onClick={() =>selectMerge(note)}><span className={isSelected4Merge(note) ? 'material-icons-outlined nav-span-blue' : 'material-icons-outlined nav-span'}>link</span></div> 
                           
-                          <div className={!note.editing ? "nav-list opener-tbl" : "nav-list opener-tbl hidden"}  onClick={() => selectNote(note)}><span className={context.isDark ? 'label-white' : 'label-black'}>{note.title}.txt</span></div>
+                          <div className={!note.editing ? "nav-list opener-tbl" : "nav-list opener-tbl hidden"}  onClick={() => selectNote(note)}><span className={user.isDark ? 'label-white' : 'label-black'}>{note.title}.txt</span></div>
                           {/* W momencie generowania jest niewidoczny !!!! */}
-                          <div className={note.editing ? "nav-list opener-tbl edit-parent-div" : "nav-list opener-tbl edit-parent-div hidden"}><div ref={el => addToRefs(el)} className={context.isDark ? 'label-white edit-child-div' : 'label-black edit-child-div'} suppressContentEditableWarning={true} contentEditable="true" onInput={e => { updateTitle(e, note)} }></div><div className={context.isDark ? 'label-white edit-child-div' : 'label-black edit-child-div'}>.txt</div></div>
+                          <div className={note.editing ? "nav-list opener-tbl edit-parent-div" : "nav-list opener-tbl edit-parent-div hidden"}><div ref={el => addToRefs(el)} className={user.isDark ? 'label-white edit-child-div' : 'label-black edit-child-div'} suppressContentEditableWarning={true} contentEditable="true" onInput={e => { updateTitle(e, note)} }></div><div className={user.isDark ? 'label-white edit-child-div' : 'label-black edit-child-div'}>.txt</div></div>
                           {note.status === 7 && <div className="nav-list-narrow"><span className="material-icons-outlined nav-span info">shield</span></div> }
                       </div>
                       )

@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState, useRef, forwardRef, useImperativeHandle } from "react"
-import {exporto, fetchDataCall, getNote} from './ApiAxios'
+import {exporto, getNote} from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
-import { UserContext, NoteContext } from "./ProviderComponent";
+// import { UserContext, NoteContext } from "./ProviderComponent";
 //import connectMetamask from "./Metamask";
 import { connectMetamask } from "./MetamaskX";
 import { registerEthAddress } from "./ApiAxios";
@@ -15,9 +15,9 @@ const NavX = forwardRef((props, ref) => {
       clickConnect: () => clickConnect()
     }));
 
-    const { menu, setMenu } = props;
-    const [context, setContext] = useContext(UserContext);
-    const [noteContext, setNoteContext] = useContext(NoteContext);
+    const { menu, setMenu, setUser, setNote, user, note, loginWithCookies } = props;
+    //const [context, setUser] = useContext(UserContext);
+    //const [noteContext, setNoteContext] = useContext(NoteContext);
     const [hamburger, setHamburger] = useState(false);
     const [notes, setNotes] = useState([]); /* keeps notes in locally in NavX component, [!] separate to notes kept in Opener */
     //const [note, setNote] = useContext(UserContext);
@@ -26,22 +26,23 @@ const NavX = forwardRef((props, ref) => {
     //const contentEditableRef = useRef();
 
     // const updateTitle = () => {
+
     // }
    
     const export2 = async () => {
-      setContext(currentContext => ({ ...currentContext, ...{"status" : "exporting..."} }));
+      setUser(currentContext => ({ ...currentContext, ...{"status" : "exporting..."} }));
       let resp = await exporto();
-      setContext(currentContext => ({ ...currentContext, ...{"status" : "exported :)"} }));
+      setUser(currentContext => ({ ...currentContext, ...{"status" : "exported :)"} }));
 
       setTimeout(function () {
-        setContext(currentContext => ({ ...currentContext, ...{"status" : ""} }));
+        setUser(currentContext => ({ ...currentContext, ...{"status" : ""} }));
       }, 1000)
     }
 
     const setCssBodyByMode = (isDark) => {
     
 
-      //if (context.isDark) returns true even is isDark is false !!!!!!!!!!!!!!!!!!!!!!!!!
+      //if (user.isDark) returns true even is isDark is false !!!!!!!!!!!!!!!!!!!!!!!!!
       if (isDark === true) {
         console.log('setting background to rgb(51,51,51)');
         document.body.style.backgroundColor = "rgb(51,51,51)";
@@ -64,15 +65,15 @@ const NavX = forwardRef((props, ref) => {
 
     const toggleLightMode = async () => {
       
-      let oldValue = (context.isDark === undefined || context.isDark === false) ? false : true;
-      let newValue = !context.isDark;
+      let oldValue = (user.isDark === undefined || user.isDark === false) ? false : true;
+      let newValue = !user.isDark;
       console.log('oldValue:'+oldValue);
       console.log('newValue:'+newValue);
       console.log('toggleLightMode BEFORE:'+oldValue);
       console.log('toggleLightMode AFTER:'+newValue);
 
       //SWITCH isDark flag in context
-      setContext(currentContext => ({ ...currentContext, ...{"isDark" : newValue} }));  
+      setUser(currentContext => ({ ...currentContext, ...{"isDark" : newValue} }));  
       
       setCssBodyByMode(newValue);
 
@@ -93,14 +94,14 @@ const NavX = forwardRef((props, ref) => {
       //console.log('shuffling');
       let nId = notes[Math.floor(Math.random()*notes.length)].id;
       //console.log('nId:'+nId);
-      let fullNoteObject = await getNote(nId, context.sign);
-      setNoteContext(fullNoteObject); // this line removes the userData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      let fullNoteObject = await getNote(nId, user.sign);
+      setNote(fullNoteObject); // this line removes the userData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       menuTab('current')
     }
 
     const nextNote = async() => {
       //console.log('shuffling');
-      let currIdx = notes.findIndex(x => x.id === noteContext.id);
+      let currIdx = notes.findIndex(x => x.id === noteuser.id);
       var nextIdx = currIdx + 1;
       if (nextIdx > notes.length - 1) nextIdx = 0;
       console.log("nextIdx:"+nextIdx);
@@ -108,19 +109,20 @@ const NavX = forwardRef((props, ref) => {
       console.log("nextId:"+nextId);
      
       //console.log('nId:'+nId);
-      let fullNoteObject = await getNote(nextId, context.sign);
-      setNoteContext(fullNoteObject); // this line removes the userData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      let fullNoteObject = await getNote(nextId, user.sign);
+      setNote(fullNoteObject); // this line removes the userData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       menuTab('current')
     }
 
     const logout = () => {
  
       //TODO: removing cookie below, still lets you autologin on the browser refresh
-      Cookies.remove('syslang-id');
+      Cookies.remove('syslang-secret');
+      Cookies.remove('syslang-sign');
 
-      setContext(currentContext => ({ ...currentContext, ...{  "address": null, "sign": null, "userId" : null} })); 
+      setUser(currentContext => ({ ...currentContext, ...{  "address": null, "sign": null, "userId" : null} })); 
      
-      setNoteContext(null);
+      setNote(null);
 
       //when logout - always move to 'current' tab
       menuTab('current')
@@ -159,19 +161,22 @@ const NavX = forwardRef((props, ref) => {
 
         let result = await connectMetamask();
 
-        if (!result) {console.log('No Metamask detected...'); return;}
+        if (!result) {
+          console.log('No Metamask detected...'); 
+          return;
+        }
         
         //Cookies.set(result.publicAddress, result.signature);
-        Cookies.set('syslang-id', result.signature);
+        //Cookies.set('syslang-sign', result.signature);
         
-        console.log(result);
-
+        //console.log(result);
+        Cookies.set('syslang-sign', result.signature, { expires: 365 });
         let result2 = await registerEthAddress(result.publicAddress, result.signature);  
-        console.log('result2 below:');
-        console.log(result2);
-        let uid = result2.newId;
-        setContext(currentContext => ({ ...currentContext, ...{"address" : result.publicAddress, "sign" : result.signature, "userId" : uid} })) //instead of updateContext
-        
+        //console.log('result2 below:');
+        //console.log(result2);
+        //let uid = result2.newId;
+        //setUser(currentContext => ({ ...currentContext, ...{"address" : result.publicAddress, "sign" : result.signature, "userId" : uid} })) //instead of updateContext
+        loginWithCookies();
       };
 
       //call metamask
@@ -186,37 +191,39 @@ const NavX = forwardRef((props, ref) => {
 
     useEffect(() => {
       
-    
+     
       // return () => {
       //   document.removeEventListener('keyup', handlekeydownEvent)
       // }
+    
+      //Uwaga Boolean w cookie zapisywany jest jako string
+      if (user) {
+        Cookies.get("isDark") === 'true' ? user.isDark = true : user.isDark = false;
+      } 
+      console.log(typeof user.isDark);
+      //user.isDark = false;
+      setUser(currentContext => ({ ...currentContext, ...{"isDark" : user.isDark} })); 
+      setCssBodyByMode(user.isDark);
+   
 
-      setCssBodyByMode(context.isDark === true);
-      //setDummy({"dummy": "lets see !" });
-      //console.log("[NAVX] useEffect:"+JSON.stringify(userData));
-      console.log("NavX -> useEffect "+context.sign);
-      
-      if (!context.sign) return;
+      // const fetchData = async () => {
+      //   console.log('now will be setting notes in useState:'+list);
 
-      const fetchData = async () => {
-        let list = await fetchDataCall(context.sign);
-        console.log('now will be setting notes in useState:'+list);
+      //   setNotes(list);
 
-        setNotes(list);
+      //   if (list && list.length > 0) { 
+      //     let lastNote = list[list.length-1];
 
-        if (list && list.length > 0) { 
-          let lastNote = list[list.length-1];
-
-          let fullNoteObject = await getNote(lastNote.id, context.sign);
+      //     let fullNoteObject = await getNote(lastNote.id, user.sign);
          
-          setNoteContext(fullNoteObject); // this line removes the userData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          //setUserData(state => ({ ...state, "note": lastNote }));
-        } 
+      //     setNoteContext(fullNoteObject); // this line removes the userData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      //     //setUserData(state => ({ ...state, "note": lastNote }));
+      //   } 
       
 
-      };
+      // };
   
-      fetchData();
+      // fetchData();
 
 
 
@@ -243,22 +250,22 @@ const NavX = forwardRef((props, ref) => {
       // end of listener
 
 
-    }, [context.sign]); //rerender NavX every time user is changed (sign param is changed)
+    }, []); //rerender NavX every time user is changed (sign param is changed)
 
 
 
 
     return (
           
-      <div className={(context.isDark ? 'nav-bar-dark' : 'nav-bar-light')}>
+      <div className={(user.isDark ? 'nav-bar-dark' : 'nav-bar-light')}>
       <div className="nav-container">
         <div className="nav-row">
         
         
         {/* Textfile title */}
-        {noteContext && 
+        {note && 
         <div className="nav-list" onClick={() => {menuTab('current');}} >
-           <ContentEditable html={noteContext.title ? noteContext.title+'.txt' : "Untitled.txt"} // innerHTML of the editable div
+           <ContentEditable html={note.title ? note.title+'.txt' : "Untitled.txt"} // innerHTML of the editable div
               disabled={true}       // use true to disable editing
               tagName='article' // Use a custom HTML tag (uses a div by default)
               className="btn btn-grayish"
@@ -268,7 +275,7 @@ const NavX = forwardRef((props, ref) => {
 
         </div>}  
         
-        {false && noteContext && 
+        {false && note && 
   
             <div className="nav-list">
               <span onClick={() => nextNote()} className="material-icons-outlined nav-span">repeat</span>
@@ -280,7 +287,7 @@ const NavX = forwardRef((props, ref) => {
 
 
         <div className="nav-list menu-large" onClick={() => toggleLightMode()}><span className="material-icons-outlined nav-span">wb_sunny</span></div> 
-        <div className="nav-list menu-large" onClick={() => openDoprawdy()}><span className="material-icons-outlined nav-span">key</span></div> 
+        {/* <div className="nav-list menu-large" onClick={() => openDoprawdy()}><span className="material-icons-outlined nav-span">key</span></div>  */}
         <div className="nav-list menu-large" onClick={() => openLoginPage()}><span className="material-icons nav-span">public</span></div> 
                 
         {/*<div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
@@ -289,7 +296,7 @@ const NavX = forwardRef((props, ref) => {
         <div className="nav-list" onClick={() => this.connectMetamask()}><img src="img/mm.svg" width="24" height="24"/></div> 
         */}
         
-        {<div className="nav-list" onClick={() => clickConnect()}><span className='btn'>{/*<span className='circle'></span>*/}{context.address && context.address.length > 0 ? shortenString(context.address): 'Connect'}</span></div>}
+        {<div className="nav-list" onClick={() => clickConnect()}><span className='btn'>{/*<span className='circle'></span>*/}{user.address && user.address.length > 0 ? shortenString(user.address): 'Connect'}</span></div>}
         
         <div className="nav-list menu-icon ham-icon" onClick={() => clickHamburger()}>
             {!hamburger && <span className="material-icons-outlined nav-span">menu</span>}
@@ -300,10 +307,10 @@ const NavX = forwardRef((props, ref) => {
 
         {/*  ------------------ HAMBURGER MENU ---------------------- */}
         {hamburger &&
-        <div className={context.isDark ? "hamburgerMenu light-mode-dark" : "hamburgerMenu light-mode-light"}>
+        <div className={user.isDark ? "hamburgerMenu light-mode-dark" : "hamburgerMenu light-mode-light"}>
           <div onClick={() => {closeHamburger();menuTab('opener')}} ><span className="menu-label">Notes</span></div>
           <div onClick={() => export2()}><span className="menu-label">Export</span></div>
-          {context.address && context.address.length > 0 && <div onClick={() => {closeHamburger();logout()}}>
+          {user.address && user.address.length > 0 && <div onClick={() => {closeHamburger();logout()}}>
               <span className="menu-label">Logout</span>
               {/* <span className="material-icons-outlined nav-span">logout</span> */}
           </div>}
@@ -314,9 +321,9 @@ const NavX = forwardRef((props, ref) => {
 
 
 
-        {context.address && context.address.length > 0 && <div className="nav-list menu-large" onClick={() => logout()}><span className="material-icons-outlined nav-span">logout</span></div>}
+        {user.address && user.address.length > 0 && <div className="nav-list menu-large" onClick={() => logout()}><span className="material-icons-outlined nav-span">logout</span></div>}
 
-        {context.status && <div className="nav-list"><span className='savingTextStyle'>{context.status}</span></div>}
+        {user.status && <div className="nav-list"><span className='savingTextStyle'>{user.status}</span></div>}
 
       </div>
         {/* <div className="nav-list">{String(this.state.isDark)}</div> */}

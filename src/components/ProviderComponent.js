@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { listenToMetamask, connectMetamaskSilently } from "./MetamaskX"
 import Cookies from 'js-cookie'
-import { fetchUserId } from "./ApiAxios"
+//import { fetchUserId } from "./ApiAxios"
 
 const functionTemplate = () => {}
 
@@ -25,7 +25,7 @@ const userObjectContext = {
   address: null,
   sign: null,
   userId : null,
-  isDark : loadIsDark(),
+  isDark : null, //loadIsDark(),
   updateStatus: functionTemplate,
   updateAddress: functionTemplate
 }
@@ -46,6 +46,8 @@ const ProviderComponent = ({children}) => {
   const [noteContext, setNoteContext] = useState(noteObjectContext)
 
   useEffect(() => {
+
+    if (true) return true;
     console.log("isDark, Cookies: "+Cookies.get("isDark")+", userContext: "+context.isDark);
     listenToMetamask();
     

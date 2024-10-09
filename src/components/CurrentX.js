@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState, useRef } from "react"
-import fetchDataCall, { getNote, updateNoteParam } from './ApiAxios'
+import { getNote, updateNoteParam } from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import Cookies from 'js-cookie'
 import axios from 'axios'
-import { UserContext, NoteContext } from "./ProviderComponent";
+// import { UserContext, note } from "./ProviderComponent";
 import { decryptWithAES, encryptTextWithAES } from "./EncryptAES";
 import * as indentation from 'indent-textarea';
 
-const CurrentX = () => {
-  const [context, setContext] = useContext(UserContext);
-  const [noteContext, setNoteContext] = useContext(NoteContext);
+const CurrentX = ({ menu, setMenu, setUser, setNote, user, note }) => {
+  //const [context, setUser] = useContext(UserContext);
+  //const [note, setNote] = useContext(note);
   const [secInput, setSecInput] = useState(false);
   const [key, setKey] = useState(null);
   const [isDecrypted, setIsDecrypted] = useState(false);
@@ -81,15 +81,15 @@ const CurrentX = () => {
           //Do i need to encrypt during editing - NO
           //Encrypt only when saving the edit !
           //Here just for [TEST]
-          // if (noteContext.status === 1) {
+          // if (note.status === 1) {
             
-          //   setNoteContext(currentContext => ({ ...currentContext, ...{"status" : 7} }))
-          //   console.log('encryption:' + encryptTextWithAES(noteContext.content, key));
+          //   setNote(currentContext => ({ ...currentContext, ...{"status" : 7} }))
+          //   console.log('encryption:' + encryptTextWithAES(note.content, key));
           // }
 
           //decryption
-          if (noteContext.status === 7) {
-              var result = decryptWithAES(noteContext.content, key);
+          if (note.status === 7) {
+              var result = decryptWithAES(note.content, key);
 
               if (result.length === 0) {
                 console.log('Wrong password gives empty result or malformed utf-8 data exception');
@@ -97,7 +97,7 @@ const CurrentX = () => {
               } else {//Success decryption
 
                 //TODO: PROBLEM - this line does not update textArea with decryption immediately, only after anoher keypress
-                setNoteContext(currentContext => ({ ...currentContext, ...{"content" : result} }));
+                setNote(currentContext => ({ ...currentContext, ...{"content" : result} }));
                 setIsDecrypted(true);
                 //WORKAROUND
                 //console.log(result);
@@ -122,34 +122,34 @@ const CurrentX = () => {
     const decryptSecured = (e) => {
       
       let key = e.currentTarget.textContent;
-      setNoteContext(currentContext => ({ ...currentContext, ...{"key" : key} }))
+      setNote(currentContext => ({ ...currentContext, ...{"key" : key} }))
 
       if (key.length !== 16) {
         console.log('password must contain exactly 16 characters');
         return;
       }
 
-      if (noteContext.decrypted) {
+      if (note.decrypted) {
         console.log('Note already decrypted. Now you changing password for future updates');
         return;
       }
 
-      var decrypted = noteContext.content;
+      var decrypted = note.content;
       
       try {
-        decrypted = decryptWithAES(noteContext.content, key);
+        decrypted = decryptWithAES(note.content, key);
 
         console.log('decrypted:'+decrypted);
         if (decrypted.length === 0) {
           console.log('not decrypted, message probably not encrypted yet. make sure you have set 16char key and update your note.');
-          noteContext.decrypted = true; //settting to true even if its not encrypted, to let it go through the condition in edit function
+          note.decrypted = true; //settting to true even if its not encrypted, to let it go through the condition in edit function
           return;
         }
 
-        setNoteContext(currentContext => ({ ...currentContext, ...{"content" : decrypted} })) //instead of updateContext  
+        setNote(currentContext => ({ ...currentContext, ...{"content" : decrypted} })) //instead of updateContext  
         
         console.log('Message decrypted. Now when you change the input field key, you change the encryption password')
-        setNoteContext(currentContext => ({ ...currentContext, ...{"decrypted" : true} })) //instead of updateContext      
+        setNote(currentContext => ({ ...currentContext, ...{"decrypted" : true} })) //instead of updateContext      
         
       } catch (error) {
         //Error: Malformed UTF-8 data - means wrong password
@@ -160,7 +160,7 @@ const CurrentX = () => {
         } else {
           console.log(error);
         }
-        //setNoteContext(currentContext => ({ ...currentContext, ...{"decrypted" : undefined} })) //instead of updateContext
+        //setNote(currentContext => ({ ...currentContext, ...{"decrypted" : undefined} })) //instead of updateContext
       }
       
     }*/
@@ -168,34 +168,34 @@ const CurrentX = () => {
 
     const handleTextAreaChange = (event) => {
        //check if content is encrypted, if encrypted then disable editting
-      if (noteContext && noteContext.status === 7 && noteContext.content.length > 0 && !isDecrypted) {
+      if (note && note.status === 7 && note.content.length > 0 && !isDecrypted) {
         console.log('Content needs to be Decrypted to be updated');
         return;
       }
 
-      //!!!! DECRYPT CONTENT OF NOTE in noteContext
+      //!!!! DECRYPT CONTENT OF NOTE in note
       //this can be asynchronous, so cant rely on context being updated on time when updating note, better to use target value again below
-      setNoteContext(currentContext => ({ ...currentContext, ...{"content" : event.target.value} })) //instead of updateContext
+      setNote(currentContext => ({ ...currentContext, ...{"content" : event.target.value} })) //instead of updateContext
       //!!!!      
       
-      if (context.typingTimeout) {
-        clearTimeout(context.typingTimeout);
+      if (user.typingTimeout) {
+        clearTimeout(user.typingTimeout);
       }
       
-      context.typing = false;
-      context.typingTimeout = setTimeout(() => {
+      user.typing = false;
+      user.typingTimeout = setTimeout(() => {
         updateNote(event.target.value);  
       }, 1500);
   
   
     }
 
-    // const getContentToDisplay = (noteContext) => {
-    //   if (noteContext) {
+    // const getContentToDisplay = (note) => {
+    //   if (note) {
 
-    //     if (noteContext.status === 7 && noteContext.decrypted) return noteContext.decrypted;
+    //     if (note.status === 7 && note.decrypted) return note.decrypted;
 
-    //     return noteContext.content;
+    //     return note.content;
     //   }
     //   return "";
     // }
@@ -203,52 +203,53 @@ const CurrentX = () => {
     //newText is taken directly from textarea
     const updateNote = (newText) => {
     
-      console.log('inside note update:'+noteContext.status);
+      console.log('inside note update:'+note.status);
       //OK validation only for secured messages
-      if (noteContext.status === 7 && (!key || key.length != 16)) {
+      if (note.status === 7 && (!key || key.length != 16)) {
         console.log('Update Failed. Encryption key must have exactly 16 chars');
         return;
       }
 
       //this.props.updateSaviStatus("saving ..."); //in async methods must be setState, not just this.state.status = ...
-      setContext(currentContext => ({ ...currentContext, ...{"status" : "saving ..."} })) //instead of updateContext
+      setUser(currentContext => ({ ...currentContext, ...{"status" : "saving ..."} })) //instead of updateContext
       
       let noteToUpdate = {};
 
       //console.log('updating:'+noteToUpdate);
       //console.log('key from parent:'+this.props.authKee);
-      //console.log('authKey::'+context.sign);
-      noteToUpdate["id"] = noteContext.id;
-      noteToUpdate["userId"] = context.userId;
-      noteToUpdate["title"] = noteContext.title; //to be used in case its a first message and needs to be created
-      noteToUpdate["authKey"] = context.sign;
-      noteToUpdate["address"] = context.address;
+      //console.log('authKey::'+user.sign);
+      noteToUpdate["id"] = note.id;
+      noteToUpdate["userId"] = user.userId;
+      noteToUpdate["title"] = note.title; //to be used in case its a first message and needs to be created
+      noteToUpdate["sign"] = user.sign;
+      noteToUpdate["secret"] = user.secret;
+      noteToUpdate["address"] = user.address;
       noteToUpdate["name"] = "content"; 
 
    
-      noteToUpdate["value"] = (noteContext.status == 7 ? encryptTextWithAES(newText, key) : newText);
+      noteToUpdate["value"] = (note.status == 7 ? encryptTextWithAES(newText, key) : newText);
    
       
       //1st to update standard content or other param
-      axios.put('https://syslang.io/rest/v1/notes', noteToUpdate)
+      axios.put('https://syslang.io/rest/v1/notesSec', noteToUpdate)
       .then((res) => {
-        setContext(currentContext => ({ ...currentContext, ...{"status" : ""} }))
-        if (res.updatedId) setNoteContext(currentContext => ({ ...currentContext, ...{"id" : res.updatedId} }))
+        setUser(currentContext => ({ ...currentContext, ...{"status" : ""} }))
+        if (res.updatedId) setNote(currentContext => ({ ...currentContext, ...{"id" : res.updatedId} }))
         
         console.log('updatedId-->'+res.updatedId);
       })
-      .catch((err) => {setContext(currentContext => ({ ...currentContext, ...{"status" : "failed :("} })); console.log("Error updating!!!",err)} );
+      .catch((err) => {setUser(currentContext => ({ ...currentContext, ...{"status" : "failed :("} })); console.log("Error updating!!!",err)} );
 
     }
 
     const secure = async() => {
-      setNoteContext(currentContext => ({ ...currentContext, ...{"status" : 7} }));
+      setNote(currentContext => ({ ...currentContext, ...{"status" : 7} }));
       
-      //need to set it again, cause the setNoteContext is async
-      noteContext.status = 7;
+      //need to set it again, cause the setNote is async
+      note.status = 7;
       
-      updateNote(noteContext.content); 
-      updateNoteParam(noteContext.id, 'status', 7, context.sign); 
+      updateNote(note.content); 
+      updateNoteParam(note.id, 'status', 7, user.sign); 
       
       toggleSecInput();
       setKey(null);
@@ -256,9 +257,9 @@ const CurrentX = () => {
 
     const unsecure = () => {
       console.log('unsecuring...');
-      noteContext.status = 1;
-      updateNote(noteContext.content);
-      updateNoteParam(noteContext.id, 'status', 1, context.sign); 
+      note.status = 1;
+      updateNote(note.content);
+      updateNoteParam(note.id, 'status', 1, user.sign); 
       toggleSecInput();
       setKey(null);
       setIsDecrypted(false);
@@ -269,20 +270,20 @@ const CurrentX = () => {
     }
     
     const getSecIconName = () => {
-      if (noteContext && noteContext.status === 7) return 'lock';
-      if (noteContext && noteContext.status === 1) return 'no_encryption';
+      if (note && note.status === 7) return 'lock';
+      if (note && note.status === 1) return 'no_encryption';
     }
     
     //separate useEffect just for key useState param - react sucks
     useEffect(() => {
-      console.log('useEffect::'+key);
+      //console.log('useEffect::'+key);
       handle16KeyChange()
     }, [key]);
     //separate useEffect for key
 
     useEffect(() => {
       if (secInput) {
-        console.log('secInput:'+secInput);
+        //console.log('secInput:'+secInput);
         document.getElementById("secInputDiva").focus();
       }
     }, [secInput]);
@@ -295,24 +296,25 @@ const CurrentX = () => {
       indentation.watch(textarea);
       //textarea  ident
 
-      console.log('CurrentX.useEffect()');
+      //console.log('CurrentX.useEffect()');
       
-      const fetchData = async () => {
+      // const fetchData = async () => {
 
-        if (!noteContext || !context.sign) return;
-        let fullNoteObject = await getNote(noteContext.id, context.sign);
-        setNoteContext(fullNoteObject);
-      }
-      fetchData();
+      //   if (!note || !user.sign) return;
+      //   let fullNoteObject = await getNote(note.id, user.sign); //TODO: sign lub secret!, a nie zawsze sign, bo secret masz gdy logujesz sie bez web3
+      //   setNote(fullNoteObject);
+      // }
+      // fetchData();
 
-    }, [context.opener, context.current]);
+    }, []);
 
 
 
 
     return (
-          
+        
       <div className="textarea-container" onKeyDown={handleKeyDownPressed}>
+      {/*<div>id:{note ? note.id : ""}</div>*/}
       {/*<ContentEditable
               innerRef={this.contentEditable}
               html={this.state.html} // innerHTML of the editable div
@@ -326,7 +328,7 @@ const CurrentX = () => {
 
         {/*<span>{this.state.status}</span>*/}
         {/* <button onClick={insertTimestamp}>Insert Timestamp</button> */}
-        <textarea  ref={textareaRef} id="txtar" value={noteContext ? noteContext.content : ""} onChange={handleTextAreaChange}  />
+        <textarea  ref={textareaRef} id="txtar" value={note ? note.content : ""} onChange={handleTextAreaChange}  />
         
 
         <div className="absolute-pass">
@@ -334,14 +336,14 @@ const CurrentX = () => {
 
 
           {/* UNSECURE */}
-          {noteContext && noteContext.status === 7 && isDecrypted && secInput &&
+          {note && note.status === 7 && isDecrypted && secInput &&
             <div className="absolute-pass-ico-ok"  
                onClick={() => {unsecure()}}>
                   <span>Unsecure</span> </div> 
           }
 
           {/* SECURE */}
-          {noteContext && noteContext.status === 1 && key && key.length === 16 && secInput &&
+          {note && note.status === 1 && key && key.length === 16 && secInput &&
             <div className="absolute-pass-ico-ok"  
                onClick={() => {secure()}}>
                   <span>Secure</span> </div> 
@@ -358,11 +360,11 @@ const CurrentX = () => {
           {/* LOCK */}
           <div className="absolute-pass-ico"  
                onClick={() => {toggleSecInput()}}>
-                  <span className={noteContext && noteContext.status == 7 ?'material-icons-outlined nav-span' : 'material-icons-outlined nav-span'}>{getSecIconName()}</span></div> 
+                  <span className={note && note.status == 7 ?'material-icons-outlined nav-span' : 'material-icons-outlined nav-span'}>{getSecIconName()}</span></div> 
 
           {/* STATUS (TEST-ONLY) */}                
               
-          {/* <div className="absolute-pass-ico">{noteContext.status}, {key ? key.length : "0"}</div> */}
+          {/* <div className="absolute-pass-ico">{note.status}, {key ? key.length : "0"}</div> */}
 
           
 

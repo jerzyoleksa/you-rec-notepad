@@ -17,9 +17,10 @@ import OpenerX from './components/OpenerX';
 import CredsX from './components/CredsX';
 import LoginPageX from './components/LoginPageX';
 import BottomFixedMenuX from './components/BottomFixedMenuX';
-import {UserContext, ProviderComponent} from './components/ProviderComponent';
+// import {UserContext, ProviderComponent} from './components/ProviderComponent';
 import { KeyHandlerX } from './components/KeyHandlerX';
-
+import Cookies from 'js-cookie';
+import { fetchUserSec, fetchNoteSec, fetchListCall } from './components/ApiAxios';
 
 const MenuState = {
   "current" : true,
@@ -28,34 +29,95 @@ const MenuState = {
   "loginPage" : false
 }
 
+const userObject = {
+  name: "John Snow",
+  content: "kwuegfoiqwgf",
+  email: "john.snow@thewall.north",
+  status: "",
+  typing: false,
+  typingTimeout: 0,
+  address: null,
+  sign: null,
+  userId : null,
+  isDark : null, //loadIsDark(),
+  updateStatus: null, //functionTemplate,
+  updateAddress: null //functionTemplate
+}
 
+const noteObject = {
+  name: "",
+  content: "",
+  title: null
+}
 
 const AppZ = () => {
   const [menu, setMenu] = useState(MenuState)
+  const [note, setNote] = useState(noteObject)
+  const [user, setUser] = useState(userObject)
+  const [notes, setNotes] = useState([]);
+
   const ref1 = useRef();
-    // useEffect(() => {
-      
-    //   console.log("[AppZ] useEffect:");
-     
-    // }, [address]);
+
+
+
+  /** -------------- Main Login function ----------------------------------------------------- */
+  const loginWithCookies = async () => {
+    let secret = Cookies.get('syslang-secret');
+    let sign = Cookies.get('syslang-sign');
+    
+    //need this for child componenets using user object
+    setUser(currentContext => ({ ...currentContext, ...{"sign": sign,"secret": secret} })); 
+
+
+    if (!secret && !sign) return;
+
+    const fetchNote = async () => {
+      let note = await fetchNoteSec(sign, secret);
+      setNote(note);
+    }
+
+    const fetchList = async () => {
+      let list = await fetchListCall(sign, secret);
+      setNotes(list);
+    };
+
+    const fetchUser = async () => {
+      let userObj = await fetchUserSec(sign, secret);
+      setUser(currentContext => ({ ...currentContext, ...{"id": userObj.id, "address": userObj.address} })); 
+
+      //!!!!!!! to ponizej nie dzialalao, wiec zastapilem setUser jak u gory
+      // user.id = userObj.id
+      // user.address = userObj.address
+    };
+
+
+    fetchUser();
+    fetchList();
+    fetchNote();
+    setMenu({ "current": true, "opener": false, "password" : false });
+  }
+  /** -------------- Main Login function end ------------------------------------------------------ */
+
+
+
+    useEffect(() => {    
+      loginWithCookies();
+    }, []);
 
     return (
-      <ProviderComponent>
-      {/*<KeyHandlerX setMenu={setMenu} menu={menu}>  */}
-      <div className="rootDiv">
-      
-        <NavX menu={menu} setMenu={setMenu} ref = {ref1}/>
-        {menu.current && <CurrentX/> }  
-        {menu.opener && <OpenerX menu={menu} setMenu={setMenu}/>}
-        {menu.password && <CredsX setMenu={setMenu}/>}
-        {menu.loginPage && <LoginPageX setMenu={setMenu} getNavXref = {ref1} />}
+   
+      <div className="rootDiv">   
+        <NavX menu={menu} setMenu={setMenu} ref = {ref1} user={user} note={note} setUser={setUser} setNote={setNote} loginWithCookies={loginWithCookies}/>
+        {menu.current && <CurrentX user={user} note={note} setNote={setNote} setUser={setUser}/> }  
+        {menu.opener && <OpenerX menu={menu} setMenu={setMenu} user={user} note={note} setNote={setNote} setUser={setUser} notes={notes} setNotes={setNotes}/>}
+        {menu.password && <CredsX setMenu={setMenu} setUser={setUser} loginWithCookies={loginWithCookies}/>}
+        {menu.loginPage && <LoginPageX setMenu={setMenu} getNavXref = {ref1} setUser={setUser} loginWithCookies={loginWithCookies}/>}
         {/* <BottomFixedMenuX setMenu={setMenu}/> */}
         {/* <Child1 />
         <Child2 /> */}
-       
+        {/* <div>{notes && notes.length > 0 && notes[0].title}</div> */}
       </div>
-      {/*</KeyHandlerX >*/}
-      </ProviderComponent>
+   
     )
 }
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react"
 import { listenToMetamask, connectMetamaskSilently } from "./MetamaskX"
 import Cookies from 'js-cookie'
-import { fetchUserId, getNote, getNoteByIdx } from "./ApiAxios"
+import { getNote, getNoteByIdx } from "./ApiAxios"
 import { UserContext, NoteContext } from "./ProviderComponent";
 
 const KeyHandlerX = ({children, setMenu, menu}) => {

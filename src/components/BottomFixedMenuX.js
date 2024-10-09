@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useuserData, useRef, useState } from "react"
-import {accessByKey, deleteNote, fetchDataCall, getNote, updateNote, updateNoteParam, updateTitleDB} from './ApiAxios'
+import {accessByKey, deleteNote, getNote, updateNote, updateNoteParam, updateTitleDB} from './ApiAxios'
 import Web3 from 'web3';
 import ContentEditable from 'react-contenteditable'
 import { UserContext, NoteContext } from "./ProviderComponent";

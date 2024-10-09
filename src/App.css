@@ -1,17 +1,35 @@
-.login-table {
-  display: grid;
-  padding: 15px;
-  row-gap: 25px;
+.logo-btn1 {
   width: 300px;
-  border: 0px solid black;
+}
+
+.logo-icon {
+  width: 22px; /* Set width to 25px */
+  height: 22px; /* Set height to 25px */
+  display: inline-block; /* Ensure the image doesn't break to a new line */
+  vertical-align: middle; /* Center vertically within the line */
+  margin-right: 10px; /* Add some space between the logo and text */
+}
+
+.login-table {
+  display: inline-grid; /* Use grid layout */
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  gap: 10px; /* Space between items */
+  width: 600px;
+  margin: 10px;
+  font-family: sans-serif;
 }
 
 .login-option {
-  display: table-cell;
+  display: flex; /* Use flex for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  padding: 10px;
+  border: 1px solid gray; /* Optional: Add border for visibility */
+
+  box-sizing: border-box;
+
   cursor: pointer;
-  width: 100%;
-  border: 0px solid orange;
-  /* text-align: center; */
+  /* background-color: orange; */
 }
 
 

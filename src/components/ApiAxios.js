@@ -39,7 +39,24 @@ const registerEthAddress = async (address, sign) => {
   let apiReturn = await axios
     .post('https://syslang.io/rest/v1/registerAddress', {'address' : address, 'sign': sign})
     .then(async function(response) {
-      console.log('---> 2.registerEthAddress'+response.data);
+      //console.log('---> 2.registerEthAddress'+response.data);
+      return response.data;
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  
+  return apiReturn;
+};
+
+//TODO replace sign with password
+const registerSecret = async (address, secret) => {
+
+  //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
+  let apiReturn = await axios
+    .post('https://syslang.io/rest/v1/registerSecret', {'address' : address, 'password': secret})
+    .then(async function(response) {
+      console.log('---> 2.registerSecret'+response.data);
       return response.data;
     })
     .catch(function(error) {
@@ -118,13 +135,54 @@ const processContent = (note) => {
   return ecryptedText;
   
 }
-
-const fetchUserId = async (sign) => {
+const fetchUserSec = async (sign, secret) => {
   //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
   let apiReturn = await axios
-    .get('https://syslang.io/rest/v1/findUser/'+sign)
+    .post('https://syslang.io/rest/v1/userSec', {"sign":sign, "secret":secret})
     .then(async function(response) {
-      console.log("--->fetchUser");
+      return response.data;
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  
+  return apiReturn;
+};
+// const fetchUserId = async (sign) => {
+//   //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
+//   let apiReturn = await axios
+//     .get('https://syslang.io/rest/v1/findUser/'+sign)
+//     .then(async function(response) {
+//       console.log("--->fetchUser");
+//       return response.data;
+//     })
+//     .catch(function(error) {
+//       console.log(error);
+//     });
+  
+//   return apiReturn;
+// };
+
+// const fetchUserIdBySecret = async (secret) => {
+//   //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
+//   let apiReturn = await axios
+//     .get('https://syslang.io/rest/v1/findUser/secret/'+secret)
+//     .then(async function(response) {
+//       return response.data;
+//     })
+//     .catch(function(error) {
+//       console.log(error);
+//     });
+  
+//   return apiReturn;
+// };
+
+//jesli nie ma podanego ID pobierz ostatnia note
+const fetchNoteSec = async (sign, secret, noteId) => {
+  //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
+  let apiReturn = await axios
+    .post('https://syslang.io/rest/v1/noteSec', {'sign': sign, 'secret': secret, 'id': noteId})
+    .then(async function(response) {
       return response.data;
     })
     .catch(function(error) {
@@ -134,12 +192,11 @@ const fetchUserId = async (sign) => {
   return apiReturn;
 };
 
-const fetchDataCall = async (key) => {
+const fetchListCall = async (sign, secret) => {
   //let key = '0xc5488fc117a44b56d9f9148e3312a4dc740d45dd34034b1323dc7edee00029597571fc81637fb6264d1f79ca59b224871240cca6ac4da695410051d1b0e448791b';
   let apiReturn = await axios
-    .post('https://syslang.io/rest/v1/notesSec', {'authKey': key})
+    .post('https://syslang.io/rest/v1/notesSec', {'sign': sign, 'secret': secret})
     .then(async function(response) {
-      console.log("--->fetchDataCall");
       return response.data;
     })
     .catch(function(error) {
@@ -201,10 +258,10 @@ const updateTitleDB = (e, id) => {
   .catch((err) => console.log("Error updating!!!",err) );
 }
 
-export {getNoteByIdx, accessByKey, fetchDataCall, registerEthAddress, updateNote, fetchUserId, deleteNote, createNew, updateTitleDB, updateNoteParam, exporto, getNote}
+export {fetchUserSec, fetchListCall, fetchNoteSec, registerSecret, getNoteByIdx, accessByKey, registerEthAddress, updateNote, deleteNote, createNew, updateTitleDB, updateNoteParam, exporto, getNote}
 
 /*
-notes:
+notes:, 7
 
 id; int(11)
 title;  varchar(256)

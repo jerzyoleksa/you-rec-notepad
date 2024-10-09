@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import Web3 from 'web3';
 import Cookies from 'js-cookie'
-import { UserContext } from "./ProviderComponent";
+//import { UserContext } from "./ProviderComponent";
 
 
 
