@@ -38,7 +38,7 @@ const LoginPageX = ({ menu, setMenu, getNavXref, setUser, loginWithCookies}) => 
       let result2 = await registerSecret(addressGenerated, uuid);  //registerSecret and CreateFirstMessage
       Cookies.set('syslang-secret', uuid, { expires: 365 });
       loginWithCookies();
-      
+      setMenu({ "registerConfirm" : true, "current": false, "opener": false, "password" : false, "loginPage" : false });
       //let userId = result2.userId
       //let address = result2.address
       //setUser(currentContext => ({ ...currentContext, ...{"secret" : uuid, "address" : uuid, "userId" : userId} })); 

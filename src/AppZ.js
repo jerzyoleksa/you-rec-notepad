@@ -21,6 +21,7 @@ import BottomFixedMenuX from './components/BottomFixedMenuX';
 import { KeyHandlerX } from './components/KeyHandlerX';
 import Cookies from 'js-cookie';
 import { fetchUserSec, fetchNoteSec, fetchListCall } from './components/ApiAxios';
+import RegisterX from './components/RegisterX';
 
 const MenuState = {
   "current" : true,
@@ -112,6 +113,7 @@ const AppZ = () => {
         {menu.opener && <OpenerX menu={menu} setMenu={setMenu} user={user} note={note} setNote={setNote} setUser={setUser} notes={notes} setNotes={setNotes}/>}
         {menu.password && <CredsX setMenu={setMenu} setUser={setUser} loginWithCookies={loginWithCookies}/>}
         {menu.loginPage && <LoginPageX setMenu={setMenu} getNavXref = {ref1} setUser={setUser} loginWithCookies={loginWithCookies}/>}
+        {menu.registerConfirm && <RegisterX setMenu={setMenu} user={user}/>}
         {/* <BottomFixedMenuX setMenu={setMenu}/> */}
         {/* <Child1 />
         <Child2 /> */}
