@@ -31,7 +31,7 @@ const RegisterX = ({ menu, setMenu, getNavXref, user, loginWithCookies}) => {
         
  
       <div>
-        <div>Please store your generated secret for future reference</div>
+        <div className="title-3">Please store your generated secret for future reference</div>
         <div id="inp2016" suppressContentEditableWarning={true} contentEditable="false" className="pass-input">{user.secret}</div>
         <div id="auth-but" onClick={() => confirm()}><span className="btn btn-framed">Confirm</span></div>
       </div>
