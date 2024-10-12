@@ -148,6 +148,8 @@ const NavX = forwardRef((props, ref) => {
 
       /* just in case someone clicks connect while hamburger menu is open */
       closeHamburger();
+      openLoginPage();
+      if (true) return;
 
       //if there is no metamask installed, then open a page where user can input the string
       if (!window.ethereum) {
@@ -288,8 +290,7 @@ const NavX = forwardRef((props, ref) => {
 
         <div className="nav-list menu-large" onClick={() => toggleLightMode()}><span className="material-icons-outlined nav-span">wb_sunny</span></div> 
         {/* <div className="nav-list menu-large" onClick={() => openDoprawdy()}><span className="material-icons-outlined nav-span">key</span></div>  */}
-        <div className="nav-list menu-large" onClick={() => openLoginPage()}><span className="material-icons nav-span">public</span></div> 
-                
+        {/* <div className="nav-list menu-large" onClick={() => openLoginPage()}><span className="material-icons nav-span">public</span></div> */}
         {/*<div className="nav-list" onClick={() => this.connectMetamask()}><span class="material-icons-outlined">account_circle</span></div> 
         */}
         {/*
