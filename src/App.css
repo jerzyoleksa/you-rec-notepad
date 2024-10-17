@@ -111,6 +111,15 @@
   .ham-icon {
     display: table-cell !important;
   }
+
+  .login-table {
+    display: inline-grid; /* Use grid layout */
+    grid-template-columns: repeat(1, 1fr); /* 2 columns */
+    gap: 10px; /* Space between items */
+    width: 300px;
+    margin: 10px;
+    font-family: sans-serif;
+  }
 }
 
 
