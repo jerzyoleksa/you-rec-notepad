@@ -210,8 +210,6 @@ const CurrentX = ({ menu, setMenu, setUser, setNote, user, note }) => {
         return;
       }
 
-      //this.props.updateSaviStatus("saving ..."); //in async methods must be setState, not just this.state.status = ...
-      setUser(currentContext => ({ ...currentContext, ...{"status" : "saving ..."} })) //instead of updateContext
       
       let noteToUpdate = {};
 
@@ -230,16 +228,23 @@ const CurrentX = ({ menu, setMenu, setUser, setNote, user, note }) => {
       noteToUpdate["value"] = (note.status == 7 ? encryptTextWithAES(newText, key) : newText);
    
       
-      //1st to update standard content or other param
-      axios.put('https://syslang.io/rest/v1/notesSec', noteToUpdate)
-      .then((res) => {
-        setUser(currentContext => ({ ...currentContext, ...{"status" : ""} }))
-        if (res.updatedId) setNote(currentContext => ({ ...currentContext, ...{"id" : res.updatedId} }))
-        
-        console.log('updatedId-->'+res.updatedId);
-      })
-      .catch((err) => {setUser(currentContext => ({ ...currentContext, ...{"status" : "failed :("} })); console.log("Error updating!!!",err)} );
-
+     
+      if  (user.address) {
+      
+          setUser(currentContext => ({ ...currentContext, ...{"status" : "saving ..."} })) //instead of updateContext
+          
+          axios.put('https://syslang.io/rest/v1/notesSec', noteToUpdate)
+          .then((res) => {
+            setUser(currentContext => ({ ...currentContext, ...{"status" : ""} }))
+            if (res.updatedId) setNote(currentContext => ({ ...currentContext, ...{"id" : res.updatedId} }))
+            
+            console.log('updatedId-->'+res.updatedId);
+          })
+          .catch((err) => {setUser(currentContext => ({ ...currentContext, ...{"status" : "failed :("} })); console.log("Error updating!!!",err)} );
+          
+      } else {
+        console.log('Please Connect to keep your notes');
+      }
     }
 
     const secure = async() => {
