@@ -131,7 +131,7 @@ const OpenerX = ({ menu, setMenu, user, setUser, note, setNote, notes, setNotes 
   
     const createNew = () => {
       //const newNotesState = this.state.notes.filter((note) => note.id !== id );
-      let noteToCreate = {"userId" : user.userId, "content": ""};
+      let noteToCreate = {"userId" : user.userId, "content": "", "sign" : user.sign, "secret" : user.secret};
       
       axios.post('https://syslang.io/rest/v1/notes', noteToCreate) //dont put slash at the end of URL !!!!!!!!!!!
       .then((res) => getNotes() )
